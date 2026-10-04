@@ -52,7 +52,7 @@ const context = vm.createContext({
   assert.equal(context.atas[0].area,'EQUIPAMENTOS POLICIAIS'); assert.equal(context.atas[0].subarea,'MATERIAL BÉLICO');
   assert.equal(context.atas[0].dataEstagio,'2026-10-01'); assert(rendered>=2);
   assert(getNode('#sourcePill').textContent.includes('Dados consultados'));
-  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV11'));
+  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV12'));
   failed=true; await vm.runInContext('syncOnline()',context);
   assert.equal(context.base[0].valorEmpenhado,38792907);
   assert(getNode('#syncMessage').textContent.includes('mantendo a última cópia'));
@@ -71,6 +71,7 @@ const context = vm.createContext({
   assert(html.includes('Forma de contratação')); assert(html.includes('Valor total da aquisição')); assert(html.includes('Valor pago'));
   assert(!html.includes('Contratos pendentes')); assert(html.includes('Itens com entrega pendente')); assert(html.includes('function pendingItemGroups')); assert(html.includes('Duster, Combat Shirt'));
   assert(html.includes('Visão global do item')); assert(html.includes('Atas / ARP')); assert(html.includes('Compras / contratações diretas'));
+  assert(html.includes('function statusWithForm')); assert(html.includes("statusWithForm('ARP',r.situacao")); assert(html.includes("statusWithForm(g.forma,g.status)"));
   assert(html.includes("$('[data-kind][data-id]')")); assert(html.includes('aggregateItemRows(source)'));
   assert(html.includes('Qtd. entregue')); assert(!html.includes('Qtd. entregue (NL)')); assert(!html.includes('Qtd entregue (NL)'));
   console.log('Painel: sincronização, hierarquia, classificação da contratação, detalhes financeiros e recuperação — OK.');
