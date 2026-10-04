@@ -219,6 +219,39 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
  };
  let area="geral";
 
+ const HISTORY_KEY="pcaeHierarchy";
+ function navSnapshot(){
+  const saved={};
+  Object.keys(chosen).forEach(key=>saved[key]=[...chosen[key]]);
+  return {area,chosen:saved};
+ }
+ function storeCurrentHistory(){
+  const state=(history.state&&typeof history.state==="object")?history.state:{};
+  history.replaceState({...state,[HISTORY_KEY]:navSnapshot()},"",location.href);
+ }
+ function pushNavHistory(){
+  const state=(history.state&&typeof history.state==="object")?history.state:{};
+  history.pushState({...state,[HISTORY_KEY]:navSnapshot()},"",location.href);
+ }
+ function restoreNavHistory(snapshot){
+  if(!snapshot||typeof snapshot!=="object")return;
+  const validAreas=new Set(["geral","imoveis","acao","obras","equipamentos","fts"]);
+  area=validAreas.has(snapshot.area)?snapshot.area:"geral";
+  Object.keys(chosen).forEach(parent=>{
+   chosen[parent].clear();
+   const values=snapshot.chosen&&Array.isArray(snapshot.chosen[parent])?snapshot.chosen[parent]:[];
+   values.forEach(value=>{if((groups[parent]||[]).includes(value))chosen[parent].add(value)});
+  });
+  if(area==="imoveis")sectionFilter={area:"imoveis",subs:new Set(["imoveis"])};
+  else syncFilter();
+  paint();
+  renderAll();
+ }
+ window.addEventListener("popstate",event=>{
+  const snapshot=event.state&&event.state[HISTORY_KEY];
+  if(snapshot)restoreNavHistory(snapshot);
+ });
+
  function rootArea(){
   return area==="acao"||area==="obras" ? "geral" : area;
  }
@@ -292,6 +325,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
    }
    paint();
    renderAll();
+   pushNavHistory();
    return;
   }
 
@@ -316,6 +350,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
    syncFilter();
    paint();
    renderAll();
+   pushNavHistory();
    return;
   }
 
@@ -336,6 +371,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
    syncFilter();
    paint();
    renderAll();
+   pushNavHistory();
    return;
   }
 
@@ -354,6 +390,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
    syncFilter();
    paint();
    renderAll();
+   pushNavHistory();
    return;
   }
 
@@ -363,10 +400,12 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
   syncFilter();
   paint();
   renderAll();
+  pushNavHistory();
  });
 
  syncFilter();
  paint();
+ storeCurrentHistory();
 })();
 </script>
 </body></html>
