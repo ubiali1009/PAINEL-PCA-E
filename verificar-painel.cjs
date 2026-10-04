@@ -14,7 +14,7 @@ const getNode = key => {
   return nodes.get(key);
 };
 const fixture = {
-  base:[{OBJETO:'Capacete balístico',UGE:'180180',ÁREA:'EQUIPAMENTOS POLICIAIS',SUBÁREA:'MATERIAL BÉLICO','VALOR TOTAL EMPENHADO':'R$ 38.792.907,00','QTDE TOTAL CONTRATADA 2':'4.200','ANO':'2026'}],
+  base:[{OBJETO:'Capacete balístico',UGE:'180180',ÁREA:'EQUIPAMENTOS POLICIAIS',SUBÁREA:'MATERIAL BÉLICO','FORMA DE CONTRATAÇÃO':'CONTRATAÇÃO DIRETA','FORMA/MODALIDADE':'PREGÃO ELETRÔNICO','VALOR UNIT CONTRATADO (REAIS)':'R$ 1.000,00','VALOR TOTAL EMPENHADO':'R$ 4.200.000,00','VALOR TOTAL LIQUIDADO':'R$ 2.100.000,00','QTDE TOTAL CONTRATADA 2':'4.200','QTDE ENTREGUE':'2.100','ANO':'2026'}],
   atas:[{OBJETO:'Munição',UGE:'180180',ÁREA:'EQUIPAMENTOS POLICIAIS',SUBÁREA:'MATERIAL BÉLICO',SITUAÇÃO:'EM LICITAÇÃO','QUANTIDADE NEGOCIADA':'4.200','DATA DO ESTÁGIO CONFIRMADO':'01/10/2026 00:00'}],
   fetchedAt:'2026-10-04T05:30:00.000Z'
 };
@@ -42,10 +42,12 @@ const context = vm.createContext({
   assert.equal(fetches,1); assert.equal(context.base[0].valorEmpenhado,38792907);
   assert.equal(context.base[0].qtdContratada,4200); assert.equal(context.atas[0].qtdNegociada,4200);
   assert.equal(context.base[0].area,'EQUIPAMENTOS POLICIAIS'); assert.equal(context.base[0].subarea,'MATERIAL BÉLICO');
+  assert.equal(context.base[0].formaContratacao,'CONTRATAÇÃO DIRETA'); assert.equal(context.base[0].formaModalidade,'PREGÃO ELETRÔNICO');
+  assert.equal(context.base[0].valorUnitContratado,1000); assert.equal(context.base[0].valorLiquidado,2100000);
   assert.equal(context.atas[0].area,'EQUIPAMENTOS POLICIAIS'); assert.equal(context.atas[0].subarea,'MATERIAL BÉLICO');
   assert.equal(context.atas[0].dataEstagio,'2026-10-01'); assert(rendered>=2);
   assert(getNode('#sourcePill').textContent.includes('Dados consultados'));
-  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV2'));
+  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV3'));
   failed=true; await vm.runInContext('syncOnline()',context);
   assert.equal(context.base[0].valorEmpenhado,38792907);
   assert(getNode('#syncMessage').textContent.includes('mantendo a última cópia'));
@@ -61,5 +63,6 @@ const context = vm.createContext({
   assert(html.includes('if(key==="equipamentos")return a==="EQUIPAMENTOS POLICIAIS";'));
   assert(html.includes('if(key==="belico")return a==="EQUIPAMENTOS POLICIAIS"&&s==="MATERIAL BELICO";'));
   assert(!html.includes('COLDRE|FIEL RETRAT|ESPADA'));
-  console.log('Painel: sincronização, hierarquia Equipamentos Policiais > Material Bélico, filtros, persistência e recuperação — OK.');
+  assert(html.includes('Forma de contratação')); assert(html.includes('Valor total da aquisição')); assert(html.includes('Valor pago'));
+  console.log('Painel: sincronização, hierarquia, classificação da contratação, detalhes financeiros e recuperação — OK.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
