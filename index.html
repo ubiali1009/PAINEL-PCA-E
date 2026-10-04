@@ -39,7 +39,14 @@
 .alerts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:11px}.alertbox{padding:10px;border-radius:10px;border:1px solid var(--border);background:#fbfcfd}.alertbox strong{font-size:.78rem}.alertbox b{display:block;font-size:1.35rem;margin:3px 0}.alertbox.danger{border-color:#efc3bc;background:#fff4f1}.alertbox.warn{border-color:#efd3ad;background:#fff8ed}.alertbox.info{border-color:#c9d7e5;background:#f4f8fc}
 .table-wrap{overflow:auto;border:1px solid var(--border);border-radius:10px;max-height:520px}.data-table{width:100%;border-collapse:collapse;font-size:.66rem;min-width:850px}.wide-table .data-table{min-width:1320px}.daily-table .data-table{min-width:980px}.audit-line{font-size:.59rem;color:#63798f;margin-top:3px}.action-text{max-width:360px;white-space:normal;line-height:1.35}.data-table th{position:sticky;top:0;z-index:2;background:#eef4f9;color:#21425f;text-align:left;padding:8px;border-bottom:1px solid #cad6e1;text-transform:uppercase;letter-spacing:.025em;font-size:.58rem}.data-table td{padding:8px;border-bottom:1px solid #e7edf2;vertical-align:top}.data-table tbody tr{cursor:pointer}.data-table tbody tr:hover{background:#f4f8fb}.badge{display:inline-flex;align-items:center;min-height:19px;padding:2px 7px;border-radius:999px;font-size:.57rem;font-weight:850;white-space:nowrap;background:#edf2f6;color:#4c6075}.badge.ok{background:#e4f4ec;color:#176b4c}.badge.warn{background:#fff1d8;color:#915514}.badge.danger{background:#fde8e4;color:#9c3025}.badge.info{background:#e5f0fb;color:#235e92}.money{white-space:nowrap;font-variant-numeric:tabular-nums}.muted{color:var(--muted)}
 .next-actions{margin-top:11px}.cards-list{display:grid;gap:7px}.action-card{border:1px solid var(--border);border-radius:10px;padding:9px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;cursor:pointer}.action-card:hover{background:#f7fafc}.action-card strong{display:block;font-size:.72rem}.action-card small{display:block;color:var(--muted);font-size:.61rem;margin-top:3px}.datechip{align-self:center;text-align:center;min-width:88px;padding:7px;border-radius:8px;background:#eef4fa;font-size:.61rem;font-weight:850;color:#315474}.datechip.missing{background:#fdebe7;color:#9a3427}.datechip.soon{background:#fff0d9;color:#8b5417}
-.drawer-backdrop{position:fixed;inset:0;background:rgba(4,19,36,.28);z-index:80;opacity:0;pointer-events:none;transition:.2s}.drawer-backdrop.open{opacity:1;pointer-events:auto}.drawer{position:fixed;right:0;top:0;height:100vh;width:min(520px,95vw);background:#fff;z-index:90;transform:translateX(102%);transition:.22s;box-shadow:-14px 0 35px rgba(8,28,49,.22);display:flex;flex-direction:column}.drawer.open{transform:none}.drawer-head{position:relative;padding:17px 18px 34px;border-bottom:0;background:#fff;overflow:hidden}.drawer-head:after{content:"";position:absolute;inset:0;background:linear-gradient(173deg,transparent 0 68%,#fff 68.5% 70%,var(--red) 70.5% 72%,#272b2f 72.5% 100%);z-index:0}.drawer-head>*{position:relative;z-index:1}.drawer-head h2{margin:0 44px 5px 0;font-size:1.05rem}.drawer-head p{margin:0;color:#626c76;font-size:.7rem}.close{position:absolute;right:15px;top:14px;z-index:3;width:34px;height:34px;border-radius:9px;border:1px solid #999;background:#282d31;color:#fff;font-size:1.1rem;cursor:pointer}.drawer-body{padding:14px 18px 24px;overflow:auto}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.detail-card{border:1px solid var(--border);border-radius:9px;background:#fafcfd;padding:9px;min-width:0}.detail-card span{display:block;color:#718096;font-size:.57rem;text-transform:uppercase;font-weight:800}.detail-card strong{display:block;margin-top:3px;font-size:.7rem;overflow-wrap:anywhere}.detail-wide{grid-column:1/-1}.obs{white-space:pre-wrap;font-size:.68rem;line-height:1.5;color:#40566d}.empty{padding:26px;text-align:center;color:#72839a;font-size:.72rem}
+.drawer-backdrop{position:fixed;inset:0;background:rgba(4,19,36,.28);z-index:80;opacity:0;pointer-events:none;transition:.2s}.drawer-backdrop.open{opacity:1;pointer-events:auto}.drawer{position:fixed;right:0;top:0;height:100vh;width:min(520px,95vw);background:#fff;z-index:90;transform:translateX(102%);transition:.22s;box-shadow:-14px 0 35px rgba(8,28,49,.22);display:flex;flex-direction:column}.drawer.open{transform:none}.drawer.item-mode{width:min(920px,97vw)}
+.item-summary-title{margin:16px 0 8px;font-size:.8rem;color:#17324f;text-transform:uppercase;letter-spacing:.035em}
+.item-summary-section{margin-top:16px}
+.item-summary-section h3{font-size:.82rem;margin:0 0 8px;color:#17324f}
+.item-summary-section .table-wrap{max-height:340px}
+.item-summary-note{font-size:.64rem;color:var(--muted);margin:4px 0 10px}
+.item-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media(max-width:760px){.item-summary-grid{grid-template-columns:1fr 1fr}}.drawer-head{position:relative;padding:17px 18px 34px;border-bottom:0;background:#fff;overflow:hidden}.drawer-head:after{content:"";position:absolute;inset:0;background:linear-gradient(173deg,transparent 0 68%,#fff 68.5% 70%,var(--red) 70.5% 72%,#272b2f 72.5% 100%);z-index:0}.drawer-head>*{position:relative;z-index:1}.drawer-head h2{margin:0 44px 5px 0;font-size:1.05rem}.drawer-head p{margin:0;color:#626c76;font-size:.7rem}.close{position:absolute;right:15px;top:14px;z-index:3;width:34px;height:34px;border-radius:9px;border:1px solid #999;background:#282d31;color:#fff;font-size:1.1rem;cursor:pointer}.drawer-body{padding:14px 18px 24px;overflow:auto}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.detail-card{border:1px solid var(--border);border-radius:9px;background:#fafcfd;padding:9px;min-width:0}.detail-card span{display:block;color:#718096;font-size:.57rem;text-transform:uppercase;font-weight:800}.detail-card strong{display:block;margin-top:3px;font-size:.7rem;overflow-wrap:anywhere}.detail-wide{grid-column:1/-1}.obs{white-space:pre-wrap;font-size:.68rem;line-height:1.5;color:#40566d}.empty{padding:26px;text-align:center;color:#72839a;font-size:.72rem}
 @media(max-width:1100px){.metrics{grid-template-columns:repeat(3,1fr)}.workspace{grid-template-columns:260px minmax(0,1fr)}.grid2{grid-template-columns:1fr}.alerts{grid-template-columns:1fr 1fr 1fr}.pill{display:none}}
 @media(max-width:760px){.topbar{position:relative}.actions{width:100%;justify-content:flex-start}.topbar{flex-direction:column}.metrics{grid-template-columns:1fr 1fr}.alerts{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.main{padding:9px}.brand p{white-space:normal}.navtabs{padding-bottom:8px}}
 .sync-info{margin:8px 14px 0;padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:#fff;display:flex;gap:8px 20px;justify-content:space-between;flex-wrap:wrap;font-size:.875rem;line-height:1.5;color:#47576a}
@@ -269,7 +276,8 @@ function aggregateItemRows(rows){
   g.valorLiquidado+=Number(r.valorLiquidado||0);
   if(r.valorPagoInformado){g.valorPago+=Number(r.valorPago||0);g.pagoInformado=true}
   if(isPendingContract(r))g.pendingRecords++;
-  if(r.contratoUGE)g.contracts.add(r.contratoUGE);
+  const contractId=r.contratoUGE||r.contratoSistema||r.empenho||r.processoSEI;
+  if(contractId)g.contracts.add(contractId);
   if(r.uge)g.uges.add(r.uge);
   g.formas.add(contractTypeLabel(r));
   if(r.previsaoEntrega&&isPendingContract(r))g.previsoes.push(r.previsaoEntrega);
@@ -294,9 +302,9 @@ function pendingItemGroups(){
 function itemGroupTableHtml(rows){
  if(!rows.length)return'<div class="empty">Nenhum item encontrado.</div>';
  return '<div class="table-wrap"><table class="data-table"><thead><tr>'
-  +['Objeto','Status','Registros','Registros pendentes','Previsão','Qtd comprada','Qtd entregue','Qtd a entregar','Empenhado','Liquidado','Pago'].map(x=>'<th>'+x+'</th>').join('')
+  +['Objeto','Status','Formas de contratação','Contratos/registros','Qtd comprada','Qtd entregue','Qtd a entregar','Empenhado','Liquidado','Pago'].map(x=>'<th>'+x+'</th>').join('')
   +'</tr></thead><tbody>'
-  +rows.map(g=>`<tr data-item-object="${esc(g.objeto)}"><td><strong>${esc(g.objeto)}</strong></td><td><span class="badge ${badgeClass(g.status)}">${esc(g.status)}</span></td><td>${fmtInt(g.registros)}</td><td>${fmtInt(g.pendingRecords)}</td><td>${fmtDate(g.previsao)}</td><td>${g.qtdContratada>0?fmtInt(g.qtdContratada):'—'}</td><td>${fmtInt(g.qtdEntregue)}</td><td>${g.qtdContratada>0?fmtInt(g.qtdPendente):'—'}</td><td class="money">${fmtMoney(g.valorEmpenhado)}</td><td class="money">${fmtMoney(g.valorLiquidado)}</td><td class="money">${g.pagoInformado?fmtMoney(g.valorPago):'—'}</td></tr>`).join('')
+  +rows.map(g=>`<tr data-item-object="${esc(g.objeto)}"><td><strong>${esc(g.objeto)}</strong></td><td><span class="badge ${badgeClass(g.status)}">${esc(g.status)}</span></td><td>${esc(g.forma||'—')}</td><td>${fmtInt(g.contratos||g.registros)}</td><td>${g.qtdContratada>0?fmtInt(g.qtdContratada):'—'}</td><td>${fmtInt(g.qtdEntregue)}</td><td>${g.qtdContratada>0?fmtInt(g.qtdPendente):'—'}</td><td class="money">${fmtMoney(g.valorEmpenhado)}</td><td class="money">${fmtMoney(g.valorLiquidado)}</td><td class="money">${g.pagoInformado?fmtMoney(g.valorPago):'—'}</td></tr>`).join('')
   +'</tbody></table></div>';
 }
 function itemGroupCard(g){
@@ -505,27 +513,10 @@ function renderFinanceByArea(){const b=filteredBase(),m=new Map();b.forEach(r=>{
 function tableHtml(headers,rows){if(!rows.length)return'<div class="empty">Nenhum registro encontrado.</div>';return`<div class="table-wrap"><table class="data-table"><thead><tr>${headers.map(h=>`<th>${h.label}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr data-kind="${r.kind}" data-id="${r.id}">${headers.map(h=>`<td>${h.render?h.render(r):esc(r[h.key]||'—')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
 function renderOverview(){const b=filteredBase(),a=filteredAtas();renderFinanceByArea();renderBars($('#deliveryBars'),group(b,'statusEntrega'));renderBars($('#ataBars'),group(a,'situacao'));renderBars($('#stageBars'),group(a.filter(r=>norm(r.situacao)==='EM LICITACAO'),'estagio'),{limit:9}); const emLic=a.filter(r=>norm(r.situacao)==='EM LICITACAO'),sem=emLic.filter(r=>!r.proximaEtapa).length,venc=b.filter(r=>norm(r.statusEntrega)==='VENCIDO').length,vendo=b.filter(r=>norm(r.statusEntrega)==='VENCENDO').length;$('#alerts').innerHTML=`<div class="alertbox danger"><strong>Licitações sem próxima data</strong><b>${sem}</b><span>itens precisam de marco futuro definido</span></div><div class="alertbox danger"><strong>Entregas vencidas</strong><b>${venc}</b><span>prazo de entrega expirado</span></div><div class="alertbox warn"><strong>Entregas vencendo</strong><b>${vendo}</b><span>acompanhar recebimento</span></div>`; const actions=[...emLic].sort((x,y)=>{const ax=dateVal(x.proximaEtapa),ay=dateVal(y.proximaEtapa);if(ax&&!ay)return-1;if(!ax&&ay)return 1;if(ax&&ay)return ax-ay;return x.objeto.localeCompare(y.objeto)}).slice(0,14);$('#nextActions').innerHTML=actions.map(r=>{const d=daysUntil(r.proximaEtapa),cls=!r.proximaEtapa?'missing':(d!==null&&d<=14?'soon':'');return`<div class="action-card" data-kind="ata" data-id="${r.id}"><div><strong>${esc(r.objeto)}</strong><small>${esc(r.uge)} · ${esc(r.estagio||'Estágio não informado')} · ${esc(r.pregao||r.processo||'')}</small></div><div class="datechip ${cls}">${r.proximaEtapa?fmtDate(r.proximaEtapa):'SEM DATA'}</div></div>`}).join('')||'<div class="empty">Nenhuma licitação em andamento na seleção.</div>';$('#overviewNote').textContent=`${b.length} registros da base · ${a.length} registros de atas/licitações`}
 function renderItems(){
- const rows=filteredBase();
- $('#itemsCount').textContent=`${rows.length} registros`;
- $('#itemsTable').innerHTML=tableHtml([
-  {label:'Objeto',key:'objeto'},
-  {label:'Forma',render:r=>esc(contractTypeLabel(r))},
-  {label:'Modalidade',render:r=>esc(r.formaModalidade||r.modalidade||'—')},
-  {label:'UGE',key:'uge'},
-  {label:'Área',key:'area'},
-  {label:'Subárea',key:'subarea'},
-  {label:'Situação',render:r=>`<span class="badge ${badgeClass(r.situacaoProcesso)}">${esc(r.situacaoProcesso||'—')}</span>`},
-  {label:'Entrega',render:r=>`<span class="badge ${badgeClass(r.statusEntrega)}">${esc(r.statusEntrega||'—')}</span>`},
-  {label:'Valor atual',render:r=>currentUnitValue(r)>0?fmtMoney(currentUnitValue(r)):'—'},
-  {label:'Qtd comprada',render:r=>contractedQty(r)>0?fmtInt(contractedQty(r)):'—'},
-  {label:'Qtd entregue',render:r=>fmtInt(deliveredQty(r))},
-  {label:'Qtd a entregar',render:r=>contractedQty(r)>0?fmtInt(pendingQty(r)):'—'},
-  {label:'Total aquisição',render:r=>acquisitionTotal(r)>0?fmtMoney(acquisitionTotal(r)):'—'},
-  {label:'Liquidado',render:r=>moneyDisplay(r.valorLiquidado,r.valorLiquidadoRaw,{dashIfMissing:true})},
-  {label:'Pago',render:r=>paidDisplay(r)},
-  {label:'Empenho',key:'empenho'},
-  {label:'Processo SEI',key:'processoSEI'}
- ],rows)
+ const source=filteredBase();
+ const rows=aggregateItemRows(source).sort((a,b)=>a.objeto.localeCompare(b.objeto,'pt-BR'));
+ $('#itemsCount').textContent=`${rows.length} itens · ${source.length} registros consolidados`;
+ $('#itemsTable').innerHTML=itemGroupTableHtml(rows)
 }
 function renderAtas(){
  const rows=filteredAtas();
@@ -670,20 +661,90 @@ function toggleMetricFilter(key){
  renderAll();
  if(window.pushPcaeHistory)window.pushPcaeHistory();
 }
+function itemAtasFor(rows,objeto){
+ const nums=rows.map(r=>norm(r.numeroAta)).filter(Boolean);
+ const procs=rows.map(r=>norm(r.processoSEI||r.processo)).filter(Boolean);
+ const key=norm(objeto);
+ const found=atas.filter(a=>{
+  if(norm(a.objeto)===key)return true;
+  const an=norm(a.numeroAta),ap=norm(a.processo);
+  if(an&&nums.some(n=>an===n||an.includes(n)||n.includes(an)))return true;
+  if(ap&&procs.includes(ap))return true;
+  return false;
+ });
+ return [...new Map(found.map(a=>[a.id,a])).values()];
+}
+function itemBaseDetailTable(rows){
+ if(!rows.length)return'<div class="empty">Nenhum registro nesta forma de contratação.</div>';
+ return tableHtml([
+  {label:'Forma',render:r=>esc(contractTypeLabel(r))},
+  {label:'Modalidade',render:r=>esc(r.formaModalidade||r.modalidade||'—')},
+  {label:'UGE',key:'uge'},
+  {label:'Contrato',render:r=>esc(r.contratoUGE||r.contratoSistema||'—')},
+  {label:'NE',key:'empenho'},
+  {label:'Processo',render:r=>esc(r.processoSEI||r.processo||'—')},
+  {label:'Status',render:r=>`<span class="badge ${badgeClass(r.statusEntrega)}">${esc(r.statusEntrega||'—')}</span>`},
+  {label:'Qtd comprada',render:r=>contractedQty(r)>0?fmtInt(contractedQty(r)):'—'},
+  {label:'Qtd entregue',render:r=>fmtInt(deliveredQty(r))},
+  {label:'Qtd a entregar',render:r=>contractedQty(r)>0?fmtInt(pendingQty(r)):'—'},
+  {label:'Empenhado',render:r=>moneyDisplay(r.valorEmpenhado,r.valorEmpenhadoRaw,{dashIfMissing:true})},
+  {label:'Liquidado',render:r=>moneyDisplay(r.valorLiquidado,r.valorLiquidadoRaw,{dashIfMissing:true})},
+  {label:'Pago',render:r=>paidDisplay(r)}
+ ],rows);
+}
+function itemAtaDetailTable(rows){
+ if(!rows.length)return'<div class="empty">Nenhuma ata vinculada ao item na aba Atas.</div>';
+ return tableHtml([
+  {label:'Ata',key:'numeroAta'},
+  {label:'Situação',render:r=>`<span class="badge ${badgeClass(r.situacao)}">${esc(r.situacao||'—')}</span>`},
+  {label:'Estágio',key:'estagio'},
+  {label:'UGE',key:'uge'},
+  {label:'Assinatura',render:r=>fmtDate(r.dataAta)},
+  {label:'Validade',render:r=>fmtDate(r.validadeAta)},
+  {label:'Qtd negociada',render:r=>r.qtdNegociada?fmtInt(r.qtdNegociada):'—'},
+  {label:'Total contratado',render:r=>r.qtdTotal?fmtInt(r.qtdTotal):'—'},
+  {label:'Saldo',render:r=>r.saldoAta?fmtInt(r.saldoAta):'—'},
+  {label:'Preço atual',render:r=>r.precoAtual?fmtMoney(r.precoAtual):'—'},
+  {label:'Pregão',key:'pregao'},
+  {label:'Processo',key:'processo'}
+ ],rows);
+}
 function openItemObject(objeto){
- $('#searchInput').value=objeto;
- metricFilters.clear();
- closeAutocomplete();
- setActiveView('items');
- renderAll();
- if(window.pushPcaeHistory)window.pushPcaeHistory();
+ const key=norm(objeto);
+ const rows=base.filter(r=>norm(r.objeto)===key);
+ if(!rows.length)return;
+ const g=aggregateItemRows(rows)[0];
+ const ataRows=itemAtasFor(rows,objeto);
+ const arpRows=rows.filter(r=>contractTypeLabel(r)==='ARP');
+ const directRows=rows.filter(r=>contractTypeLabel(r)==='CONTRATAÇÃO DIRETA');
+ $('#drawer').classList.add('item-mode');
+ $('#drawerTitle').textContent=objeto;
+ $('#drawerSubtitle').textContent='Visão global do item — todos os contratos consolidados';
+ let h='<div class="item-summary-grid">'
+  +detailCard('Formas de contratação',esc(g.forma||'—'))
+  +detailCard('Contratos / registros',fmtInt(g.contratos||g.registros))
+  +detailCard('Atas vinculadas',fmtInt(ataRows.length))
+  +detailCard('Qtd. total comprada',g.qtdContratada>0?fmtInt(g.qtdContratada):'—')
+  +detailCard('Qtd. total entregue',fmtInt(g.qtdEntregue))
+  +detailCard('Qtd. total a entregar',g.qtdContratada>0?fmtInt(g.qtdPendente):'—')
+  +detailCard('Empenhado total',fmtMoney(g.valorEmpenhado))
+  +detailCard('Liquidado total',fmtMoney(g.valorLiquidado))
+  +detailCard('Pago total',g.pagoInformado?fmtMoney(g.valorPago):'Não informado')
+  +'</div>';
+ h+='<section class="item-summary-section"><h3>Atas / ARP</h3><p class="item-summary-note">Informações cadastrais e saldo das atas vinculadas a este objeto.</p>'+itemAtaDetailTable(ataRows)+'</section>';
+ h+='<section class="item-summary-section"><h3>Contratações realizadas via ata</h3><p class="item-summary-note">Contratos, empenhos, quantidades e execução decorrentes das ARPs.</p>'+itemBaseDetailTable(arpRows)+'</section>';
+ h+='<section class="item-summary-section"><h3>Compras / contratações diretas</h3><p class="item-summary-note">Aquisições do mesmo objeto que não utilizam Ata de Registro de Preços.</p>'+itemBaseDetailTable(directRows)+'</section>';
+ $('#drawerBody').innerHTML=h;
+ $('#drawer').classList.add('open');$('#backdrop').classList.add('open');
+ $$('#drawerBody [data-kind][data-id]').forEach(el=>el.onclick=()=>openDetail(el.dataset.kind,el.dataset.id));
 }
 function bindRows(){
- $('[data-kind][data-id]').forEach(el=>el.onclick=()=>openDetail(el.dataset.kind,el.dataset.id));
- $('[data-item-object]').forEach(el=>el.onclick=()=>openItemObject(el.dataset.itemObject));
+ $$('[data-kind][data-id]').forEach(el=>el.onclick=()=>openDetail(el.dataset.kind,el.dataset.id));
+ $$('[data-item-object]').forEach(el=>el.onclick=()=>openItemObject(el.dataset.itemObject));
 }
 function detailCard(label,value,wide=false){return`<div class="detail-card ${wide?'detail-wide':''}"><span>${label}</span><strong>${value||'—'}</strong></div>`}
 function openDetail(kind,id){
+ $('#drawer').classList.remove('item-mode');
  const r=(kind==='ata'?atas:base).find(x=>x.id===id);if(!r)return;
  $('#drawerTitle').textContent=r.objeto;
  $('#drawerSubtitle').textContent=kind==='ata'?'Licitação / Ata de Registro de Preços':'Registro PCA-E / execução';
@@ -754,7 +815,7 @@ function openDetail(kind,id){
  h+='</div>';
  $('#drawerBody').innerHTML=h;$('#drawer').classList.add('open');$('#backdrop').classList.add('open')
 }
-function closeDrawer(){$('#drawer').classList.remove('open');$('#backdrop').classList.remove('open')}
+function closeDrawer(){$('#drawer').classList.remove('open','item-mode');$('#backdrop').classList.remove('open')}
 function setActiveView(view){
  const valid=["overview","daily","items","atas","deliveries","finance"];
  activeView=valid.includes(view)?view:"overview";
@@ -813,7 +874,7 @@ function cAny(v){return v==null?'':String(v).trim().replace(/\.0$/,'')}
 function fromBase(d,i){return{id:'B'+i,kind:'base',objeto:cAny(d['OBJETO']),uge:cAny(d['UGE']),pcae:cAny(d['PCA-E']),qtdRef:cAny(d['QTD']),valorUnitRef:nAny(d['VALOR UNITÁRIO REFERENCIAL']),valorTotalRef:nAny(d['VALOR TOTAL REFERENCIAL']),natureza:cAny(d['NATUREZA DA DESPESA']),area:cAny(d['ÁREA']),subarea:cAny(d['SUBÁREA']),ano:cAny(d['ANO']),situacaoProcesso:cAny(d['SITUAÇÃO PROCESSO']),dataSituacao:isoAny(d['DATA DA SITUAÇÃO DO PROCESSO']),formaContratacao:cAny(d['FORMA DE CONTRATAÇÃO']),numeroAta:cAny(d['NÚMERO DA ATA']),contratoUGE:cAny(d['Contrato UGE']),dataContrato:isoAny(d['Data assinatura do contrato']),dataPublicacao:isoAny(d['Data de Publicação']),empenho:cAny(d['Nº EMPENHO']),processo:cAny(d['N. PROCESSO']),valorUnitContratadoRaw:cAny(d['VALOR UNIT CONTRATADO (REAIS)']),valorUnitContratado:nAny(d['VALOR UNIT CONTRATADO (REAIS)']),qtdContratadaRaw:cAny(d['QTDE TOTAL CONTRATADA']||d['QTDE TOTAL CONTRATADA 2']),qtdContratada:nAny(d['QTDE TOTAL CONTRATADA']||d['QTDE TOTAL CONTRATADA 2']),statusEntrega:cAny(d['STATUS']),previsaoEntrega:isoAny(d['DATA DA PREVISÃO DE ENTREGA']),diasEntrega:nAny(d['QTD DE DIAS']),qtdEntregueRaw:cAny(d['QTDE ENTREGUE']),qtdEntregue:nAny(d['QTDE ENTREGUE']),valorEmpenhadoRaw:cAny(d['VALOR TOTAL EMPENHADO']),valorEmpenhado:nAny(d['VALOR TOTAL EMPENHADO']),valorLiquidadoRaw:cAny(d['VALOR TOTAL LIQUIDADO']),valorLiquidado:nAny(d['VALOR TOTAL LIQUIDADO']),valorPago:nAny(d['VALOR TOTAL PAGO']||d['VALOR PAGO']||d['PAGO']),valorPagoInformado:[d['VALOR TOTAL PAGO'],d['VALOR PAGO'],d['PAGO']].some(v=>v!=null&&String(v).trim()!==''),pregao:cAny(d['N. OFERTA COMPRA/LICIT/PREG']),processoSEI:cAny(d['N. DO PROCESSO SEI']),parlamentar:cAny(d['PARLAMENTAR']),codigoTransferencia:cAny(d['CÓDIGO TRANSFERÊNCIA']),beneficiario:cAny(d['BENEFICIÁRIO']),acao:cAny(d['AÇÃO']),prioridade:cAny(d['PRIORIDADE']),fonte:cAny(d['DESCRIÇÃO FR']),modalidade:cAny(d['FORMA/MODALIDADE']),formaModalidade:cAny(d['FORMA/MODALIDADE']),contratoSistema:cAny(d['N. CONTRATO SISTEMA']),fornecedorModelo:cAny(d['MARCA/ MODELO/ FORNECEDOR']),observacoes:cAny(d['OBSERVAÇÕES'])}}
 function fromAta(d,i){return{id:'A'+i,kind:'ata',ano:cAny(d['ANO']),objeto:cAny(d['OBJETO']),situacao:cAny(d['SITUAÇÃO']),estagio:cAny(d['ESTÁGIO LICITATÓRIO']||d['ESTÁGIO LICITATÓRIO (CONFIRMADO)']),dataEstagio:isoAny(d['DATA DO ESTÁGIO CONFIRMADO']),proximaEtapa:isoAny(d['DATA DA PRÓXIMA ETAPA']),uge:cAny(d['UGE']),area:cAny(d['ÁREA']),subarea:cAny(d['SUBÁREA']),natureza:cAny(d['NATUREZA']),fornecedor:cAny(d['FORNECEDOR']),modelo:cAny(d['MODELO']),numeroAta:cAny(d['NÚMERO DA ATA']),dataAta:isoAny(d['DATA DE ASSINATURA DA ATA']||d['DATA DE ASS. DA ATA']),validadeAta:isoAny(d['VALIDADE DA ATA']),dias:nAny(d['DIAS']),qtdNegociada:nAny(d['QUANTIDADE NEGOCIADA']),precoAtual:nAny(d['PREÇO ATUAL DA ARP (REAIS)']),precoContratado:nAny(d['PREÇO CONTRATADO (REAIS)']),qtdBase:nAny(d['CONTRATAÇÃO-BASE DA ATA (SEM TA)']),qtdTA:nAny(d['ACRÉSCIMOS CONTRATUAIS (TA)']),qtdTotal:nAny(d['TOTAL CONTRATADO (COM TA)']),saldoAta:nAny(d['SALDO DA ATA (SEM TA)']),pregao:cAny(d['OFERTA DE COMPRA/PREGÃO']),processo:cAny(d['PROCESSO']),observacao:cAny(d['OBSERVAÇÃO']),controle:cAny(d['CONTROLE / PRÓXIMA AÇÃO']),dataAuditoria:isoAny(d['DATA DA ÚLTIMA AUDITORIA']),fonteConfirmacao:cAny(d['FONTE DA ÚLTIMA CONFIRMAÇÃO'])}}
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
-const CACHE_KEY = 'pcaePublicLastSyncV10';
+const CACHE_KEY = 'pcaePublicLastSyncV11';
 let syncInProgress = false, lastAttemptAt = 0, lastSuccessfulAt = '';
 function stamp(value) {
   return new Date(value).toLocaleString('pt-BR', {dateStyle:'short',timeStyle:'short',timeZone:'America/Sao_Paulo'});
