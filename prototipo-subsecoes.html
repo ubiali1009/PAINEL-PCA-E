@@ -54,11 +54,11 @@
   <button class="area-btn" data-area="equipamentos">Equipamentos Policiais</button>
   <button class="area-btn" data-area="fts">Frota, TIC e Saúde</button>
  </div>
- <div class="area-secondary show" id="pcaeSub"><span class="area-secondary-label">PCA-E Geral</span><button class="area-sub-btn active" data-parent="geral" data-sub="consolidado">Consolidado</button><button class="area-sub-btn" data-parent="geral" data-sub="acao">Por Ação</button></div>
- <div class="area-secondary" id="acaoSub"><span class="area-secondary-label">Por Ação</span><button class="area-sub-btn active" data-parent="acao" data-sub="muralha">Muralha Paulista</button><button class="area-sub-btn" data-parent="acao" data-sub="integracao">Integração e Aparelhamento</button><button class="area-sub-btn" data-parent="acao" data-sub="ostensiva">Polícia Ostensiva e Formação</button><button class="area-sub-btn" data-parent="acao" data-sub="obras">Obras</button></div>
- <div class="area-secondary" id="obrasSub"><span class="area-secondary-label">Obras</span><button class="area-sub-btn active" data-parent="obras" data-sub="copom">COPOM</button><button class="area-sub-btn" data-parent="obras" data-sub="quarteis">Construção e Reforma de Quartéis</button></div>
- <div class="area-secondary" id="equipSub"><span class="area-secondary-label">Equipamentos Policiais</span><button class="area-sub-btn active" data-parent="equipamentos" data-sub="belico">Material Bélico</button><button class="area-sub-btn" data-parent="equipamentos" data-sub="intendencia">Intendência</button></div>
- <div class="area-secondary" id="ftsSub"><span class="area-secondary-label">Frota, TIC e Saúde</span><button class="area-sub-btn active" data-parent="fts" data-sub="frota">Frota</button><button class="area-sub-btn" data-parent="fts" data-sub="tic">TIC</button><button class="area-sub-btn" data-parent="fts" data-sub="saude">Saúde</button></div>
+ <div class="area-secondary show" id="pcaeSub"><span class="area-secondary-label">PCA-E Geral</span><button class="area-sub-btn" data-parent="geral" data-sub="consolidado">Consolidado</button><button class="area-sub-btn" data-parent="geral" data-sub="acao">Por Ação</button></div>
+ <div class="area-secondary" id="acaoSub"><span class="area-secondary-label">Por Ação</span><button class="area-sub-btn" data-parent="acao" data-sub="muralha">Muralha Paulista</button><button class="area-sub-btn" data-parent="acao" data-sub="integracao">Integração e Aparelhamento</button><button class="area-sub-btn" data-parent="acao" data-sub="ostensiva">Polícia Ostensiva e Formação</button><button class="area-sub-btn" data-parent="acao" data-sub="obras">Obras</button></div>
+ <div class="area-secondary" id="obrasSub"><span class="area-secondary-label">Obras</span><button class="area-sub-btn" data-parent="obras" data-sub="copom">COPOM</button><button class="area-sub-btn" data-parent="obras" data-sub="quarteis">Construção e Reforma de Quartéis</button></div>
+ <div class="area-secondary" id="equipSub"><span class="area-secondary-label">Equipamentos Policiais</span><button class="area-sub-btn" data-parent="equipamentos" data-sub="belico">Material Bélico</button><button class="area-sub-btn" data-parent="equipamentos" data-sub="intendencia">Intendência</button></div>
+ <div class="area-secondary" id="ftsSub"><span class="area-secondary-label">Frota, TIC e Saúde</span><button class="area-sub-btn" data-parent="fts" data-sub="frota">Frota</button><button class="area-sub-btn" data-parent="fts" data-sub="tic">TIC</button><button class="area-sub-btn" data-parent="fts" data-sub="saude">Saúde</button></div>
 </section>
 <div class="area-context" id="areaContext"></div>
 <section class="metrics" id="metrics"></section>
@@ -204,20 +204,208 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
 (function(){
  const shell=document.getElementById("areaShell"); if(!shell)return;
  const pcae=document.getElementById("pcaeSub"),acao=document.getElementById("acaoSub"),obras=document.getElementById("obrasSub"),equip=document.getElementById("equipSub"),fts=document.getElementById("ftsSub"),ctx=document.getElementById("areaContext");
- let area="geral",sub={geral:"consolidado",acao:"muralha",obras:"copom",equipamentos:"belico",fts:"frota"};
- const names={geral:"PCA-E Geral",acao:"Por Ação",obras:"Obras",imoveis:"Imóveis",equipamentos:"Equipamentos Policiais",fts:"Frota, TIC e Saúde",consolidado:"Consolidado",muralha:"Muralha Paulista",integracao:"Integração e Aparelhamento",ostensiva:"Polícia Ostensiva e Formação",copom:"COPOM",quarteis:"Construção e Reforma de Quartéis",belico:"Material Bélico",intendencia:"Intendência",frota:"Frota",tic:"TIC",saude:"Saúde"};
- function paint(){
-  shell.querySelectorAll(".area-btn").forEach(b=>b.classList.toggle("active",b.dataset.area===area));
-  pcae.classList.toggle("show",area==="geral"||area==="acao"||area==="obras"); acao.classList.toggle("show",area==="acao"||area==="obras"); obras.classList.toggle("show",area==="obras"); equip.classList.toggle("show",area==="equipamentos"); fts.classList.toggle("show",area==="fts");
-  shell.querySelectorAll(".area-sub-btn").forEach(b=>b.classList.toggle("active",b.dataset.parent===area&&b.dataset.sub===sub[area]));
-  ctx.classList.toggle("show",area!=="geral");
-  const selected=(area==="geral"||area==="acao"||area==="obras"||area==="equipamentos"||area==="fts")?names[sub[area]]:"";
-  ctx.textContent=area==="geral"?"":names[area]+(selected?" › "+selected:"")+" — protótipo de segmentação. Nesta etapa a navegação é visual e não altera os dados do PCA-E.";
+ const groups={
+  geral:["consolidado","acao"],
+  acao:["muralha","integracao","ostensiva","obras"],
+  obras:["copom","quarteis"],
+  equipamentos:["belico","intendencia"],
+  fts:["frota","tic","saude"]
+ };
+ const labels={geral:"PCA-E Geral",acao:"Por Ação",obras:"Obras",equipamentos:"Equipamentos Policiais",fts:"Frota, TIC e Saúde",imoveis:"Imóveis"};
+ const chosen={
+  geral:new Set(),
+  acao:new Set(),
+  obras:new Set(),
+  equipamentos:new Set(),
+  fts:new Set()
+ };
+ let area="geral";
+
+ function rootArea(){
+  return area==="acao"||area==="obras" ? "geral" : area;
  }
+ function effectiveFor(key){
+  const explicit=chosen[key];
+  return explicit&&explicit.size ? new Set(explicit) : new Set(groups[key]||[]);
+ }
+ function effectiveSubs(){
+  if(area==="geral")return new Set(["consolidado"]);
+  if(area==="imoveis")return new Set(["imoveis"]);
+  return effectiveFor(area);
+ }
+ function syncFilter(){
+  sectionFilter={area,subs:new Set(effectiveSubs())};
+ }
+ function clearDescendants(key){
+  if(key==="geral"){
+   chosen.acao.clear();
+   chosen.obras.clear();
+  }else if(key==="acao"){
+   chosen.obras.clear();
+  }
+ }
+ function resetParent(key){
+  if(chosen[key])chosen[key].clear();
+  clearDescendants(key);
+ }
+ function selectPathTo(key){
+  if(key==="acao"){
+   chosen.geral.clear();
+   chosen.geral.add("acao");
+  }else if(key==="obras"){
+   chosen.geral.clear();
+   chosen.geral.add("acao");
+   chosen.acao.clear();
+   chosen.acao.add("obras");
+  }
+ }
+ function paint(){
+  shell.querySelectorAll(".area-btn").forEach(b=>b.classList.toggle("active",b.dataset.area===rootArea()));
+  pcae.classList.toggle("show",area==="geral"||area==="acao"||area==="obras");
+  acao.classList.toggle("show",area==="acao"||area==="obras");
+  obras.classList.toggle("show",area==="obras");
+  equip.classList.toggle("show",area==="equipamentos");
+  fts.classList.toggle("show",area==="fts");
+
+  shell.querySelectorAll(".area-sub-btn").forEach(b=>{
+   const parent=b.dataset.parent,key=b.dataset.sub;
+   const on=!!(chosen[parent]&&chosen[parent].has(key));
+   b.classList.toggle("selected",on);
+   b.classList.remove("active");
+   b.setAttribute("aria-pressed",on?"true":"false");
+  });
+
+  shell.querySelectorAll(".group-toggle").forEach(b=>{
+   const box=document.getElementById(b.dataset.group);
+   const first=box&&box.querySelector(".area-sub-btn[data-parent]");
+   const key=first&&first.dataset.parent;
+   const all=!!(key&&groups[key]&&chosen[key].size===groups[key].length);
+   b.textContent=all?"Limpar todos":"Selecionar todos";
+  });
+
+  if(area==="geral"){
+   ctx.classList.remove("show");
+   ctx.textContent="";
+  }else{
+   ctx.classList.add("show");
+   if(area==="imoveis"){
+    ctx.textContent="Imóveis — exibindo todos os registros desta seleção.";
+   }else{
+    const total=(groups[area]||[]).length;
+    const explicit=chosen[area]?chosen[area].size:0;
+    ctx.textContent=explicit
+     ? labels[area]+" — "+explicit+" de "+total+" subdivisão(ões) selecionada(s). Clique novamente para retirar a seleção."
+     : labels[area]+" — exibindo todas as "+total+" subdivisões. Nenhuma subdivisão está selecionada individualmente.";
+   }
+  }
+ }
+
  shell.addEventListener("click",e=>{
-  const a=e.target.closest(".area-btn"); if(a){area=a.dataset.area;paint();return}
-  const s=e.target.closest(".area-sub-btn"); if(s){if(s.dataset.parent==="geral"&&s.dataset.sub==="acao"){area="acao";}else if(s.dataset.parent==="acao"&&s.dataset.sub==="obras"){area="obras";}else{area=s.dataset.parent;}sub[s.dataset.parent]=s.dataset.sub;paint()}
+  const a=e.target.closest(".area-btn");
+  if(a){
+   area=a.dataset.area;
+   if(area==="imoveis"){
+    sectionFilter={area:"imoveis",subs:new Set(["imoveis"])};
+   }else{
+    resetParent(area);
+    if(area==="geral"){
+     chosen.geral.clear();
+     clearDescendants("geral");
+    }
+    syncFilter();
+   }
+   paint();
+   renderAll();
+   return;
+  }
+
+  const gt=e.target.closest(".group-toggle");
+  if(gt){
+   const box=document.getElementById(gt.dataset.group);
+   const first=box&&box.querySelector(".area-sub-btn[data-parent]");
+   const key=first&&first.dataset.parent;
+   if(!key||!groups[key]||!chosen[key])return;
+   const allExplicit=chosen[key].size===groups[key].length;
+   chosen[key]=allExplicit?new Set():new Set(groups[key]);
+   area=key;
+   selectPathTo(key);
+   syncFilter();
+   paint();
+   renderAll();
+   return;
+  }
+
+  const s=e.target.closest(".area-sub-btn");
+  if(!s)return;
+  const parent=s.dataset.parent,key=s.dataset.sub;
+
+  // Divisões que também possuem subdivisões: entrar nelas não seleciona
+  // automaticamente nenhum dos respectivos filhos.
+  if(parent==="geral"&&key==="acao"){
+   const alreadyOpen=area==="acao"&&chosen.geral.has("acao");
+   if(alreadyOpen){
+    chosen.geral.delete("acao");
+    resetParent("acao");
+    area="geral";
+   }else{
+    chosen.geral.clear();
+    chosen.geral.add("acao");
+    resetParent("acao");
+    area="acao";
+   }
+   syncFilter();
+   paint();
+   renderAll();
+   return;
+  }
+
+  if(parent==="acao"&&key==="obras"){
+   const alreadyOpen=area==="obras"&&chosen.acao.has("obras");
+   if(alreadyOpen){
+    chosen.acao.delete("obras");
+    resetParent("obras");
+    area="acao";
+   }else{
+    chosen.geral.clear();
+    chosen.geral.add("acao");
+    chosen.acao.clear();
+    chosen.acao.add("obras");
+    resetParent("obras");
+    area="obras";
+   }
+   syncFilter();
+   paint();
+   renderAll();
+   return;
+  }
+
+  if(!chosen[parent])return;
+
+  // "Consolidado" é uma seleção explícita opcional do PCA-E Geral.
+  // O pai sem filho selecionado continua exibindo o conjunto completo.
+  if(parent==="geral"&&key==="consolidado"){
+   if(chosen.geral.has("consolidado")){
+    chosen.geral.delete("consolidado");
+   }else{
+    chosen.geral.clear();
+    chosen.geral.add("consolidado");
+   }
+   area="geral";
+   syncFilter();
+   paint();
+   renderAll();
+   return;
+  }
+
+  chosen[parent].has(key)?chosen[parent].delete(key):chosen[parent].add(key);
+  area=parent;
+  selectPathTo(parent);
+  syncFilter();
+  paint();
+  renderAll();
  });
+
+ syncFilter();
  paint();
 })();
 </script>
