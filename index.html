@@ -23,6 +23,20 @@
 .sync-info #syncMessage{color:#526983}
 .action:disabled{cursor:wait;opacity:.7}
 @media(max-width:760px){.sync-info{gap:4px;margin:8px 14px 0}.sync-info span{width:100%}}
+
+/* Protótipo: navegação por subseção responsável */
+.area-shell{margin:10px 14px 0;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.area-main{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:10px 12px}
+.area-title{font-size:.76rem;font-weight:900;letter-spacing:.045em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.area-btn,.area-sub-btn{border:1px solid #cbd6e2;background:#f7f9fc;color:var(--navy);border-radius:9px;padding:8px 12px;font-weight:800;cursor:pointer}
+.area-btn:hover,.area-sub-btn:hover{background:#edf3f9}
+.area-btn.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.area-secondary{display:none;gap:7px;align-items:center;flex-wrap:wrap;padding:9px 12px;border-top:1px solid var(--border);background:#f8fafc}
+.area-secondary.show{display:flex}.area-secondary-label{font-size:.78rem;font-weight:800;color:#53677d;margin-right:3px}
+.area-sub-btn{background:#fff;padding:7px 11px}.area-sub-btn.active{background:#e4ebf3;border-color:#94a9bf;color:#0b2a50}
+.area-context{display:none;margin:0 14px 10px;padding:9px 12px;border:1px dashed #a8b8c8;border-radius:9px;background:#f8fafc;color:#4c6075;font-size:.86rem}
+.area-context.show{display:block}
+@media(max-width:760px){.area-main{align-items:stretch}.area-title{width:100%}.area-btn{flex:1 1 46%}.area-secondary{align-items:stretch}.area-secondary-label{width:100%}.area-sub-btn{flex:1}}
 </style>
 </head>
 <body>
@@ -32,6 +46,21 @@
   <div class="actions"><button id="onlineSyncBtn" class="action online" title="Consultar os dados atuais, sem alterar a planilha">Atualizar dados</button><button id="exportBtn" class="action dark">⇩ Exportar filtrados</button></div>
 </header>
 <div class="sync-info" role="status" aria-live="polite"><span id="sourcePill">Consultando a planilha…</span><span id="syncMessage">Somente leitura · consulta automática a cada 5 minutos.</span></div>
+<section class="area-shell" id="areaShell" aria-label="Subseção responsável">
+ <div class="area-main">
+  <span class="area-title">Subseção responsável</span>
+  <button class="area-btn active" data-area="geral">PCA-E Geral</button>
+  <button class="area-btn" data-area="imoveis">Imóveis</button>
+  <button class="area-btn" data-area="equipamentos">Equipamentos Policiais</button>
+  <button class="area-btn" data-area="fts">Frota, TIC e Saúde</button>
+ </div>
+ <div class="area-secondary show" id="pcaeSub"><span class="area-secondary-label">PCA-E Geral</span><button class="area-sub-btn active" data-parent="geral" data-sub="consolidado">Consolidado</button><button class="area-sub-btn" data-parent="geral" data-sub="acao">Por Ação</button></div>
+ <div class="area-secondary" id="acaoSub"><span class="area-secondary-label">Por Ação</span><button class="area-sub-btn active" data-parent="acao" data-sub="muralha">Muralha Paulista</button><button class="area-sub-btn" data-parent="acao" data-sub="integracao">Integração e Aparelhamento</button><button class="area-sub-btn" data-parent="acao" data-sub="ostensiva">Polícia Ostensiva e Formação</button><button class="area-sub-btn" data-parent="acao" data-sub="obras">Obras</button></div>
+ <div class="area-secondary" id="obrasSub"><span class="area-secondary-label">Obras</span><button class="area-sub-btn active" data-parent="obras" data-sub="copom">COPOM</button><button class="area-sub-btn" data-parent="obras" data-sub="quarteis">Construção e Reforma de Quartéis</button></div>
+ <div class="area-secondary" id="equipSub"><span class="area-secondary-label">Equipamentos Policiais</span><button class="area-sub-btn active" data-parent="equipamentos" data-sub="belico">Material Bélico</button><button class="area-sub-btn" data-parent="equipamentos" data-sub="intendencia">Intendência</button></div>
+ <div class="area-secondary" id="ftsSub"><span class="area-secondary-label">Frota, TIC e Saúde</span><button class="area-sub-btn active" data-parent="fts" data-sub="frota">Frota</button><button class="area-sub-btn" data-parent="fts" data-sub="tic">TIC</button><button class="area-sub-btn" data-parent="fts" data-sub="saude">Saúde</button></div>
+</section>
+<div class="area-context" id="areaContext"></div>
 <section class="metrics" id="metrics"></section>
 <nav class="navtabs" id="navTabs">
  <button class="navtab active" data-view="overview">Visão geral</button><button class="navtab" data-view="daily">Acompanhamento diário</button><button class="navtab" data-view="items">Itens PCA-E</button><button class="navtab" data-view="atas">Licitações e atas</button><button class="navtab" data-view="deliveries">Entregas</button><button class="navtab" data-view="finance">Execução financeira</button>
@@ -171,5 +200,25 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('online', syncOnline);
 window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem conexão · exibindo a última cópia disponível.'; });
+
+(function(){
+ const shell=document.getElementById("areaShell"); if(!shell)return;
+ const pcae=document.getElementById("pcaeSub"),acao=document.getElementById("acaoSub"),obras=document.getElementById("obrasSub"),equip=document.getElementById("equipSub"),fts=document.getElementById("ftsSub"),ctx=document.getElementById("areaContext");
+ let area="geral",sub={geral:"consolidado",acao:"muralha",obras:"copom",equipamentos:"belico",fts:"frota"};
+ const names={geral:"PCA-E Geral",acao:"Por Ação",obras:"Obras",imoveis:"Imóveis",equipamentos:"Equipamentos Policiais",fts:"Frota, TIC e Saúde",consolidado:"Consolidado",muralha:"Muralha Paulista",integracao:"Integração e Aparelhamento",ostensiva:"Polícia Ostensiva e Formação",copom:"COPOM",quarteis:"Construção e Reforma de Quartéis",belico:"Material Bélico",intendencia:"Intendência",frota:"Frota",tic:"TIC",saude:"Saúde"};
+ function paint(){
+  shell.querySelectorAll(".area-btn").forEach(b=>b.classList.toggle("active",b.dataset.area===area));
+  pcae.classList.toggle("show",area==="geral"||area==="acao"||area==="obras"); acao.classList.toggle("show",area==="acao"||area==="obras"); obras.classList.toggle("show",area==="obras"); equip.classList.toggle("show",area==="equipamentos"); fts.classList.toggle("show",area==="fts");
+  shell.querySelectorAll(".area-sub-btn").forEach(b=>b.classList.toggle("active",b.dataset.parent===area&&b.dataset.sub===sub[area]));
+  ctx.classList.toggle("show",area!=="geral");
+  const selected=(area==="geral"||area==="acao"||area==="obras"||area==="equipamentos"||area==="fts")?names[sub[area]]:"";
+  ctx.textContent=area==="geral"?"":names[area]+(selected?" › "+selected:"")+" — protótipo de segmentação. Nesta etapa a navegação é visual e não altera os dados do PCA-E.";
+ }
+ shell.addEventListener("click",e=>{
+  const a=e.target.closest(".area-btn"); if(a){area=a.dataset.area;paint();return}
+  const s=e.target.closest(".area-sub-btn"); if(s){if(s.dataset.parent==="geral"&&s.dataset.sub==="acao"){area="acao";}else if(s.dataset.parent==="acao"&&s.dataset.sub==="obras"){area="obras";}else{area=s.dataset.parent;}sub[s.dataset.parent]=s.dataset.sub;paint()}
+ });
+ paint();
+})();
 </script>
 </body></html>
