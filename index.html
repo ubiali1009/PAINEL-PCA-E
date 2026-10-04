@@ -37,6 +37,11 @@
 .area-context{display:none;margin:0 14px 10px;padding:9px 12px;border:1px dashed #a8b8c8;border-radius:9px;background:#f8fafc;color:#4c6075;font-size:.86rem}
 .area-context.show{display:block}
 @media(max-width:760px){.area-main{align-items:stretch}.area-title{width:100%}.area-btn{flex:1 1 46%}.area-secondary{align-items:stretch}.area-secondary-label{width:100%}.area-sub-btn{flex:1}}
+
+.area-sub-btn.selected,.area-sub-btn.active{background:#e4ebf3;border-color:#0b2a50;color:#0b2a50;box-shadow:inset 0 0 0 1px #0b2a50}
+.area-sub-btn.selected:before,.area-sub-btn.active:before{content:"✓ ";font-weight:900}
+.group-toggle{margin-left:auto;border:0;background:transparent;color:var(--navy2);font-size:.78rem;font-weight:800;cursor:pointer;text-decoration:underline}
+@media(max-width:760px){.group-toggle{margin-left:0}}
 </style>
 </head>
 <body>
@@ -55,10 +60,10 @@
   <button class="area-btn" data-area="fts">Frota, TIC e Saúde</button>
  </div>
  <div class="area-secondary show" id="pcaeSub"><span class="area-secondary-label">PCA-E Geral</span><button class="area-sub-btn active" data-parent="geral" data-sub="consolidado">Consolidado</button><button class="area-sub-btn" data-parent="geral" data-sub="acao">Por Ação</button></div>
- <div class="area-secondary" id="acaoSub"><span class="area-secondary-label">Por Ação</span><button class="area-sub-btn active" data-parent="acao" data-sub="muralha">Muralha Paulista</button><button class="area-sub-btn" data-parent="acao" data-sub="integracao">Integração e Aparelhamento</button><button class="area-sub-btn" data-parent="acao" data-sub="ostensiva">Polícia Ostensiva e Formação</button><button class="area-sub-btn" data-parent="acao" data-sub="obras">Obras</button></div>
- <div class="area-secondary" id="obrasSub"><span class="area-secondary-label">Obras</span><button class="area-sub-btn active" data-parent="obras" data-sub="copom">COPOM</button><button class="area-sub-btn" data-parent="obras" data-sub="quarteis">Construção e Reforma de Quartéis</button></div>
- <div class="area-secondary" id="equipSub"><span class="area-secondary-label">Equipamentos Policiais</span><button class="area-sub-btn active" data-parent="equipamentos" data-sub="belico">Material Bélico</button><button class="area-sub-btn" data-parent="equipamentos" data-sub="intendencia">Intendência</button></div>
- <div class="area-secondary" id="ftsSub"><span class="area-secondary-label">Frota, TIC e Saúde</span><button class="area-sub-btn active" data-parent="fts" data-sub="frota">Frota</button><button class="area-sub-btn" data-parent="fts" data-sub="tic">TIC</button><button class="area-sub-btn" data-parent="fts" data-sub="saude">Saúde</button></div>
+ <div class="area-secondary" id="acaoSub"><span class="area-secondary-label">Por Ação</span><button class="group-toggle" data-group="acaoSub">Selecionar todos</button><button class="area-sub-btn active" data-parent="acao" data-sub="muralha">Muralha Paulista</button><button class="area-sub-btn" data-parent="acao" data-sub="integracao">Integração e Aparelhamento</button><button class="area-sub-btn" data-parent="acao" data-sub="ostensiva">Polícia Ostensiva e Formação</button><button class="area-sub-btn" data-parent="acao" data-sub="obras">Obras</button></div>
+ <div class="area-secondary" id="obrasSub"><span class="area-secondary-label">Obras</span><button class="group-toggle" data-group="obrasSub">Selecionar todos</button><button class="area-sub-btn active" data-parent="obras" data-sub="copom">COPOM</button><button class="area-sub-btn" data-parent="obras" data-sub="quarteis">Construção e Reforma de Quartéis</button></div>
+ <div class="area-secondary" id="equipSub"><span class="area-secondary-label">Equipamentos Policiais</span><button class="group-toggle" data-group="equipSub">Selecionar todos</button><button class="area-sub-btn active" data-parent="equipamentos" data-sub="belico">Material Bélico</button><button class="area-sub-btn" data-parent="equipamentos" data-sub="intendencia">Intendência</button></div>
+ <div class="area-secondary" id="ftsSub"><span class="area-secondary-label">Frota, TIC e Saúde</span><button class="group-toggle" data-group="ftsSub">Selecionar todos</button><button class="area-sub-btn active" data-parent="fts" data-sub="frota">Frota</button><button class="area-sub-btn" data-parent="fts" data-sub="tic">TIC</button><button class="area-sub-btn" data-parent="fts" data-sub="saude">Saúde</button></div>
 </section>
 <div class="area-context" id="areaContext"></div>
 <section class="metrics" id="metrics"></section>
@@ -104,31 +109,29 @@ function dateVal(s){if(!s)return null; const d=new Date(s+'T12:00:00'); return i
 function daysUntil(s){const d=dateVal(s); if(!d)return null; const t=new Date(); t.setHours(0,0,0,0); return Math.ceil((d-t)/86400000)}
 function selected(){return {q:norm($('#searchInput').value),area:$('#areaFilter').value,uge:$('#ugeFilter').value,delivery:$('#deliveryFilter').value,ata:$('#ataFilter').value,stage:$('#stageFilter').value}}
 function haystack(o){return norm(Object.values(o).join(' | '))}
-let sectionFilter={area:"geral",sub:"consolidado"};
-function sectionMatch(r){
- const a=norm(r.area), ac=norm(r.acao||r.pcae), o=norm(r.objeto), n=norm(r.natureza), u=norm(r.uge);
- const sf=sectionFilter;
- if(sf.area==="geral"&&sf.sub==="consolidado")return true;
- if(sf.area==="acao"){
-   if(sf.sub==="muralha")return /MURALHA/.test(ac);
-   if(sf.sub==="integracao")return /INTEGRACAO|APARELHAMENTO/.test(ac);
-   if(sf.sub==="ostensiva")return /OSTENSIVA|FORMACAO/.test(ac);
- }
- if(sf.area==="obras"){
-   if(sf.sub==="copom")return /OBRA/.test(ac)&&/COPOM/.test(ac+" "+o);
-   if(sf.sub==="quarteis")return /OBRA/.test(ac)&&/(QUART|CONSTRUCAO|REFORMA)/.test(ac+" "+o);
- }
- if(sf.area==="imoveis")return /IMOV/.test(a+" "+ac+" "+n+" "+o);
- if(sf.area==="equipamentos"){
-   if(sf.sub==="belico")return /BELIC|ARMAMENTO|MUNICAO|COLETE BALIST|CAPACETE BALIST|COLDRE|FIEL RETRAT|ESPADA/.test(a+" "+ac+" "+n+" "+o);
-   if(sf.sub==="intendencia")return /INTEND|UNIFORM|FARD|CAMISA|CALCA|CINTURAO|LUVA|COLETE REFLET/.test(a+" "+ac+" "+n+" "+o);
- }
- if(sf.area==="fts"){
-   if(sf.sub==="frota")return /FROTA|VIATUR|VEICUL|AUTOMOV|MOTOCIC|SUV|DUSTER|CRETA/.test(a+" "+ac+" "+n+" "+o);
-   if(sf.sub==="tic")return /\bTIC\b|TECNOLOGIA|INFORMAT|COMPUT|SOFTWARE|HARDWARE|RADIO|COMUNICAC|DTIC/.test(a+" "+ac+" "+n+" "+o+" "+u);
-   if(sf.sub==="saude")return /SAUDE|MEDIC|HOSPITAL|ODONTO|SANITAR/.test(a+" "+ac+" "+n+" "+o);
- }
+let sectionFilter={area:"geral",subs:new Set(["consolidado"])};
+function matchLeaf(r,key){
+ const a=norm(r.area), ac=norm(r.acao||r.pcae), o=norm(r.objeto), n=norm(r.natureza), u=norm(r.uge), all=a+" "+ac+" "+n+" "+o+" "+u;
+ if(key==="muralha")return /MURALHA/.test(ac);
+ if(key==="integracao")return /INTEGRACAO|APARELHAMENTO/.test(ac);
+ if(key==="ostensiva")return /OSTENSIVA|FORMACAO/.test(ac);
+ if(key==="copom")return /OBRA/.test(ac)&&/COPOM/.test(ac+" "+o);
+ if(key==="quarteis")return /OBRA/.test(ac)&&/(QUART|CONSTRUCAO|REFORMA)/.test(ac+" "+o);
+ if(key==="imoveis")return /IMOV/.test(all);
+ if(key==="belico")return /BELIC|ARMAMENTO|MUNICAO|COLETE BALIST|CAPACETE BALIST|COLDRE|FIEL RETRAT|ESPADA/.test(all);
+ if(key==="intendencia")return /INTEND|UNIFORM|FARD|CAMISA|CALCA|CINTURAO|LUVA|COLETE REFLET/.test(all);
+ if(key==="frota")return /FROTA|VIATUR|VEICUL|AUTOMOV|MOTOCIC|SUV|DUSTER|CRETA/.test(all);
+ if(key==="tic")return /\bTIC\b|TECNOLOGIA|INFORMAT|COMPUT|SOFTWARE|HARDWARE|RADIO|COMUNICAC|DTIC/.test(all);
+ if(key==="saude")return /SAUDE|MEDIC|HOSPITAL|ODONTO|SANITAR/.test(all);
  return false;
+}
+function sectionMatch(r){
+ const sf=sectionFilter;
+ if(sf.area==="geral"&&sf.subs.has("consolidado"))return true;
+ if(sf.area==="imoveis")return matchLeaf(r,"imoveis");
+ const keys=[...sf.subs];
+ if(!keys.length)return false;
+ return keys.some(k=>k==="obras"?(matchLeaf(r,"copom")||matchLeaf(r,"quarteis")):matchLeaf(r,k));
 }
 function filteredBase(){const f=selected();return base.filter(r=>sectionMatch(r)&&(!f.q||haystack(r).includes(f.q))&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.delivery||r.statusEntrega===f.delivery))}
 function filteredAtas(){const f=selected();return atas.filter(r=>sectionMatch(r)&&(!f.q||haystack(r).includes(f.q))&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.ata||r.situacao===f.ata)&&(!f.stage||r.estagio===f.stage))}
@@ -230,21 +233,40 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
 (function(){
  const shell=document.getElementById("areaShell"); if(!shell)return;
  const pcae=document.getElementById("pcaeSub"),acao=document.getElementById("acaoSub"),obras=document.getElementById("obrasSub"),equip=document.getElementById("equipSub"),fts=document.getElementById("ftsSub"),ctx=document.getElementById("areaContext");
- let area="geral",sub={geral:"consolidado",acao:"muralha",obras:"copom",equipamentos:"belico",fts:"frota"};
- const names={geral:"PCA-E Geral",acao:"Por Ação",obras:"Obras",imoveis:"Imóveis",equipamentos:"Equipamentos Policiais",fts:"Frota, TIC e Saúde",consolidado:"Consolidado",muralha:"Muralha Paulista",integracao:"Integração e Aparelhamento",ostensiva:"Polícia Ostensiva e Formação",copom:"COPOM",quarteis:"Construção e Reforma de Quartéis",belico:"Material Bélico",intendencia:"Intendência",frota:"Frota",tic:"TIC",saude:"Saúde"};
+ const groups={acao:["muralha","integracao","ostensiva","obras"],obras:["copom","quarteis"],equipamentos:["belico","intendencia"],fts:["frota","tic","saude"]};
+ let area="geral", selected={acao:new Set(groups.acao),obras:new Set(groups.obras),equipamentos:new Set(groups.equipamentos),fts:new Set(groups.fts)};
+ function effectiveSubs(){
+  if(area==="acao")return selected.acao;
+  if(area==="obras")return selected.obras;
+  if(area==="equipamentos")return selected.equipamentos;
+  if(area==="fts")return selected.fts;
+  return new Set(["consolidado"]);
+ }
+ function syncFilter(){sectionFilter={area,subs:new Set(effectiveSubs())};}
  function paint(){
   shell.querySelectorAll(".area-btn").forEach(b=>b.classList.toggle("active",b.dataset.area===area));
-  pcae.classList.toggle("show",area==="geral"||area==="acao"||area==="obras"); acao.classList.toggle("show",area==="acao"||area==="obras"); obras.classList.toggle("show",area==="obras"); equip.classList.toggle("show",area==="equipamentos"); fts.classList.toggle("show",area==="fts");
-  shell.querySelectorAll(".area-sub-btn").forEach(b=>b.classList.toggle("active",b.dataset.parent===area&&b.dataset.sub===sub[area]));
+  pcae.classList.toggle("show",area==="geral"||area==="acao"||area==="obras");
+  acao.classList.toggle("show",area==="acao"||area==="obras"); obras.classList.toggle("show",area==="obras");
+  equip.classList.toggle("show",area==="equipamentos"); fts.classList.toggle("show",area==="fts");
+  shell.querySelectorAll(".area-sub-btn").forEach(b=>{
+   const parent=b.dataset.parent, key=b.dataset.sub;
+   const on=parent==="geral"?(area==="geral"&&key==="consolidado"):(selected[parent]&&selected[parent].has(key));
+   b.classList.toggle("selected",!!on); b.setAttribute("aria-pressed",on?"true":"false");
+  });
+  shell.querySelectorAll(".group-toggle").forEach(b=>{const g=b.dataset.group.replace("Sub","").replace("acao","acao");const key=g==="equip"?"equipamentos":g==="fts"?"fts":g==="obras"?"obras":"acao";const all=groups[key]&&selected[key].size===groups[key].length;b.textContent=all?"Limpar todos":"Selecionar todos";});
   ctx.classList.toggle("show",area!=="geral");
-  const selected=(area==="geral"||area==="acao"||area==="obras"||area==="equipamentos"||area==="fts")?names[sub[area]]:"";
-  ctx.textContent=area==="geral"&&sub.geral==="consolidado"?"":names[area]+(selected?" › "+selected:"")+" — exibindo somente os registros desta seleção.";
+  if(area!=="geral")ctx.textContent="Seleção múltipla ativa: "+effectiveSubs().size+" opção(ões). Clique nos botões para incluir ou excluir.";
  }
  shell.addEventListener("click",e=>{
-  const a=e.target.closest(".area-btn"); if(a){area=a.dataset.area;sectionFilter={area:area==="geral"?"geral":area,sub:area==="geral"?"consolidado":sub[area]||""};paint();renderAll();return}
-  const s=e.target.closest(".area-sub-btn"); if(s){if(s.dataset.parent==="geral"&&s.dataset.sub==="acao"){area="acao";}else if(s.dataset.parent==="acao"&&s.dataset.sub==="obras"){area="obras";}else{area=s.dataset.parent;}sub[s.dataset.parent]=s.dataset.sub;sectionFilter={area:area,sub:area==="geral"?sub.geral:(area==="acao"?sub.acao:(area==="obras"?sub.obras:(sub[area]||"")))};paint();renderAll()}
+  const a=e.target.closest(".area-btn"); if(a){area=a.dataset.area;if(area==="imoveis")sectionFilter={area:"imoveis",subs:new Set(["imoveis"])};else{syncFilter()}paint();renderAll();return}
+  const gt=e.target.closest(".group-toggle"); if(gt){const id=gt.dataset.group;const key=id==="equipSub"?"equipamentos":id==="ftsSub"?"fts":id==="obrasSub"?"obras":"acao";selected[key]=selected[key].size===groups[key].length?new Set():new Set(groups[key]);if((area==="acao"&&key==="acao")||(area==="obras"&&key==="obras")||(area==="equipamentos"&&key==="equipamentos")||(area==="fts"&&key==="fts"))syncFilter();paint();renderAll();return}
+  const s=e.target.closest(".area-sub-btn"); if(!s)return;
+  if(s.dataset.parent==="geral"&&s.dataset.sub==="acao"){area="acao";syncFilter();paint();renderAll();return}
+  if(s.dataset.parent==="acao"&&s.dataset.sub==="obras"){area="obras";syncFilter();paint();renderAll();return}
+  const parent=s.dataset.parent,key=s.dataset.sub;if(!selected[parent])return;
+  selected[parent].has(key)?selected[parent].delete(key):selected[parent].add(key);area=parent;syncFilter();paint();renderAll();
  });
- paint();
+ syncFilter();paint();
 })();
 </script>
 </body></html>
