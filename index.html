@@ -144,7 +144,7 @@
 <div class="workspace">
 <main class="main">
  <section id="view-overview" class="view active"><div class="section-title"><h2>Visão executiva</h2><p id="overviewNote"></p></div><div class="grid2"><div class="panel"><h3>Execução financeira por área</h3><div class="legend-inline"><span>Empenhado</span><span>Liquidado</span></div><div id="financeBars" class="bar-list"></div></div><div class="panel"><h3>Status das entregas</h3><div id="deliveryBars" class="bar-list"></div></div><div class="panel"><h3>Situação das atas e licitações</h3><div id="ataBars" class="bar-list"></div></div><div class="panel"><h3>Estágio das licitações em andamento</h3><div id="stageBars" class="bar-list"></div></div></div><div class="alerts" id="alerts"></div><div class="panel next-actions"><h3>Licitações — próximas ações</h3><div id="nextActions" class="cards-list"></div></div></section>
- <section id="view-daily" class="view"><div class="section-title"><h2>Acompanhamento diário</h2><p id="dailyNote">Pendências que exigem ação</p></div><div class="grid2"><div class="panel"><h3>Licitações / atas — ação necessária</h3><div id="dailyLicTable"></div></div><div class="panel"><h3>Contratos assinados — entrega pendente</h3><div id="dailyDeliveryTable"></div></div></div></section>
+ <section id="view-daily" class="view"><div class="section-title"><h2>Acompanhamento diário</h2><p id="dailyNote">Pendências que exigem ação</p></div><div class="grid2"><div class="panel"><h3>Licitações / atas — ação necessária</h3><div id="dailyLicTable"></div></div><div class="panel"><h3>Itens — entrega pendente</h3><div id="dailyDeliveryTable"></div></div></div></section>
  <section id="view-items" class="view"><div class="section-title"><h2>Itens PCA-E</h2><p id="itemsCount"></p></div><div id="itemsTable"></div></section>
  <section id="view-atas" class="view"><div class="section-title"><h2>Licitações e atas</h2><p id="atasCount"></p></div><div id="atasTable"></div></section>
  <section id="view-deliveries" class="view"><div class="section-title"><h2>Entregas</h2><p>Contratos com previsão e situação de recebimento</p></div><div id="deliveriesTable"></div></section>
@@ -237,7 +237,10 @@ function filteredBase(){
  let rows=baseCoreRows();
  const active=activeMetricFilter();
  if(active==="execution")rows=rows.filter(r=>Number(r.valorEmpenhado||0)!==0||Number(r.valorLiquidado||0)!==0);
- if(active==="contracts")rows=rows.filter(isPendingContract);
+ if(active==="pendingitems"){
+  const pendingKeys=new Set(baseCoreRows().filter(isPendingContract).map(itemKey));
+  rows=rows.filter(r=>pendingKeys.has(itemKey(r)));
+ }
  return rows;
 }
 function filteredAtas(){
@@ -249,6 +252,70 @@ function filteredAtas(){
 }
 function isLicPending(r){const s=norm(r.situacao);return s==='EM LICITACAO'||s==='REVALIDAR'}
 function pendingDeliveries(){return filteredBase().filter(isPendingContract)}
+function itemKey(r){return norm(r.objeto||'SEM OBJETO')}
+function aggregateItemRows(rows){
+ const groups=new Map();
+ rows.forEach(r=>{
+  const key=itemKey(r);
+  let g=groups.get(key);
+  if(!g){
+   g={key,objeto:r.objeto||'SEM OBJETO',kind:'item',rows:[],qtdContratada:0,qtdEntregue:0,qtdPendente:0,valorEmpenhado:0,valorLiquidado:0,valorPago:0,pagoInformado:false,pendingRecords:0,contracts:new Set(),uges:new Set(),formas:new Set(),previsoes:[],statuses:new Set()};
+   groups.set(key,g);
+  }
+  g.rows.push(r);
+  g.qtdContratada+=contractedQty(r);
+  g.qtdEntregue+=deliveredQty(r);
+  g.valorEmpenhado+=Number(r.valorEmpenhado||0);
+  g.valorLiquidado+=Number(r.valorLiquidado||0);
+  if(r.valorPagoInformado){g.valorPago+=Number(r.valorPago||0);g.pagoInformado=true}
+  if(isPendingContract(r))g.pendingRecords++;
+  if(r.contratoUGE)g.contracts.add(r.contratoUGE);
+  if(r.uge)g.uges.add(r.uge);
+  g.formas.add(contractTypeLabel(r));
+  if(r.previsaoEntrega&&isPendingContract(r))g.previsoes.push(r.previsaoEntrega);
+  if(r.statusEntrega)g.statuses.add(r.statusEntrega);
+ });
+ return [...groups.values()].map(g=>{
+  g.qtdPendente=Math.max(0,g.qtdContratada-g.qtdEntregue);
+  g.registros=g.rows.length;
+  g.contratos=g.contracts.size;
+  g.uge=[...g.uges].join(', ');
+  g.forma=[...g.formas].filter(Boolean).join(' / ');
+  g.previsao=g.previsoes.sort()[0]||'';
+  g.status=g.qtdContratada>0?(g.qtdPendente>0?'PENDENTE':'RECEBIDO'):(g.statuses.size===1?[...g.statuses][0]:'ACOMPANHAR');
+  return g;
+ });
+}
+function pendingItemGroups(){
+ const all=baseCoreRows();
+ const keys=new Set(all.filter(isPendingContract).map(itemKey));
+ return aggregateItemRows(all.filter(r=>keys.has(itemKey(r))));
+}
+function itemGroupTableHtml(rows){
+ if(!rows.length)return'<div class="empty">Nenhum item encontrado.</div>';
+ return '<div class="table-wrap"><table class="data-table"><thead><tr>'
+  +['Objeto','Status','Registros','Registros pendentes','Previsão','Qtd comprada','Qtd entregue','Qtd a entregar','Empenhado','Liquidado','Pago'].map(x=>'<th>'+x+'</th>').join('')
+  +'</tr></thead><tbody>'
+  +rows.map(g=>`<tr data-item-object="${esc(g.objeto)}"><td><strong>${esc(g.objeto)}</strong></td><td><span class="badge ${badgeClass(g.status)}">${esc(g.status)}</span></td><td>${fmtInt(g.registros)}</td><td>${fmtInt(g.pendingRecords)}</td><td>${fmtDate(g.previsao)}</td><td>${g.qtdContratada>0?fmtInt(g.qtdContratada):'—'}</td><td>${fmtInt(g.qtdEntregue)}</td><td>${g.qtdContratada>0?fmtInt(g.qtdPendente):'—'}</td><td class="money">${fmtMoney(g.valorEmpenhado)}</td><td class="money">${fmtMoney(g.valorLiquidado)}</td><td class="money">${g.pagoInformado?fmtMoney(g.valorPago):'—'}</td></tr>`).join('')
+  +'</tbody></table></div>';
+}
+function itemGroupCard(g){
+ return `<article class="metric-result" data-item-object="${esc(g.objeto)}">
+  <div class="metric-result-top"><div class="metric-result-title">${esc(g.objeto)}</div><div class="metric-result-status"><span class="badge ${badgeClass(g.status)}">${esc(g.status)}</span></div></div>
+  <div class="metric-result-grid">
+   <div class="metric-result-field"><span>Registros do item</span><strong>${fmtInt(g.registros)}</strong></div>
+   <div class="metric-result-field"><span>Registros pendentes</span><strong>${fmtInt(g.pendingRecords)}</strong></div>
+   <div class="metric-result-field"><span>Previsão mais próxima</span><strong>${fmtDate(g.previsao)}</strong></div>
+   <div class="metric-result-field"><span>Qtd. comprada</span><strong>${g.qtdContratada>0?fmtInt(g.qtdContratada):'—'}</strong></div>
+   <div class="metric-result-field"><span>Qtd. entregue</span><strong>${fmtInt(g.qtdEntregue)}</strong></div>
+   <div class="metric-result-field"><span>Qtd. a entregar</span><strong>${g.qtdContratada>0?fmtInt(g.qtdPendente):'—'}</strong></div>
+   <div class="metric-result-field"><span>Empenhado</span><strong>${fmtMoney(g.valorEmpenhado)}</strong></div>
+   <div class="metric-result-field"><span>Liquidado</span><strong>${fmtMoney(g.valorLiquidado)}</strong></div>
+   <div class="metric-result-field"><span>Pago</span><strong>${g.pagoInformado?fmtMoney(g.valorPago):'—'}</strong></div>
+  </div>
+  <div class="metric-result-meta">Clique para abrir todos os registros deste item.</div>
+ </article>`;
+}
 function hasSource(v){return v!=null&&String(v).trim()!==''}
 function numericValue(value,raw){
  if(hasSource(raw))return nAny(raw);
@@ -418,14 +485,14 @@ function renderMetrics(){
  const empenho=b.reduce((s,r)=>s+r.valorEmpenhado,0),liq=b.reduce((s,r)=>s+r.valorLiquidado,0),exec=empenho?liq/empenho:0;
  const lic=atasAll.filter(r=>norm(r.situacao)==='EM LICITACAO').length;
  const rev=atasAll.filter(r=>norm(r.situacao)==='REVALIDAR').length;
- const pend=baseAll.filter(isPendingContract).length;
+ const pendItems=pendingItemGroups().length;
  const cards=[
   {label:'Empenhado',value:fmtMoney(empenho),note:`${b.length} registros financeiros`,cls:''},
   {label:'Liquidado',value:fmtMoney(liq),note:'valor liquidado na seleção',cls:''},
   {label:'Execução',value:(exec*100).toFixed(1).replace('.',',')+'%',note:'liquidado / empenhado',cls:'',key:'execution'},
   {label:'Em licitação',value:fmtInt(lic),note:'certames em andamento',cls:lic?'warn':'',key:'licitation'},
   {label:'Revalidar',value:fmtInt(rev),note:'vínculo/etapa exige conferência',cls:rev?'alert':'',key:'revalidate'},
-  {label:'Contratos pendentes',value:fmtInt(pend),note:'assinados e ainda não recebidos',cls:pend?'warn':'',key:'contracts'}
+  {label:'Itens com entrega pendente',value:fmtInt(pendItems),note:'objetos consolidados, como Duster e Combat Shirt',cls:pendItems?'warn':'',key:'pendingitems'}
  ];
  $('#metrics').innerHTML=cards.map(c=>{
   const interactive=!!c.key,active=interactive&&metricFilters.has(c.key);
@@ -488,8 +555,8 @@ function renderAtas(){
 }
 function renderDaily(){
  const lic=filteredAtas().filter(isLicPending).sort((a,b)=>{const ad=dateVal(a.proximaEtapa),bd=dateVal(b.proximaEtapa);if(ad&&!bd)return-1;if(!ad&&bd)return 1;if(ad&&bd)return ad-bd;if(norm(a.situacao)==='REVALIDAR'&&norm(b.situacao)!=='REVALIDAR')return-1;return a.objeto.localeCompare(b.objeto)});
- const del=pendingDeliveries().sort((a,b)=>{const ad=dateVal(a.previsaoEntrega),bd=dateVal(b.previsaoEntrega);if(ad&&!bd)return-1;if(!ad&&bd)return 1;if(ad&&bd)return ad-bd;return a.objeto.localeCompare(b.objeto)});
- $('#dailyNote').textContent=`${lic.length} licitações/revalidações · ${del.length} contratos com entrega pendente`;
+ const del=pendingItemGroups().sort((a,b)=>(a.previsao||'9999').localeCompare(b.previsao||'9999')||a.objeto.localeCompare(b.objeto));
+ $('#dailyNote').textContent=`${lic.length} licitações/revalidações · ${del.length} itens com entrega pendente`;
  $('#dailyLicTable').className='daily-table';
  $('#dailyLicTable').innerHTML=tableHtml([
   {label:'Objeto',key:'objeto'},
@@ -504,42 +571,11 @@ function renderDaily(){
   {label:'Fonte',key:'fonteConfirmacao'}
  ],lic);
  $('#dailyDeliveryTable').className='daily-table';
- $('#dailyDeliveryTable').innerHTML=tableHtml([
-  {label:'Objeto',key:'objeto'},
-  {label:'Forma',render:r=>esc(contractTypeLabel(r))},
-  {label:'Modalidade',render:r=>esc(r.formaModalidade||r.modalidade||'—')},
-  {label:'Status',render:r=>`<span class="badge ${badgeClass(r.statusEntrega)}">${esc(r.statusEntrega||'—')}</span>`},
-  {label:'Contrato',key:'contratoUGE'},
-  {label:'NE',key:'empenho'},
-  {label:'Previsão',render:r=>fmtDate(r.previsaoEntrega)},
-  {label:'Valor atual',render:r=>currentUnitValue(r)>0?fmtMoney(currentUnitValue(r)):'—'},
-  {label:'Qtd comprada',render:r=>contractedQty(r)>0?fmtInt(contractedQty(r)):'—'},
-  {label:'Qtd entregue',render:r=>fmtInt(deliveredQty(r))},
-  {label:'Qtd a entregar',render:r=>contractedQty(r)>0?fmtInt(pendingQty(r)):'—'},
-  {label:'Total aquisição',render:r=>acquisitionTotal(r)>0?fmtMoney(acquisitionTotal(r)):'—'},
-  {label:'Liquidado',render:r=>moneyDisplay(r.valorLiquidado,r.valorLiquidadoRaw,{dashIfMissing:true})},
-  {label:'Pago',render:r=>paidDisplay(r)}
- ],del)
+ $('#dailyDeliveryTable').innerHTML=itemGroupTableHtml(del)
 }
 function renderDeliveries(){
- const rows=filteredBase().filter(r=>r.previsaoEntrega||r.statusEntrega).sort((a,b)=>(a.previsaoEntrega||'9999').localeCompare(b.previsaoEntrega||'9999'));
- $('#deliveriesTable').innerHTML=tableHtml([
-  {label:'Status',render:r=>`<span class="badge ${badgeClass(r.statusEntrega)}">${esc(r.statusEntrega||'—')}</span>`},
-  {label:'Objeto',key:'objeto'},
-  {label:'Forma',render:r=>esc(contractTypeLabel(r))},
-  {label:'Modalidade',render:r=>esc(r.formaModalidade||r.modalidade||'—')},
-  {label:'UGE',key:'uge'},
-  {label:'Contrato',key:'contratoUGE'},
-  {label:'Empenho',key:'empenho'},
-  {label:'Previsão',render:r=>fmtDate(r.previsaoEntrega)},
-  {label:'Valor atual',render:r=>currentUnitValue(r)>0?fmtMoney(currentUnitValue(r)):'—'},
-  {label:'Qtd comprada',render:r=>contractedQty(r)>0?fmtInt(contractedQty(r)):'—'},
-  {label:'Qtd entregue',render:r=>fmtInt(deliveredQty(r))},
-  {label:'Qtd a entregar',render:r=>contractedQty(r)>0?fmtInt(pendingQty(r)):'—'},
-  {label:'Total aquisição',render:r=>acquisitionTotal(r)>0?fmtMoney(acquisitionTotal(r)):'—'},
-  {label:'Liquidado',render:r=>moneyDisplay(r.valorLiquidado,r.valorLiquidadoRaw,{dashIfMissing:true})},
-  {label:'Pago',render:r=>paidDisplay(r)}
- ],rows)
+ const rows=aggregateItemRows(filteredBase().filter(r=>r.previsaoEntrega||r.statusEntrega)).sort((a,b)=>(a.previsao||'9999').localeCompare(b.previsao||'9999')||a.objeto.localeCompare(b.objeto));
+ $('#deliveriesTable').innerHTML=itemGroupTableHtml(rows)
 }
 function renderFinance(){
  const rows=filteredBase().filter(r=>r.valorEmpenhado||r.valorLiquidado).sort((a,b)=>b.valorEmpenhado-a.valorEmpenhado);
@@ -605,6 +641,12 @@ function metricResultCard(r,mode){
 function renderMetricDrilldown(){
  const panel=$('#metricDrilldown'),mode=activeMetricFilter();
  if(!mode){panel.hidden=true;panel.innerHTML='';return}
+ if(mode==="pendingitems"){
+  const groups=pendingItemGroups().sort((a,b)=>b.qtdPendente-a.qtdPendente||a.objeto.localeCompare(b.objeto));
+  panel.hidden=false;
+  panel.innerHTML=`<div class="metric-drilldown-head"><div><h2>Itens com entrega pendente</h2><p>Acompanhamento consolidado por objeto. Duster, Combat Shirt e os demais itens aparecem uma única vez.</p></div><div class="metric-drilldown-count">${fmtInt(groups.length)} item${groups.length===1?'':'s'}</div></div><div class="metric-result-list">${groups.length?groups.map(itemGroupCard).join(''):'<div class="metric-result-empty">Nenhum item com entrega pendente nesta seleção.</div>'}</div>`;
+  return;
+ }
  let rows=[],title='',subtitle='';
  if(mode==="licitation"){
   rows=atasCoreRows().filter(r=>norm(r.situacao)==="EM LICITACAO").sort((a,b)=>{const ad=dateVal(a.proximaEtapa),bd=dateVal(b.proximaEtapa);if(ad&&!bd)return-1;if(!ad&&bd)return 1;if(ad&&bd)return ad-bd;return a.objeto.localeCompare(b.objeto)});
@@ -612,9 +654,6 @@ function renderMetricDrilldown(){
  }else if(mode==="revalidate"){
   rows=atasCoreRows().filter(r=>norm(r.situacao)==="REVALIDAR").sort((a,b)=>a.objeto.localeCompare(b.objeto));
   title='Itens a revalidar';subtitle='A providência necessária aparece destacada em cada item.';
- }else if(mode==="contracts"){
-  rows=baseCoreRows().filter(isPendingContract).sort((a,b)=>(a.previsaoEntrega||'9999').localeCompare(b.previsaoEntrega||'9999'));
-  title='Contratos pendentes';subtitle='Contratos assinados que ainda não constam como integralmente recebidos.';
  }else{
   rows=baseCoreRows().filter(r=>Number(r.valorEmpenhado||0)!==0||Number(r.valorLiquidado||0)!==0).sort((a,b)=>Number(b.valorEmpenhado||0)-Number(a.valorEmpenhado||0));
   title='Itens com execução financeira';subtitle='Registros com valor empenhado ou liquidado na seleção atual.';
@@ -624,14 +663,25 @@ function renderMetricDrilldown(){
 }
 function renderAll(){renderMetrics();renderMetricDrilldown();renderOverview();renderDaily();renderItems();renderAtas();renderDeliveries();renderFinance();bindRows()}
 function toggleMetricFilter(key){
- if(!["execution","licitation","revalidate","contracts"].includes(key))return;
+ if(!["execution","licitation","revalidate","pendingitems"].includes(key))return;
  const wasActive=metricFilters.has(key);
  metricFilters.clear();
  if(!wasActive)metricFilters.add(key);
  renderAll();
  if(window.pushPcaeHistory)window.pushPcaeHistory();
 }
-function bindRows(){$$('[data-kind][data-id]').forEach(el=>el.onclick=()=>openDetail(el.dataset.kind,el.dataset.id))}
+function openItemObject(objeto){
+ $('#searchInput').value=objeto;
+ metricFilters.clear();
+ closeAutocomplete();
+ setActiveView('items');
+ renderAll();
+ if(window.pushPcaeHistory)window.pushPcaeHistory();
+}
+function bindRows(){
+ $('[data-kind][data-id]').forEach(el=>el.onclick=()=>openDetail(el.dataset.kind,el.dataset.id));
+ $('[data-item-object]').forEach(el=>el.onclick=()=>openItemObject(el.dataset.itemObject));
+}
 function detailCard(label,value,wide=false){return`<div class="detail-card ${wide?'detail-wide':''}"><span>${label}</span><strong>${value||'—'}</strong></div>`}
 function openDetail(kind,id){
  const r=(kind==='ata'?atas:base).find(x=>x.id===id);if(!r)return;
@@ -763,7 +813,7 @@ function cAny(v){return v==null?'':String(v).trim().replace(/\.0$/,'')}
 function fromBase(d,i){return{id:'B'+i,kind:'base',objeto:cAny(d['OBJETO']),uge:cAny(d['UGE']),pcae:cAny(d['PCA-E']),qtdRef:cAny(d['QTD']),valorUnitRef:nAny(d['VALOR UNITÁRIO REFERENCIAL']),valorTotalRef:nAny(d['VALOR TOTAL REFERENCIAL']),natureza:cAny(d['NATUREZA DA DESPESA']),area:cAny(d['ÁREA']),subarea:cAny(d['SUBÁREA']),ano:cAny(d['ANO']),situacaoProcesso:cAny(d['SITUAÇÃO PROCESSO']),dataSituacao:isoAny(d['DATA DA SITUAÇÃO DO PROCESSO']),formaContratacao:cAny(d['FORMA DE CONTRATAÇÃO']),numeroAta:cAny(d['NÚMERO DA ATA']),contratoUGE:cAny(d['Contrato UGE']),dataContrato:isoAny(d['Data assinatura do contrato']),dataPublicacao:isoAny(d['Data de Publicação']),empenho:cAny(d['Nº EMPENHO']),processo:cAny(d['N. PROCESSO']),valorUnitContratadoRaw:cAny(d['VALOR UNIT CONTRATADO (REAIS)']),valorUnitContratado:nAny(d['VALOR UNIT CONTRATADO (REAIS)']),qtdContratadaRaw:cAny(d['QTDE TOTAL CONTRATADA']||d['QTDE TOTAL CONTRATADA 2']),qtdContratada:nAny(d['QTDE TOTAL CONTRATADA']||d['QTDE TOTAL CONTRATADA 2']),statusEntrega:cAny(d['STATUS']),previsaoEntrega:isoAny(d['DATA DA PREVISÃO DE ENTREGA']),diasEntrega:nAny(d['QTD DE DIAS']),qtdEntregueRaw:cAny(d['QTDE ENTREGUE']),qtdEntregue:nAny(d['QTDE ENTREGUE']),valorEmpenhadoRaw:cAny(d['VALOR TOTAL EMPENHADO']),valorEmpenhado:nAny(d['VALOR TOTAL EMPENHADO']),valorLiquidadoRaw:cAny(d['VALOR TOTAL LIQUIDADO']),valorLiquidado:nAny(d['VALOR TOTAL LIQUIDADO']),valorPago:nAny(d['VALOR TOTAL PAGO']||d['VALOR PAGO']||d['PAGO']),valorPagoInformado:[d['VALOR TOTAL PAGO'],d['VALOR PAGO'],d['PAGO']].some(v=>v!=null&&String(v).trim()!==''),pregao:cAny(d['N. OFERTA COMPRA/LICIT/PREG']),processoSEI:cAny(d['N. DO PROCESSO SEI']),parlamentar:cAny(d['PARLAMENTAR']),codigoTransferencia:cAny(d['CÓDIGO TRANSFERÊNCIA']),beneficiario:cAny(d['BENEFICIÁRIO']),acao:cAny(d['AÇÃO']),prioridade:cAny(d['PRIORIDADE']),fonte:cAny(d['DESCRIÇÃO FR']),modalidade:cAny(d['FORMA/MODALIDADE']),formaModalidade:cAny(d['FORMA/MODALIDADE']),contratoSistema:cAny(d['N. CONTRATO SISTEMA']),fornecedorModelo:cAny(d['MARCA/ MODELO/ FORNECEDOR']),observacoes:cAny(d['OBSERVAÇÕES'])}}
 function fromAta(d,i){return{id:'A'+i,kind:'ata',ano:cAny(d['ANO']),objeto:cAny(d['OBJETO']),situacao:cAny(d['SITUAÇÃO']),estagio:cAny(d['ESTÁGIO LICITATÓRIO']||d['ESTÁGIO LICITATÓRIO (CONFIRMADO)']),dataEstagio:isoAny(d['DATA DO ESTÁGIO CONFIRMADO']),proximaEtapa:isoAny(d['DATA DA PRÓXIMA ETAPA']),uge:cAny(d['UGE']),area:cAny(d['ÁREA']),subarea:cAny(d['SUBÁREA']),natureza:cAny(d['NATUREZA']),fornecedor:cAny(d['FORNECEDOR']),modelo:cAny(d['MODELO']),numeroAta:cAny(d['NÚMERO DA ATA']),dataAta:isoAny(d['DATA DE ASSINATURA DA ATA']||d['DATA DE ASS. DA ATA']),validadeAta:isoAny(d['VALIDADE DA ATA']),dias:nAny(d['DIAS']),qtdNegociada:nAny(d['QUANTIDADE NEGOCIADA']),precoAtual:nAny(d['PREÇO ATUAL DA ARP (REAIS)']),precoContratado:nAny(d['PREÇO CONTRATADO (REAIS)']),qtdBase:nAny(d['CONTRATAÇÃO-BASE DA ATA (SEM TA)']),qtdTA:nAny(d['ACRÉSCIMOS CONTRATUAIS (TA)']),qtdTotal:nAny(d['TOTAL CONTRATADO (COM TA)']),saldoAta:nAny(d['SALDO DA ATA (SEM TA)']),pregao:cAny(d['OFERTA DE COMPRA/PREGÃO']),processo:cAny(d['PROCESSO']),observacao:cAny(d['OBSERVAÇÃO']),controle:cAny(d['CONTROLE / PRÓXIMA AÇÃO']),dataAuditoria:isoAny(d['DATA DA ÚLTIMA AUDITORIA']),fonteConfirmacao:cAny(d['FONTE DA ÚLTIMA CONFIRMAÇÃO'])}}
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
-const CACHE_KEY = 'pcaePublicLastSyncV9';
+const CACHE_KEY = 'pcaePublicLastSyncV10';
 let syncInProgress = false, lastAttemptAt = 0, lastSuccessfulAt = '';
 function stamp(value) {
   return new Date(value).toLocaleString('pt-BR', {dateStyle:'short',timeStyle:'short',timeZone:'America/Sao_Paulo'});
@@ -865,7 +915,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
  function restoreNavHistory(snapshot){
   if(!snapshot||typeof snapshot!=="object")return;
   const validAreas=new Set(["geral","imoveis","acao","obras","equipamentos","fts"]);
-  const validMetrics=new Set(["execution","licitation","revalidate","contracts"]);
+  const validMetrics=new Set(["execution","licitation","revalidate","pendingitems"]);
   area=validAreas.has(snapshot.area)?snapshot.area:"geral";
   Object.keys(chosen).forEach(parent=>{
    chosen[parent].clear();

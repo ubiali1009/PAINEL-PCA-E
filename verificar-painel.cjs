@@ -52,7 +52,7 @@ const context = vm.createContext({
   assert.equal(context.atas[0].area,'EQUIPAMENTOS POLICIAIS'); assert.equal(context.atas[0].subarea,'MATERIAL BÉLICO');
   assert.equal(context.atas[0].dataEstagio,'2026-10-01'); assert(rendered>=2);
   assert(getNode('#sourcePill').textContent.includes('Dados consultados'));
-  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV9'));
+  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV10'));
   failed=true; await vm.runInContext('syncOnline()',context);
   assert.equal(context.base[0].valorEmpenhado,38792907);
   assert(getNode('#syncMessage').textContent.includes('mantendo a última cópia'));
@@ -69,6 +69,7 @@ const context = vm.createContext({
   assert(html.includes('if(key==="belico")return a==="EQUIPAMENTOS POLICIAIS"&&s==="MATERIAL BELICO";'));
   assert(!html.includes('COLDRE|FIEL RETRAT|ESPADA')); assert(html.includes('function renderItems')); assert(html.includes('function renderFinance'));
   assert(html.includes('Forma de contratação')); assert(html.includes('Valor total da aquisição')); assert(html.includes('Valor pago'));
+  assert(!html.includes('Contratos pendentes')); assert(html.includes('Itens com entrega pendente')); assert(html.includes('function pendingItemGroups')); assert(html.includes('Duster, Combat Shirt'));
   assert(html.includes('Qtd. entregue')); assert(!html.includes('Qtd. entregue (NL)')); assert(!html.includes('Qtd entregue (NL)'));
   console.log('Painel: sincronização, hierarquia, classificação da contratação, detalhes financeiros e recuperação — OK.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
