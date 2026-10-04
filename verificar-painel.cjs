@@ -44,10 +44,12 @@ const context = vm.createContext({
   assert.equal(context.base[0].area,'EQUIPAMENTOS POLICIAIS'); assert.equal(context.base[0].subarea,'MATERIAL BÉLICO');
   assert.equal(context.base[0].formaContratacao,'CONTRATAÇÃO DIRETA'); assert.equal(context.base[0].formaModalidade,'PREGÃO ELETRÔNICO');
   assert.equal(context.base[0].valorUnitContratado,1000); assert.equal(context.base[0].valorLiquidado,2100000);
+  assert.equal(context.base[0].qtdContratadaRaw,'4.200'); assert.equal(context.base[0].qtdEntregueRaw,'2.100');
+  assert.equal(context.base[0].valorUnitContratadoRaw,'R$ 1.000,00'); assert.equal(context.base[0].valorEmpenhadoRaw,'R$ 4.200.000,00');
   assert.equal(context.atas[0].area,'EQUIPAMENTOS POLICIAIS'); assert.equal(context.atas[0].subarea,'MATERIAL BÉLICO');
   assert.equal(context.atas[0].dataEstagio,'2026-10-01'); assert(rendered>=2);
   assert(getNode('#sourcePill').textContent.includes('Dados consultados'));
-  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV3'));
+  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV4'));
   failed=true; await vm.runInContext('syncOnline()',context);
   assert.equal(context.base[0].valorEmpenhado,38792907);
   assert(getNode('#syncMessage').textContent.includes('mantendo a última cópia'));
