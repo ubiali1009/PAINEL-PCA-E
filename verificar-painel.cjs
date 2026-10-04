@@ -51,7 +51,7 @@ const context = vm.createContext({
   assert.equal(context.atas[0].area,'EQUIPAMENTOS POLICIAIS'); assert.equal(context.atas[0].subarea,'MATERIAL BÉLICO');
   assert.equal(context.atas[0].dataEstagio,'2026-10-01'); assert(rendered>=2);
   assert(getNode('#sourcePill').textContent.includes('Dados consultados'));
-  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV5'));
+  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV6'));
   failed=true; await vm.runInContext('syncOnline()',context);
   assert.equal(context.base[0].valorEmpenhado,38792907);
   assert(getNode('#syncMessage').textContent.includes('mantendo a última cópia'));
@@ -66,7 +66,7 @@ const context = vm.createContext({
   assert(!html.includes('credentials:\'include\'')); assert(!html.includes('ONLINE_SHEET_ID'));
   assert(html.includes('if(key==="equipamentos")return a==="EQUIPAMENTOS POLICIAIS";'));
   assert(html.includes('if(key==="belico")return a==="EQUIPAMENTOS POLICIAIS"&&s==="MATERIAL BELICO";'));
-  assert(!html.includes('COLDRE|FIEL RETRAT|ESPADA'));
+  assert(!html.includes('COLDRE|FIEL RETRAT|ESPADA')); assert(html.includes('function renderItems')); assert(html.includes('function renderFinance'));
   assert(html.includes('Forma de contratação')); assert(html.includes('Valor total da aquisição')); assert(html.includes('Valor pago'));
   assert(html.includes('Qtd. entregue (NL)'));
   console.log('Painel: sincronização, hierarquia, classificação da contratação, detalhes financeiros e recuperação — OK.');
