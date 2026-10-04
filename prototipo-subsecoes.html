@@ -449,7 +449,7 @@ function metricResultCard(r,mode){
     <div class="metric-result-field"><span>Valor liquidado</span><strong>${fmtMoney(r.valorLiquidado)}</strong></div>
     <div class="metric-result-field"><span>Valor pago</span><strong>${paidDisplay(r)}</strong></div>
    </div>
-   ${r.formaModalidade?'<div class="metric-result-meta"><strong>Modalidade:</strong> '+esc(r.formaModalidade)+'</div>':''}
+   ${(r.formaModalidade||r.modalidade)?'<div class="metric-result-meta"><strong>Modalidade:</strong> '+esc(r.formaModalidade||r.modalidade)+'</div>':''}
    <div class="metric-result-meta">${esc(r.uge||'')} ${r.empenho?'· NE '+esc(r.empenho):''} ${r.processoSEI?'· SEI '+esc(r.processoSEI):''}</div>
   </article>`;
  }
