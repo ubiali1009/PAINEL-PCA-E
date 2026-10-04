@@ -14,8 +14,8 @@ const getNode = key => {
   return nodes.get(key);
 };
 const fixture = {
-  base:[{OBJETO:'Viatura',UGE:'180180', 'VALOR TOTAL EMPENHADO':'R$ 38.792.907,00', 'QTDE TOTAL CONTRATADA 2':'4.200','ANO':'2026'}],
-  atas:[{OBJETO:'Uniforme',UGE:'180180',SITUAÇÃO:'EM LICITAÇÃO','QUANTIDADE NEGOCIADA':'4.200','DATA DO ESTÁGIO CONFIRMADO':'01/10/2026 00:00'}],
+  base:[{OBJETO:'Capacete balístico',UGE:'180180',ÁREA:'EQUIPAMENTOS POLICIAIS',SUBÁREA:'MATERIAL BÉLICO','VALOR TOTAL EMPENHADO':'R$ 38.792.907,00','QTDE TOTAL CONTRATADA 2':'4.200','ANO':'2026'}],
+  atas:[{OBJETO:'Munição',UGE:'180180',ÁREA:'EQUIPAMENTOS POLICIAIS',SUBÁREA:'MATERIAL BÉLICO',SITUAÇÃO:'EM LICITAÇÃO','QUANTIDADE NEGOCIADA':'4.200','DATA DO ESTÁGIO CONFIRMADO':'01/10/2026 00:00'}],
   fetchedAt:'2026-10-04T05:30:00.000Z'
 };
 let failed = false; let fetches = 0; let rendered = 0;
@@ -41,9 +41,11 @@ const context = vm.createContext({
   await new Promise(resolve=>setImmediate(resolve));
   assert.equal(fetches,1); assert.equal(context.base[0].valorEmpenhado,38792907);
   assert.equal(context.base[0].qtdContratada,4200); assert.equal(context.atas[0].qtdNegociada,4200);
+  assert.equal(context.base[0].area,'EQUIPAMENTOS POLICIAIS'); assert.equal(context.base[0].subarea,'MATERIAL BÉLICO');
+  assert.equal(context.atas[0].area,'EQUIPAMENTOS POLICIAIS'); assert.equal(context.atas[0].subarea,'MATERIAL BÉLICO');
   assert.equal(context.atas[0].dataEstagio,'2026-10-01'); assert(rendered>=2);
   assert(getNode('#sourcePill').textContent.includes('Dados consultados'));
-  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV1'));
+  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV2'));
   failed=true; await vm.runInContext('syncOnline()',context);
   assert.equal(context.base[0].valorEmpenhado,38792907);
   assert(getNode('#syncMessage').textContent.includes('mantendo a última cópia'));
@@ -56,5 +58,8 @@ const context = vm.createContext({
   context.document.hidden=true;
   const beforeHidden=fetches; await timers[0].fn(); assert.equal(fetches,beforeHidden);
   assert(!html.includes('credentials:\'include\'')); assert(!html.includes('ONLINE_SHEET_ID'));
-  console.log('Painel: consulta inicial/periódica, valores brasileiros, datas, atualização dos totais, persistência, erro de rede e recuperação — OK.');
+  assert(html.includes('if(key==="equipamentos")return a==="EQUIPAMENTOS POLICIAIS";'));
+  assert(html.includes('if(key==="belico")return a==="EQUIPAMENTOS POLICIAIS"&&s==="MATERIAL BELICO";'));
+  assert(!html.includes('COLDRE|FIEL RETRAT|ESPADA'));
+  console.log('Painel: sincronização, hierarquia Equipamentos Policiais > Material Bélico, filtros, persistência e recuperação — OK.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
