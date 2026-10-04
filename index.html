@@ -9,6 +9,30 @@
 .app{min-height:100vh;display:flex;flex-direction:column}.topbar{position:sticky;top:0;z-index:30;margin:8px 10px 0;padding:14px 18px 34px;background:#fff;border:1px solid #32383d;border-radius:17px;display:flex;align-items:flex-start;justify-content:space-between;gap:18px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.07)}
 .topbar:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(174deg,transparent 0 68%,#fff 68.6% 70%,var(--red) 70.4% 72%,#272b2f 72.4% 100%);z-index:0}.topbar>*{position:relative;z-index:1}.brand{display:flex;gap:13px;align-items:center;min-width:0}.crest{width:56px;height:56px;border:3px solid #1f252a;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:12px;color:#1f252a;background:#fff;box-shadow:inset 0 0 0 3px #e4e8ed}.brand h1{margin:0;font-size:clamp(1.25rem,2vw,2rem);letter-spacing:-.025em}.brand p{margin:6px 0 0;color:#565e66;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.pill,.action{min-height:38px;padding:8px 12px;border:1px solid #bdc8d3;border-radius:9px;background:#fff;font-size:.72rem;font-weight:750}.pill{color:#47576a}.action{cursor:pointer}.action.primary{background:linear-gradient(#e71e25,#c90e15);color:#fff;border-color:#b80c12}.action.online{background:var(--navy);color:#fff;border-color:var(--navy)}.action.dark{background:#272b2f;color:#fff;border-color:#15191d}.action:hover{filter:brightness(1.04);transform:translateY(-1px)}
 .metrics{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:10px;padding:10px 14px}.metric{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 13px;box-shadow:0 2px 8px rgba(25,53,80,.04);min-width:0}.metric .label{font-size:.66rem;text-transform:uppercase;letter-spacing:.04em;color:#57718e;font-weight:800}.metric .value{font-size:1.38rem;font-weight:850;margin-top:4px;color:#071b34;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.metric .note{font-size:.62rem;color:var(--muted);margin-top:4px}.metric.alert .value{color:var(--danger)}.metric.warn .value{color:var(--orange)}.metric.quick-filter{cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease,transform .15s ease}.metric.quick-filter:hover{border-color:#8ea5bd}.metric.quick-filter:focus-visible{outline:3px solid rgba(18,62,112,.22);outline-offset:2px}.metric.quick-filter.active-filter{border-color:var(--navy);background:#f2f6fb;box-shadow:inset 0 0 0 2px var(--navy),0 4px 12px rgba(11,42,80,.10)}.metric.quick-filter.active-filter .label{color:var(--navy)}
+.metric-drilldown{margin:0 14px 10px;background:#fff;border:1px solid var(--border);border-radius:13px;box-shadow:var(--shadow);overflow:hidden}
+.metric-drilldown[hidden]{display:none}
+.metric-drilldown-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:12px 13px;border-bottom:1px solid var(--border);background:#f8fafc}
+.metric-drilldown-head h2{font-size:.93rem;color:#17324f;margin:0}
+.metric-drilldown-head p{font-size:.64rem;color:var(--muted);margin:3px 0 0}
+.metric-drilldown-count{flex:0 0 auto;border-radius:999px;background:#e6eef6;color:#173d64;padding:5px 9px;font-size:.64rem;font-weight:900}
+.metric-result-list{display:grid;gap:8px;padding:10px;max-height:560px;overflow:auto}
+.metric-result{border:1px solid #d2dce7;border-radius:11px;padding:10px 11px;background:#fff;cursor:pointer}
+.metric-result:hover{border-color:#9ab0c6;background:#fafcff}
+.metric-result-top{display:flex;align-items:flex-start;justify-content:space-between;gap:9px}
+.metric-result-title{font-size:.78rem;font-weight:900;color:#102d4d;line-height:1.25}
+.metric-result-status{flex:0 0 auto}
+.metric-result-meta{margin-top:5px;font-size:.63rem;color:#64778c;line-height:1.38}
+.metric-result-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:7px}
+.metric-result-field{background:#f5f8fb;border-radius:8px;padding:7px 8px;min-width:0}
+.metric-result-field span{display:block;font-size:.54rem;text-transform:uppercase;letter-spacing:.035em;color:#71839a;font-weight:850}
+.metric-result-field strong{display:block;margin-top:2px;font-size:.68rem;color:#183754;overflow-wrap:anywhere}
+.metric-result-action{margin-top:8px;border-radius:9px;padding:9px 10px;background:#f6f8fb;border:1px solid #d9e2eb;color:#294762;font-size:.67rem;line-height:1.4}
+.metric-result-action span{display:block;margin-bottom:3px;font-size:.54rem;text-transform:uppercase;letter-spacing:.035em;font-weight:900;color:#64798f}
+.metric-result-action.revalidate{background:#fff3f1;border-color:#efb6ae;color:#762b22}
+.metric-result-action.revalidate span{color:#a83a2d}
+.metric-result-empty{padding:18px 12px;text-align:center;color:#66798d;font-size:.7rem}
+@media(max-width:760px){.metric-drilldown{margin-left:14px;margin-right:14px}.metric-drilldown-head{align-items:center}.metric-result-list{max-height:none}.metric-result-grid{grid-template-columns:1fr 1fr}.metric-result-top{gap:6px}.metric-result-title{font-size:.76rem}}
+
 .navtabs{display:flex;gap:7px;padding:0 14px 10px;overflow-x:auto}.navtab{border:1px solid #cbd6e1;background:#fff;color:#1b3858;border-radius:999px;padding:7px 13px;font-size:.72rem;font-weight:800;cursor:pointer;white-space:nowrap}.navtab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
 .workspace{flex:1;min-height:0;display:block;padding:0 14px 14px}.main{background:#fff;border:1px solid var(--border);border-radius:13px;box-shadow:var(--shadow);min-height:0}.side-title{font-size:.72rem;font-weight:850;color:#17324f;text-transform:uppercase;letter-spacing:.04em;margin:2px 3px 8px}.search{position:relative;margin-bottom:8px}.search input{width:100%;height:36px;border:1px solid #bdcad8;border-radius:9px;padding:0 10px 0 34px;outline:none}.search:before{content:"⌕";position:absolute;left:11px;top:6px;color:#52708e;font-size:19px}.filters{display:grid;gap:7px}.field label{display:block;margin:0 0 3px 2px;font-size:.58rem;font-weight:850;letter-spacing:.04em;color:#31506f;text-transform:uppercase}.field select{width:100%;height:33px;border:1px solid #c3d0dc;border-radius:8px;background:#fff;padding:0 8px;color:#17324f;font-size:.7rem}.filter-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:2px}.smallbtn{height:33px;border-radius:8px;border:1px solid #bdcad8;background:#fff;color:#17324f;font-size:.68rem;font-weight:800;cursor:pointer}.smallbtn.primary{background:var(--navy);border-color:var(--navy);color:#fff}.side-note{margin-top:9px;padding:8px 9px;border-radius:9px;background:#f5f8fb;color:#62748b;font-size:.62rem;line-height:1.4}
 .main{padding:12px;overflow:hidden}.view{display:none}.view.active{display:block}.section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:2px 0 10px}.section-title h2{margin:0;font-size:1rem}.section-title p{margin:0;color:var(--muted);font-size:.68rem;text-align:right}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}.panel{border:1px solid var(--border);border-radius:11px;padding:11px;background:#fff;min-width:0}.panel h3{margin:0 0 9px;font-size:.78rem;color:#17324f}.bar-list{display:grid;gap:7px}.bar-row{display:grid;grid-template-columns:minmax(90px,1.05fr) 2fr auto;gap:8px;align-items:center}.bar-label{font-size:.66rem;color:#314a64;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar-track{height:12px;border-radius:999px;background:#edf2f6;overflow:hidden;display:flex}.bar-a{background:#315f8f}.bar-b{background:#66a681}.bar-c{background:#d4771f}.bar-val{font-size:.62rem;color:#5b6d82;text-align:right;min-width:46px}.legend-inline{display:flex;gap:12px;flex-wrap:wrap;margin:-2px 0 7px;font-size:.6rem;color:#66788c}.legend-inline span:before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;background:#315f8f}.legend-inline span:nth-child(2):before{background:#66a681}
@@ -113,6 +137,7 @@
  <div class="area-secondary" id="ftsSub"><span class="area-secondary-label">Frota, TIC e Saúde</span><button class="area-sub-btn" data-parent="fts" data-sub="frota">Frota</button><button class="area-sub-btn" data-parent="fts" data-sub="tic">TIC</button><button class="area-sub-btn" data-parent="fts" data-sub="saude">Saúde</button></div>
 </section>
 <section class="metrics" id="metrics"></section>
+<section class="metric-drilldown" id="metricDrilldown" hidden aria-live="polite"></section>
 <nav class="navtabs" id="navTabs">
  <button class="navtab active" data-view="overview">Visão geral</button><button class="navtab" data-view="daily">Acompanhamento diário</button><button class="navtab" data-view="items">Itens PCA-E</button><button class="navtab" data-view="atas">Licitações e atas</button><button class="navtab" data-view="deliveries">Entregas</button><button class="navtab" data-view="finance">Execução financeira</button>
 </nav>
@@ -198,20 +223,27 @@ function sectionMatch(r){
  return keys.some(k=>k==="obras"?(matchLeaf(r,"copom")||matchLeaf(r,"quarteis")):matchLeaf(r,k));
 }
 function isPendingContract(r){const hasContract=!!(r.contratoUGE||r.dataContrato);const received=norm(r.statusEntrega)==='RECEBIDO'||(r.qtdContratada>0&&r.qtdEntregue>=r.qtdContratada);return hasContract&&!received}
-function filteredBase(){
+function activeMetricFilter(){return metricFilters.size?[...metricFilters][0]:''}
+function baseCoreRows(){
  const f=selected();
- let rows=base.filter(r=>sectionMatch(r)&&smartMatch(r,f.q)&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.delivery||r.statusEntrega===f.delivery));
- if(metricFilters.has("execution"))rows=rows.filter(r=>Number(r.valorEmpenhado||0)!==0||Number(r.valorLiquidado||0)!==0);
- if(metricFilters.has("contracts"))rows=rows.filter(isPendingContract);
+ return base.filter(r=>sectionMatch(r)&&smartMatch(r,f.q)&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.delivery||r.statusEntrega===f.delivery));
+}
+function atasCoreRows(){
+ const f=selected();
+ return atas.filter(r=>sectionMatch(r)&&smartMatch(r,f.q)&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.ata||r.situacao===f.ata)&&(!f.stage||r.estagio===f.stage));
+}
+function filteredBase(){
+ let rows=baseCoreRows();
+ const active=activeMetricFilter();
+ if(active==="execution")rows=rows.filter(r=>Number(r.valorEmpenhado||0)!==0||Number(r.valorLiquidado||0)!==0);
+ if(active==="contracts")rows=rows.filter(isPendingContract);
  return rows;
 }
 function filteredAtas(){
- const f=selected();
- let rows=atas.filter(r=>sectionMatch(r)&&smartMatch(r,f.q)&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.ata||r.situacao===f.ata)&&(!f.stage||r.estagio===f.stage));
- const statuses=[];
- if(metricFilters.has("licitation"))statuses.push("EM LICITACAO");
- if(metricFilters.has("revalidate"))statuses.push("REVALIDAR");
- if(statuses.length)rows=rows.filter(r=>statuses.includes(norm(r.situacao)));
+ let rows=atasCoreRows();
+ const active=activeMetricFilter();
+ if(active==="licitation")rows=rows.filter(r=>norm(r.situacao)==="EM LICITACAO");
+ if(active==="revalidate")rows=rows.filter(r=>norm(r.situacao)==="REVALIDAR");
  return rows;
 }
 function isLicPending(r){const s=norm(r.situacao);return s==='EM LICITACAO'||s==='REVALIDAR'}
@@ -317,8 +349,11 @@ function chooseSuggestion(index){
  applySuggestion(autocompleteItems[index]);
 }
 function renderMetrics(){
- const b=filteredBase(),a=filteredAtas();
- const empenho=b.reduce((s,r)=>s+r.valorEmpenhado,0),liq=b.reduce((s,r)=>s+r.valorLiquidado,0),exec=empenho?liq/empenho:0,lic=a.filter(r=>norm(r.situacao)==='EM LICITACAO').length,rev=a.filter(r=>norm(r.situacao)==='REVALIDAR').length,pend=pendingDeliveries().length;
+ const b=filteredBase(),baseAll=baseCoreRows(),atasAll=atasCoreRows();
+ const empenho=b.reduce((s,r)=>s+r.valorEmpenhado,0),liq=b.reduce((s,r)=>s+r.valorLiquidado,0),exec=empenho?liq/empenho:0;
+ const lic=atasAll.filter(r=>norm(r.situacao)==='EM LICITACAO').length;
+ const rev=atasAll.filter(r=>norm(r.situacao)==='REVALIDAR').length;
+ const pend=baseAll.filter(isPendingContract).length;
  const cards=[
   {label:'Empenhado',value:fmtMoney(empenho),note:`${b.length} registros financeiros`,cls:''},
   {label:'Liquidado',value:fmtMoney(liq),note:'valor liquidado na seleção',cls:''},
@@ -342,10 +377,81 @@ function renderAtas(){const rows=filteredAtas();$('#atasCount').textContent=`${r
 function renderDaily(){const lic=filteredAtas().filter(isLicPending).sort((a,b)=>{const ad=dateVal(a.proximaEtapa),bd=dateVal(b.proximaEtapa);if(ad&&!bd)return-1;if(!ad&&bd)return 1;if(ad&&bd)return ad-bd;if(norm(a.situacao)==='REVALIDAR'&&norm(b.situacao)!=='REVALIDAR')return-1;return a.objeto.localeCompare(b.objeto)});const del=pendingDeliveries().sort((a,b)=>{const ad=dateVal(a.previsaoEntrega),bd=dateVal(b.previsaoEntrega);if(ad&&!bd)return-1;if(!ad&&bd)return 1;if(ad&&bd)return ad-bd;return a.objeto.localeCompare(b.objeto)});$('#dailyNote').textContent=`${lic.length} licitações/revalidações · ${del.length} contratos com entrega pendente`;$('#dailyLicTable').className='daily-table';$('#dailyLicTable').innerHTML=tableHtml([{label:'Objeto',key:'objeto'},{label:'Situação',render:r=>`<span class="badge ${badgeClass(r.situacao)}">${esc(r.situacao)}</span>`},{label:'Estágio',key:'estagio'},{label:'Próxima etapa',render:r=>fmtDate(r.proximaEtapa)},{label:'Ação necessária',render:r=>`<div class="action-text">${esc(r.controle||'—')}</div>`},{label:'Fonte',key:'fonteConfirmacao'}],lic);$('#dailyDeliveryTable').className='daily-table';$('#dailyDeliveryTable').innerHTML=tableHtml([{label:'Objeto',key:'objeto'},{label:'Status',render:r=>`<span class="badge ${badgeClass(r.statusEntrega)}">${esc(r.statusEntrega||'—')}</span>`},{label:'Contrato',key:'contratoUGE'},{label:'NE',key:'empenho'},{label:'Previsão',render:r=>fmtDate(r.previsaoEntrega)},{label:'Qtd pendente',render:r=>fmtInt(pendingQty(r))}],del)}
 function renderDeliveries(){const rows=filteredBase().filter(r=>r.previsaoEntrega||r.statusEntrega).sort((a,b)=>(a.previsaoEntrega||'9999').localeCompare(b.previsaoEntrega||'9999'));$('#deliveriesTable').innerHTML=tableHtml([{label:'Status',render:r=>`<span class="badge ${badgeClass(r.statusEntrega)}">${esc(r.statusEntrega||'—')}</span>`},{label:'Objeto',key:'objeto'},{label:'UGE',key:'uge'},{label:'Contrato',key:'contratoUGE'},{label:'Empenho',key:'empenho'},{label:'Previsão',render:r=>fmtDate(r.previsaoEntrega)},{label:'Dias',render:r=>fmtInt(r.diasEntrega)},{label:'Qtd contratada',render:r=>fmtInt(r.qtdContratada)},{label:'Qtd entregue',render:r=>fmtInt(r.qtdEntregue)}],rows)}
 function renderFinance(){const rows=filteredBase().filter(r=>r.valorEmpenhado||r.valorLiquidado).sort((a,b)=>b.valorEmpenhado-a.valorEmpenhado);$('#financeTable').innerHTML=tableHtml([{label:'Objeto',key:'objeto'},{label:'UGE',key:'uge'},{label:'Área',key:'area'},{label:'Empenho',key:'empenho'},{label:'Empenhado',render:r=>`<span class="money">${fmtMoney(r.valorEmpenhado)}</span>`},{label:'Liquidado',render:r=>`<span class="money">${fmtMoney(r.valorLiquidado)}</span>`},{label:'Execução',render:r=>`${((r.valorLiquidado/(r.valorEmpenhado||1))*100).toFixed(1).replace('.',',')}%`},{label:'Fonte',key:'fonte'}],rows)}
-function renderAll(){renderMetrics();renderOverview();renderDaily();renderItems();renderAtas();renderDeliveries();renderFinance();bindRows()}
+function metricResultCard(r,mode){
+ if(mode==="licitation"){
+  const action=r.controle||'Ação necessária ainda não informada na base.';
+  return `<article class="metric-result" data-kind="ata" data-id="${r.id}">
+   <div class="metric-result-top"><div class="metric-result-title">${esc(r.objeto||'Sem objeto')}</div><div class="metric-result-status"><span class="badge ${badgeClass(r.situacao)}">${esc(r.situacao||'—')}</span></div></div>
+   <div class="metric-result-grid">
+    <div class="metric-result-field"><span>UGE</span><strong>${esc(r.uge||'—')}</strong></div>
+    <div class="metric-result-field"><span>Estágio</span><strong>${esc(r.estagio||'—')}</strong></div>
+    <div class="metric-result-field"><span>Próxima etapa</span><strong>${fmtDate(r.proximaEtapa)}</strong></div>
+   </div>
+   <div class="metric-result-meta">${esc(r.pregao||r.processo||'')} ${r.numeroAta?'· '+esc(r.numeroAta):''}</div>
+   <div class="metric-result-action"><span>Próxima ação</span>${esc(action)}</div>
+  </article>`;
+ }
+ if(mode==="revalidate"){
+  const action=r.controle||r.observacao||'Não informado na base — revisar vínculo/etapa e registrar a providência necessária.';
+  return `<article class="metric-result" data-kind="ata" data-id="${r.id}">
+   <div class="metric-result-top"><div class="metric-result-title">${esc(r.objeto||'Sem objeto')}</div><div class="metric-result-status"><span class="badge ${badgeClass(r.situacao)}">${esc(r.situacao||'REVALIDAR')}</span></div></div>
+   <div class="metric-result-grid">
+    <div class="metric-result-field"><span>UGE</span><strong>${esc(r.uge||'—')}</strong></div>
+    <div class="metric-result-field"><span>Estágio atual</span><strong>${esc(r.estagio||'—')}</strong></div>
+    <div class="metric-result-field"><span>Última auditoria</span><strong>${fmtDate(r.dataAuditoria)}</strong></div>
+   </div>
+   <div class="metric-result-action revalidate"><span>O que precisa ser revalidado</span>${esc(action)}</div>
+   <div class="metric-result-meta">${esc(r.fonteConfirmacao||'Fonte de confirmação não informada')} ${r.processo?'· Processo '+esc(r.processo):''}</div>
+  </article>`;
+ }
+ if(mode==="contracts"){
+  return `<article class="metric-result" data-kind="base" data-id="${r.id}">
+   <div class="metric-result-top"><div class="metric-result-title">${esc(r.objeto||'Sem objeto')}</div><div class="metric-result-status"><span class="badge ${badgeClass(r.statusEntrega)}">${esc(r.statusEntrega||'PENDENTE')}</span></div></div>
+   <div class="metric-result-grid">
+    <div class="metric-result-field"><span>Contrato</span><strong>${esc(r.contratoUGE||'—')}</strong></div>
+    <div class="metric-result-field"><span>Previsão</span><strong>${fmtDate(r.previsaoEntrega)}</strong></div>
+    <div class="metric-result-field"><span>Qtd. pendente</span><strong>${fmtInt(pendingQty(r))}</strong></div>
+   </div>
+   <div class="metric-result-meta">${esc(r.uge||'')} ${r.empenho?'· NE '+esc(r.empenho):''} ${r.processoSEI?'· SEI '+esc(r.processoSEI):''}</div>
+  </article>`;
+ }
+ const pct=Number(r.valorEmpenhado||0)?(Number(r.valorLiquidado||0)/Number(r.valorEmpenhado||0)*100):0;
+ return `<article class="metric-result" data-kind="base" data-id="${r.id}">
+  <div class="metric-result-top"><div class="metric-result-title">${esc(r.objeto||'Sem objeto')}</div><div class="metric-result-status"><strong>${pct.toFixed(1).replace('.',',')}%</strong></div></div>
+  <div class="metric-result-grid">
+   <div class="metric-result-field"><span>Empenhado</span><strong>${fmtMoney(r.valorEmpenhado)}</strong></div>
+   <div class="metric-result-field"><span>Liquidado</span><strong>${fmtMoney(r.valorLiquidado)}</strong></div>
+   <div class="metric-result-field"><span>Empenho</span><strong>${esc(r.empenho||'—')}</strong></div>
+  </div>
+  <div class="metric-result-meta">${esc(r.uge||'')} ${r.area?'· '+esc(r.area):''}</div>
+ </article>`;
+}
+function renderMetricDrilldown(){
+ const panel=$('#metricDrilldown'),mode=activeMetricFilter();
+ if(!mode){panel.hidden=true;panel.innerHTML='';return}
+ let rows=[],title='',subtitle='';
+ if(mode==="licitation"){
+  rows=atasCoreRows().filter(r=>norm(r.situacao)==="EM LICITACAO").sort((a,b)=>{const ad=dateVal(a.proximaEtapa),bd=dateVal(b.proximaEtapa);if(ad&&!bd)return-1;if(!ad&&bd)return 1;if(ad&&bd)return ad-bd;return a.objeto.localeCompare(b.objeto)});
+  title='Itens em licitação';subtitle='Todos os certames em andamento na seleção atual.';
+ }else if(mode==="revalidate"){
+  rows=atasCoreRows().filter(r=>norm(r.situacao)==="REVALIDAR").sort((a,b)=>a.objeto.localeCompare(b.objeto));
+  title='Itens a revalidar';subtitle='A providência necessária aparece destacada em cada item.';
+ }else if(mode==="contracts"){
+  rows=baseCoreRows().filter(isPendingContract).sort((a,b)=>(a.previsaoEntrega||'9999').localeCompare(b.previsaoEntrega||'9999'));
+  title='Contratos pendentes';subtitle='Contratos assinados que ainda não constam como integralmente recebidos.';
+ }else{
+  rows=baseCoreRows().filter(r=>Number(r.valorEmpenhado||0)!==0||Number(r.valorLiquidado||0)!==0).sort((a,b)=>Number(b.valorEmpenhado||0)-Number(a.valorEmpenhado||0));
+  title='Itens com execução financeira';subtitle='Registros com valor empenhado ou liquidado na seleção atual.';
+ }
+ panel.hidden=false;
+ panel.innerHTML=`<div class="metric-drilldown-head"><div><h2>${title}</h2><p>${subtitle}</p></div><div class="metric-drilldown-count">${fmtInt(rows.length)} item${rows.length===1?'':'s'}</div></div><div class="metric-result-list">${rows.length?rows.map(r=>metricResultCard(r,mode)).join(''):'<div class="metric-result-empty">Nenhum item encontrado nesta seleção.</div>'}</div>`;
+}
+function renderAll(){renderMetrics();renderMetricDrilldown();renderOverview();renderDaily();renderItems();renderAtas();renderDeliveries();renderFinance();bindRows()}
 function toggleMetricFilter(key){
  if(!["execution","licitation","revalidate","contracts"].includes(key))return;
- metricFilters.has(key)?metricFilters.delete(key):metricFilters.add(key);
+ const wasActive=metricFilters.has(key);
+ metricFilters.clear();
+ if(!wasActive)metricFilters.add(key);
  renderAll();
  if(window.pushPcaeHistory)window.pushPcaeHistory();
 }
@@ -521,7 +627,8 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
    values.forEach(value=>{if((groups[parent]||[]).includes(value))chosen[parent].add(value)});
   });
   metricFilters.clear();
-  (Array.isArray(snapshot.metricFilters)?snapshot.metricFilters:[]).forEach(value=>{if(validMetrics.has(value))metricFilters.add(value)});
+  const restoredMetric=(Array.isArray(snapshot.metricFilters)?snapshot.metricFilters:[]).find(value=>validMetrics.has(value));
+  if(restoredMetric)metricFilters.add(restoredMetric);
   if($('#searchInput'))$('#searchInput').value=snapshot.search||'';
   const rf=snapshot.refined||{};
   if($('#areaFilter'))$('#areaFilter').value=rf.area||'';
