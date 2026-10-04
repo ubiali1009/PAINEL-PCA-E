@@ -10,17 +10,33 @@
 .topbar:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(174deg,transparent 0 68%,#fff 68.6% 70%,var(--red) 70.4% 72%,#272b2f 72.4% 100%);z-index:0}.topbar>*{position:relative;z-index:1}.brand{display:flex;gap:13px;align-items:center;min-width:0}.crest{width:56px;height:56px;border:3px solid #1f252a;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:12px;color:#1f252a;background:#fff;box-shadow:inset 0 0 0 3px #e4e8ed}.brand h1{margin:0;font-size:clamp(1.25rem,2vw,2rem);letter-spacing:-.025em}.brand p{margin:6px 0 0;color:#565e66;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.pill,.action{min-height:38px;padding:8px 12px;border:1px solid #bdc8d3;border-radius:9px;background:#fff;font-size:.72rem;font-weight:750}.pill{color:#47576a}.action{cursor:pointer}.action.primary{background:linear-gradient(#e71e25,#c90e15);color:#fff;border-color:#b80c12}.action.online{background:var(--navy);color:#fff;border-color:var(--navy)}.action.dark{background:#272b2f;color:#fff;border-color:#15191d}.action:hover{filter:brightness(1.04);transform:translateY(-1px)}
 .metrics{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:10px;padding:10px 14px}.metric{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 13px;box-shadow:0 2px 8px rgba(25,53,80,.04);min-width:0}.metric .label{font-size:.66rem;text-transform:uppercase;letter-spacing:.04em;color:#57718e;font-weight:800}.metric .value{font-size:1.38rem;font-weight:850;margin-top:4px;color:#071b34;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.metric .note{font-size:.62rem;color:var(--muted);margin-top:4px}.metric.alert .value{color:var(--danger)}.metric.warn .value{color:var(--orange)}.metric.quick-filter{cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease,transform .15s ease}.metric.quick-filter:hover{border-color:#8ea5bd}.metric.quick-filter:focus-visible{outline:3px solid rgba(18,62,112,.22);outline-offset:2px}.metric.quick-filter.active-filter{border-color:var(--navy);background:#f2f6fb;box-shadow:inset 0 0 0 2px var(--navy),0 4px 12px rgba(11,42,80,.10)}.metric.quick-filter.active-filter .label{color:var(--navy)}
 .navtabs{display:flex;gap:7px;padding:0 14px 10px;overflow-x:auto}.navtab{border:1px solid #cbd6e1;background:#fff;color:#1b3858;border-radius:999px;padding:7px 13px;font-size:.72rem;font-weight:800;cursor:pointer;white-space:nowrap}.navtab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
-.workspace{flex:1;min-height:0;display:grid;grid-template-columns:310px minmax(0,1fr);gap:11px;padding:0 14px 14px}.sidebar,.main{background:#fff;border:1px solid var(--border);border-radius:13px;box-shadow:var(--shadow);min-height:0}.sidebar{padding:10px;align-self:start;position:sticky;top:146px}.side-title{font-size:.72rem;font-weight:850;color:#17324f;text-transform:uppercase;letter-spacing:.04em;margin:2px 3px 8px}.search{position:relative;margin-bottom:8px}.search input{width:100%;height:36px;border:1px solid #bdcad8;border-radius:9px;padding:0 10px 0 34px;outline:none}.search:before{content:"⌕";position:absolute;left:11px;top:6px;color:#52708e;font-size:19px}.filters{display:grid;gap:7px}.field label{display:block;margin:0 0 3px 2px;font-size:.58rem;font-weight:850;letter-spacing:.04em;color:#31506f;text-transform:uppercase}.field select{width:100%;height:33px;border:1px solid #c3d0dc;border-radius:8px;background:#fff;padding:0 8px;color:#17324f;font-size:.7rem}.filter-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:2px}.smallbtn{height:33px;border-radius:8px;border:1px solid #bdcad8;background:#fff;color:#17324f;font-size:.68rem;font-weight:800;cursor:pointer}.smallbtn.primary{background:var(--navy);border-color:var(--navy);color:#fff}.side-note{margin-top:9px;padding:8px 9px;border-radius:9px;background:#f5f8fb;color:#62748b;font-size:.62rem;line-height:1.4}
+.workspace{flex:1;min-height:0;display:block;padding:0 14px 14px}.main{background:#fff;border:1px solid var(--border);border-radius:13px;box-shadow:var(--shadow);min-height:0}.side-title{font-size:.72rem;font-weight:850;color:#17324f;text-transform:uppercase;letter-spacing:.04em;margin:2px 3px 8px}.search{position:relative;margin-bottom:8px}.search input{width:100%;height:36px;border:1px solid #bdcad8;border-radius:9px;padding:0 10px 0 34px;outline:none}.search:before{content:"⌕";position:absolute;left:11px;top:6px;color:#52708e;font-size:19px}.filters{display:grid;gap:7px}.field label{display:block;margin:0 0 3px 2px;font-size:.58rem;font-weight:850;letter-spacing:.04em;color:#31506f;text-transform:uppercase}.field select{width:100%;height:33px;border:1px solid #c3d0dc;border-radius:8px;background:#fff;padding:0 8px;color:#17324f;font-size:.7rem}.filter-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:2px}.smallbtn{height:33px;border-radius:8px;border:1px solid #bdcad8;background:#fff;color:#17324f;font-size:.68rem;font-weight:800;cursor:pointer}.smallbtn.primary{background:var(--navy);border-color:var(--navy);color:#fff}.side-note{margin-top:9px;padding:8px 9px;border-radius:9px;background:#f5f8fb;color:#62748b;font-size:.62rem;line-height:1.4}
 .main{padding:12px;overflow:hidden}.view{display:none}.view.active{display:block}.section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:2px 0 10px}.section-title h2{margin:0;font-size:1rem}.section-title p{margin:0;color:var(--muted);font-size:.68rem;text-align:right}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}.panel{border:1px solid var(--border);border-radius:11px;padding:11px;background:#fff;min-width:0}.panel h3{margin:0 0 9px;font-size:.78rem;color:#17324f}.bar-list{display:grid;gap:7px}.bar-row{display:grid;grid-template-columns:minmax(90px,1.05fr) 2fr auto;gap:8px;align-items:center}.bar-label{font-size:.66rem;color:#314a64;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar-track{height:12px;border-radius:999px;background:#edf2f6;overflow:hidden;display:flex}.bar-a{background:#315f8f}.bar-b{background:#66a681}.bar-c{background:#d4771f}.bar-val{font-size:.62rem;color:#5b6d82;text-align:right;min-width:46px}.legend-inline{display:flex;gap:12px;flex-wrap:wrap;margin:-2px 0 7px;font-size:.6rem;color:#66788c}.legend-inline span:before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;background:#315f8f}.legend-inline span:nth-child(2):before{background:#66a681}
 .alerts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:11px}.alertbox{padding:10px;border-radius:10px;border:1px solid var(--border);background:#fbfcfd}.alertbox strong{font-size:.78rem}.alertbox b{display:block;font-size:1.35rem;margin:3px 0}.alertbox.danger{border-color:#efc3bc;background:#fff4f1}.alertbox.warn{border-color:#efd3ad;background:#fff8ed}.alertbox.info{border-color:#c9d7e5;background:#f4f8fc}
 .table-wrap{overflow:auto;border:1px solid var(--border);border-radius:10px;max-height:520px}.data-table{width:100%;border-collapse:collapse;font-size:.66rem;min-width:850px}.wide-table .data-table{min-width:1320px}.daily-table .data-table{min-width:980px}.audit-line{font-size:.59rem;color:#63798f;margin-top:3px}.action-text{max-width:360px;white-space:normal;line-height:1.35}.data-table th{position:sticky;top:0;z-index:2;background:#eef4f9;color:#21425f;text-align:left;padding:8px;border-bottom:1px solid #cad6e1;text-transform:uppercase;letter-spacing:.025em;font-size:.58rem}.data-table td{padding:8px;border-bottom:1px solid #e7edf2;vertical-align:top}.data-table tbody tr{cursor:pointer}.data-table tbody tr:hover{background:#f4f8fb}.badge{display:inline-flex;align-items:center;min-height:19px;padding:2px 7px;border-radius:999px;font-size:.57rem;font-weight:850;white-space:nowrap;background:#edf2f6;color:#4c6075}.badge.ok{background:#e4f4ec;color:#176b4c}.badge.warn{background:#fff1d8;color:#915514}.badge.danger{background:#fde8e4;color:#9c3025}.badge.info{background:#e5f0fb;color:#235e92}.money{white-space:nowrap;font-variant-numeric:tabular-nums}.muted{color:var(--muted)}
 .next-actions{margin-top:11px}.cards-list{display:grid;gap:7px}.action-card{border:1px solid var(--border);border-radius:10px;padding:9px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;cursor:pointer}.action-card:hover{background:#f7fafc}.action-card strong{display:block;font-size:.72rem}.action-card small{display:block;color:var(--muted);font-size:.61rem;margin-top:3px}.datechip{align-self:center;text-align:center;min-width:88px;padding:7px;border-radius:8px;background:#eef4fa;font-size:.61rem;font-weight:850;color:#315474}.datechip.missing{background:#fdebe7;color:#9a3427}.datechip.soon{background:#fff0d9;color:#8b5417}
 .drawer-backdrop{position:fixed;inset:0;background:rgba(4,19,36,.28);z-index:80;opacity:0;pointer-events:none;transition:.2s}.drawer-backdrop.open{opacity:1;pointer-events:auto}.drawer{position:fixed;right:0;top:0;height:100vh;width:min(520px,95vw);background:#fff;z-index:90;transform:translateX(102%);transition:.22s;box-shadow:-14px 0 35px rgba(8,28,49,.22);display:flex;flex-direction:column}.drawer.open{transform:none}.drawer-head{position:relative;padding:17px 18px 34px;border-bottom:0;background:#fff;overflow:hidden}.drawer-head:after{content:"";position:absolute;inset:0;background:linear-gradient(173deg,transparent 0 68%,#fff 68.5% 70%,var(--red) 70.5% 72%,#272b2f 72.5% 100%);z-index:0}.drawer-head>*{position:relative;z-index:1}.drawer-head h2{margin:0 44px 5px 0;font-size:1.05rem}.drawer-head p{margin:0;color:#626c76;font-size:.7rem}.close{position:absolute;right:15px;top:14px;z-index:3;width:34px;height:34px;border-radius:9px;border:1px solid #999;background:#282d31;color:#fff;font-size:1.1rem;cursor:pointer}.drawer-body{padding:14px 18px 24px;overflow:auto}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.detail-card{border:1px solid var(--border);border-radius:9px;background:#fafcfd;padding:9px;min-width:0}.detail-card span{display:block;color:#718096;font-size:.57rem;text-transform:uppercase;font-weight:800}.detail-card strong{display:block;margin-top:3px;font-size:.7rem;overflow-wrap:anywhere}.detail-wide{grid-column:1/-1}.obs{white-space:pre-wrap;font-size:.68rem;line-height:1.5;color:#40566d}.empty{padding:26px;text-align:center;color:#72839a;font-size:.72rem}
 @media(max-width:1100px){.metrics{grid-template-columns:repeat(3,1fr)}.workspace{grid-template-columns:260px minmax(0,1fr)}.grid2{grid-template-columns:1fr}.alerts{grid-template-columns:1fr 1fr 1fr}.pill{display:none}}
-@media(max-width:760px){.topbar{position:relative}.actions{width:100%;justify-content:flex-start}.topbar{flex-direction:column}.metrics{grid-template-columns:1fr 1fr}.workspace{display:block}.sidebar{position:relative;top:0;margin-bottom:10px}.alerts{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.main{padding:9px}.brand p{white-space:normal}.navtabs{padding-bottom:8px}}
+@media(max-width:760px){.topbar{position:relative}.actions{width:100%;justify-content:flex-start}.topbar{flex-direction:column}.metrics{grid-template-columns:1fr 1fr}.alerts{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.main{padding:9px}.brand p{white-space:normal}.navtabs{padding-bottom:8px}}
 .sync-info{margin:8px 14px 0;padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:#fff;display:flex;gap:8px 20px;justify-content:space-between;flex-wrap:wrap;font-size:.875rem;line-height:1.5;color:#47576a}
 .sync-info #sourcePill{font-weight:700}
 .sync-info #syncMessage{color:#526983}
+.filter-shell{margin:10px 14px 0;padding:11px 12px;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow)}
+.filter-title{font-size:.76rem;font-weight:900;letter-spacing:.045em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.smart-search-row{display:flex;align-items:center;gap:8px}
+.smart-search{position:relative;flex:1;min-width:0}
+.smart-search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:1.25rem;color:#52708e;pointer-events:none}
+.smart-search input{width:100%;height:42px;border:1px solid #b9c9d9;border-radius:10px;padding:0 13px 0 38px;outline:none;font-size:.83rem;color:#17324f;background:#fff}
+.smart-search input:focus{border-color:var(--navy2);box-shadow:0 0 0 3px rgba(18,62,112,.10)}
+.advanced-toggle{height:42px;border:1px solid #b9c9d9;border-radius:10px;background:#f7f9fc;color:var(--navy);font-weight:850;padding:0 13px;cursor:pointer;white-space:nowrap}
+.advanced-toggle[aria-expanded="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.advanced-filters{display:none;grid-template-columns:repeat(5,minmax(130px,1fr));gap:8px;align-items:end;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.advanced-filters.open{display:grid}
+.advanced-filters .filter-actions{display:flex;gap:7px;margin:0}
+.advanced-filters .smallbtn{flex:1}
+@media(max-width:900px){.advanced-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.advanced-filters .filter-actions{grid-column:1/-1}}
+@media(max-width:760px){.smart-search-row{align-items:stretch;flex-wrap:wrap}.smart-search{flex:1 1 100%}.advanced-toggle{width:100%;height:38px}.advanced-filters{grid-template-columns:1fr 1fr}.advanced-filters .field{min-width:0}}
+
 .action:disabled{cursor:wait;opacity:.7}
 @media(max-width:760px){.sync-info{gap:4px;margin:8px 14px 0}.sync-info span{width:100%}}
 
@@ -46,6 +62,24 @@
   <div class="actions"><button id="onlineSyncBtn" class="action online" title="Consultar os dados atuais, sem alterar a planilha">Atualizar dados</button><button id="exportBtn" class="action dark">⇩ Exportar filtrados</button></div>
 </header>
 <div class="sync-info" role="status" aria-live="polite"><span id="sourcePill">Consultando a planilha…</span><span id="syncMessage">Somente leitura · consulta automática a cada 5 minutos.</span></div>
+<section class="filter-shell" id="filterShell" aria-label="Filtros da consulta">
+ <div class="filter-title">Filtros da consulta</div>
+ <div class="smart-search-row">
+  <div class="smart-search">
+   <span class="smart-search-icon" aria-hidden="true">⌕</span>
+   <input aria-label="Pesquisa inteligente" id="searchInput" type="search" autocomplete="off" placeholder="Pesquisar objeto, processo, empenho, pregão, UGE...">
+  </div>
+  <button id="advancedToggle" class="advanced-toggle" type="button" aria-expanded="false" aria-controls="advancedFilters">Busca refinada ▾</button>
+ </div>
+ <div class="advanced-filters" id="advancedFilters">
+  <div class="field"><label for="areaFilter">Área</label><select id="areaFilter"><option value="">Todas</option></select></div>
+  <div class="field"><label for="ugeFilter">UGE</label><select id="ugeFilter"><option value="">Todas</option></select></div>
+  <div class="field"><label for="deliveryFilter">Status da entrega</label><select id="deliveryFilter"><option value="">Todos</option></select></div>
+  <div class="field"><label for="ataFilter">Situação da ata/licitação</label><select id="ataFilter"><option value="">Todas</option></select></div>
+  <div class="field"><label for="stageFilter">Estágio licitatório</label><select id="stageFilter"><option value="">Todos</option></select></div>
+  <div class="filter-actions"><button id="applyBtn" class="smallbtn primary">Aplicar</button><button id="clearBtn" class="smallbtn">Limpar filtros</button></div>
+ </div>
+</section>
 <section class="area-shell" id="areaShell" aria-label="Subseção responsável">
  <div class="area-main">
   <span class="area-title">Subseção responsável</span>
@@ -65,19 +99,6 @@
  <button class="navtab active" data-view="overview">Visão geral</button><button class="navtab" data-view="daily">Acompanhamento diário</button><button class="navtab" data-view="items">Itens PCA-E</button><button class="navtab" data-view="atas">Licitações e atas</button><button class="navtab" data-view="deliveries">Entregas</button><button class="navtab" data-view="finance">Execução financeira</button>
 </nav>
 <div class="workspace">
-<aside class="sidebar">
- <div class="side-title">Filtros da consulta</div>
- <div class="search"><input aria-label="Buscar registros" id="searchInput" placeholder="Objeto, processo, empenho, pregão..."></div>
- <div class="filters">
-  <div class="field"><label for="areaFilter">Área</label><select id="areaFilter"><option value="">Todas</option></select></div>
-  <div class="field"><label for="ugeFilter">UGE</label><select id="ugeFilter"><option value="">Todas</option></select></div>
-  <div class="field"><label for="deliveryFilter">Status da entrega</label><select id="deliveryFilter"><option value="">Todos</option></select></div>
-  <div class="field"><label for="ataFilter">Situação da ata/licitação</label><select id="ataFilter"><option value="">Todas</option></select></div>
-  <div class="field"><label for="stageFilter">Estágio licitatório</label><select id="stageFilter"><option value="">Todos</option></select></div>
-  <div class="filter-actions"><button id="applyBtn" class="smallbtn primary">Aplicar</button><button id="clearBtn" class="smallbtn">Limpar</button></div>
- </div>
- <div class="side-note"><b>Leitura operacional:</b> o painel prioriza licitações e revalidações, próximas etapas, contratos assinados ainda não recebidos e execução financeira. Clique em uma linha para abrir todos os detalhes.</div>
-</aside>
 <main class="main">
  <section id="view-overview" class="view active"><div class="section-title"><h2>Visão executiva</h2><p id="overviewNote"></p></div><div class="grid2"><div class="panel"><h3>Execução financeira por área</h3><div class="legend-inline"><span>Empenhado</span><span>Liquidado</span></div><div id="financeBars" class="bar-list"></div></div><div class="panel"><h3>Status das entregas</h3><div id="deliveryBars" class="bar-list"></div></div><div class="panel"><h3>Situação das atas e licitações</h3><div id="ataBars" class="bar-list"></div></div><div class="panel"><h3>Estágio das licitações em andamento</h3><div id="stageBars" class="bar-list"></div></div></div><div class="alerts" id="alerts"></div><div class="panel next-actions"><h3>Licitações — próximas ações</h3><div id="nextActions" class="cards-list"></div></div></section>
  <section id="view-daily" class="view"><div class="section-title"><h2>Acompanhamento diário</h2><p id="dailyNote">Pendências que exigem ação</p></div><div class="grid2"><div class="panel"><h3>Licitações / atas — ação necessária</h3><div id="dailyLicTable"></div></div><div class="panel"><h3>Contratos assinados — entrega pendente</h3><div id="dailyDeliveryTable"></div></div></div></section>
@@ -104,17 +125,23 @@ function dateVal(s){if(!s)return null; const d=new Date(s+'T12:00:00'); return i
 function daysUntil(s){const d=dateVal(s); if(!d)return null; const t=new Date(); t.setHours(0,0,0,0); return Math.ceil((d-t)/86400000)}
 function selected(){return {q:norm($('#searchInput').value),area:$('#areaFilter').value,uge:$('#ugeFilter').value,delivery:$('#deliveryFilter').value,ata:$('#ataFilter').value,stage:$('#stageFilter').value}}
 function haystack(o){return norm(Object.values(o).join(' | '))}
+function smartMatch(o,q){
+ if(!q)return true;
+ const hay=haystack(o);
+ const tokens=String(q).split(/\s+/).filter(Boolean);
+ return tokens.every(token=>hay.includes(token));
+}
 function isPendingContract(r){const hasContract=!!(r.contratoUGE||r.dataContrato);const received=norm(r.statusEntrega)==='RECEBIDO'||(r.qtdContratada>0&&r.qtdEntregue>=r.qtdContratada);return hasContract&&!received}
 function filteredBase(){
  const f=selected();
- let rows=base.filter(r=>sectionMatch(r)&&(!f.q||haystack(r).includes(f.q))&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.delivery||r.statusEntrega===f.delivery));
+ let rows=base.filter(r=>sectionMatch(r)&&smartMatch(r,f.q)&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.delivery||r.statusEntrega===f.delivery));
  if(metricFilters.has("execution"))rows=rows.filter(r=>Number(r.valorEmpenhado||0)!==0||Number(r.valorLiquidado||0)!==0);
  if(metricFilters.has("contracts"))rows=rows.filter(isPendingContract);
  return rows;
 }
 function filteredAtas(){
  const f=selected();
- let rows=atas.filter(r=>sectionMatch(r)&&(!f.q||haystack(r).includes(f.q))&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.ata||r.situacao===f.ata)&&(!f.stage||r.estagio===f.stage));
+ let rows=atas.filter(r=>sectionMatch(r)&&smartMatch(r,f.q)&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.ata||r.situacao===f.ata)&&(!f.stage||r.estagio===f.stage));
  const statuses=[];
  if(metricFilters.has("licitation"))statuses.push("EM LICITACAO");
  if(metricFilters.has("revalidate"))statuses.push("REVALIDAR");
@@ -172,8 +199,28 @@ function setActiveView(view){
 $$('.navtab').forEach(b=>b.onclick=()=>{setActiveView(b.dataset.view);if(window.pushPcaeHistory)window.pushPcaeHistory()});
 $('#metrics').addEventListener('click',e=>{const card=e.target.closest('[data-metric-filter]');if(card)toggleMetricFilter(card.dataset.metricFilter)});
 $('#metrics').addEventListener('keydown',e=>{const card=e.target.closest('[data-metric-filter]');if(card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();toggleMetricFilter(card.dataset.metricFilter)}});
-$('#applyBtn').onclick=renderAll;$('#clearBtn').onclick=()=>{$('#searchInput').value='';['areaFilter','ugeFilter','deliveryFilter','ataFilter','stageFilter'].forEach(id=>$('#'+id).value='');metricFilters.clear();renderAll();if(window.pushPcaeHistory)window.pushPcaeHistory()};
-$('#searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')renderAll()});['areaFilter','ugeFilter','deliveryFilter','ataFilter','stageFilter'].forEach(id=>$('#'+id).onchange=renderAll);$('#drawerClose').onclick=closeDrawer;$('#backdrop').onclick=closeDrawer;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+const advancedToggle=$('#advancedToggle'),advancedFilters=$('#advancedFilters');
+advancedToggle.onclick=()=>{
+ const open=!advancedFilters.classList.contains('open');
+ advancedFilters.classList.toggle('open',open);
+ advancedToggle.setAttribute('aria-expanded',open?'true':'false');
+ advancedToggle.textContent=open?'Fechar busca refinada ▴':'Busca refinada ▾';
+};
+let smartSearchTimer=null;
+$('#searchInput').addEventListener('input',()=>{
+ clearTimeout(smartSearchTimer);
+ smartSearchTimer=setTimeout(renderAll,180);
+});
+$('#searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){clearTimeout(smartSearchTimer);renderAll()}});
+$('#applyBtn').onclick=renderAll;
+$('#clearBtn').onclick=()=>{
+ $('#searchInput').value='';
+ ['areaFilter','ugeFilter','deliveryFilter','ataFilter','stageFilter'].forEach(id=>$('#'+id).value='');
+ metricFilters.clear();
+ renderAll();
+ if(window.pushPcaeHistory)window.pushPcaeHistory();
+};
+['areaFilter','ugeFilter','deliveryFilter','ataFilter','stageFilter'].forEach(id=>$('#'+id).onchange=renderAll);$('#drawerClose').onclick=closeDrawer;$('#backdrop').onclick=closeDrawer;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
 function exportCsv(){const rows=activeView==='atas'?filteredAtas():filteredBase();if(!rows.length)return;const keys=Object.keys(rows[0]).filter(k=>!['id','kind'].includes(k));const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const csv='\ufeff'+[keys.join(';'),...rows.map(r=>keys.map(k=>q(r[k])).join(';'))].join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`PCA-E_${activeView}_filtrado.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}$('#exportBtn').onclick=exportCsv;
 function isoAny(v){if(!v)return'';if(v instanceof Date&&!isNaN(v))return v.toISOString().slice(0,10);if(typeof v==='number'&&v>20000&&v<80000){const d=new Date(Date.UTC(1899,11,30)+v*86400000);return d.toISOString().slice(0,10)}const s=String(v).trim();const m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})(?:\s+(\d{1,2}):(\d{2}))?$/);if(m){let y=+m[3];if(y<100)y+=2000;const date=`${y.toString().padStart(4,'0')}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;return date}return s}
 function nAny(v){if(v==null||v==='')return 0;if(typeof v==='number')return Number.isFinite(v)?v:0;let s=String(v).replace(/R\$|US\$|€/g,'').replace(/\s/g,'').trim();if(s.includes(',')||/^[-+]?\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,'').replace(',','.');return Number(s)||0}
