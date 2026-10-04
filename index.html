@@ -104,8 +104,34 @@ function dateVal(s){if(!s)return null; const d=new Date(s+'T12:00:00'); return i
 function daysUntil(s){const d=dateVal(s); if(!d)return null; const t=new Date(); t.setHours(0,0,0,0); return Math.ceil((d-t)/86400000)}
 function selected(){return {q:norm($('#searchInput').value),area:$('#areaFilter').value,uge:$('#ugeFilter').value,delivery:$('#deliveryFilter').value,ata:$('#ataFilter').value,stage:$('#stageFilter').value}}
 function haystack(o){return norm(Object.values(o).join(' | '))}
-function filteredBase(){const f=selected();return base.filter(r=>(!f.q||haystack(r).includes(f.q))&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.delivery||r.statusEntrega===f.delivery))}
-function filteredAtas(){const f=selected();return atas.filter(r=>(!f.q||haystack(r).includes(f.q))&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.ata||r.situacao===f.ata)&&(!f.stage||r.estagio===f.stage))}
+let sectionFilter={area:"geral",sub:"consolidado"};
+function sectionMatch(r){
+ const a=norm(r.area), ac=norm(r.acao||r.pcae), o=norm(r.objeto), n=norm(r.natureza), u=norm(r.uge);
+ const sf=sectionFilter;
+ if(sf.area==="geral"&&sf.sub==="consolidado")return true;
+ if(sf.area==="acao"){
+   if(sf.sub==="muralha")return /MURALHA/.test(ac);
+   if(sf.sub==="integracao")return /INTEGRACAO|APARELHAMENTO/.test(ac);
+   if(sf.sub==="ostensiva")return /OSTENSIVA|FORMACAO/.test(ac);
+ }
+ if(sf.area==="obras"){
+   if(sf.sub==="copom")return /OBRA/.test(ac)&&/COPOM/.test(ac+" "+o);
+   if(sf.sub==="quarteis")return /OBRA/.test(ac)&&/(QUART|CONSTRUCAO|REFORMA)/.test(ac+" "+o);
+ }
+ if(sf.area==="imoveis")return /IMOV/.test(a+" "+ac+" "+n+" "+o);
+ if(sf.area==="equipamentos"){
+   if(sf.sub==="belico")return /BELIC|ARMAMENTO|MUNICAO|COLETE BALIST|CAPACETE BALIST|COLDRE|FIEL RETRAT|ESPADA/.test(a+" "+ac+" "+n+" "+o);
+   if(sf.sub==="intendencia")return /INTEND|UNIFORM|FARD|CAMISA|CALCA|CINTURAO|LUVA|COLETE REFLET/.test(a+" "+ac+" "+n+" "+o);
+ }
+ if(sf.area==="fts"){
+   if(sf.sub==="frota")return /FROTA|VIATUR|VEICUL|AUTOMOV|MOTOCIC|SUV|DUSTER|CRETA/.test(a+" "+ac+" "+n+" "+o);
+   if(sf.sub==="tic")return /\bTIC\b|TECNOLOGIA|INFORMAT|COMPUT|SOFTWARE|HARDWARE|RADIO|COMUNICAC|DTIC/.test(a+" "+ac+" "+n+" "+o+" "+u);
+   if(sf.sub==="saude")return /SAUDE|MEDIC|HOSPITAL|ODONTO|SANITAR/.test(a+" "+ac+" "+n+" "+o);
+ }
+ return false;
+}
+function filteredBase(){const f=selected();return base.filter(r=>sectionMatch(r)&&(!f.q||haystack(r).includes(f.q))&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.delivery||r.statusEntrega===f.delivery))}
+function filteredAtas(){const f=selected();return atas.filter(r=>sectionMatch(r)&&(!f.q||haystack(r).includes(f.q))&&(!f.area||r.area===f.area)&&(!f.uge||r.uge===f.uge)&&(!f.ata||r.situacao===f.ata)&&(!f.stage||r.estagio===f.stage))}
 function isLicPending(r){const s=norm(r.situacao);return s==='EM LICITACAO'||s==='REVALIDAR'}
 function pendingDeliveries(){return filteredBase().filter(r=>{const hasContract=!!(r.contratoUGE||r.dataContrato);const received=norm(r.statusEntrega)==='RECEBIDO'||(r.qtdContratada>0&&r.qtdEntregue>=r.qtdContratada);return hasContract&&!received})}
 function pendingQty(r){return Math.max(0,(r.qtdContratada||0)-(r.qtdEntregue||0))}
@@ -212,11 +238,11 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
   shell.querySelectorAll(".area-sub-btn").forEach(b=>b.classList.toggle("active",b.dataset.parent===area&&b.dataset.sub===sub[area]));
   ctx.classList.toggle("show",area!=="geral");
   const selected=(area==="geral"||area==="acao"||area==="obras"||area==="equipamentos"||area==="fts")?names[sub[area]]:"";
-  ctx.textContent=area==="geral"?"":names[area]+(selected?" › "+selected:"")+" — protótipo de segmentação. Nesta etapa a navegação é visual e não altera os dados do PCA-E.";
+  ctx.textContent=area==="geral"&&sub.geral==="consolidado"?"":names[area]+(selected?" › "+selected:"")+" — exibindo somente os registros desta seleção.";
  }
  shell.addEventListener("click",e=>{
-  const a=e.target.closest(".area-btn"); if(a){area=a.dataset.area;paint();return}
-  const s=e.target.closest(".area-sub-btn"); if(s){if(s.dataset.parent==="geral"&&s.dataset.sub==="acao"){area="acao";}else if(s.dataset.parent==="acao"&&s.dataset.sub==="obras"){area="obras";}else{area=s.dataset.parent;}sub[s.dataset.parent]=s.dataset.sub;paint()}
+  const a=e.target.closest(".area-btn"); if(a){area=a.dataset.area;sectionFilter={area:area==="geral"?"geral":area,sub:area==="geral"?"consolidado":sub[area]||""};paint();renderAll();return}
+  const s=e.target.closest(".area-sub-btn"); if(s){if(s.dataset.parent==="geral"&&s.dataset.sub==="acao"){area="acao";}else if(s.dataset.parent==="acao"&&s.dataset.sub==="obras"){area="obras";}else{area=s.dataset.parent;}sub[s.dataset.parent]=s.dataset.sub;sectionFilter={area:area,sub:area==="geral"?sub.geral:(area==="acao"?sub.acao:(area==="obras"?sub.obras:(sub[area]||"")))};paint();renderAll()}
  });
  paint();
 })();
