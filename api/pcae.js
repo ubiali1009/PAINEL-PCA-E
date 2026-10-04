@@ -1,7 +1,7 @@
 // API pública de consulta. Não recebe alterações nem encaminha credenciais de visitantes.
 const SHEET_ID = '1n_bRcmzb9W45D3nzCXo9kYGliOuGSNyjVWxxXUBjhBs';
 const TABS = [
-  { key: 'base', gid: '0', required: ['OBJETO', 'UGE', 'VALOR TOTAL EMPENHADO', 'VALOR TOTAL LIQUIDADO'] },
+  { key: 'base', gid: '0', required: ['OBJETO', 'UGE', 'VALOR TOTAL EMPENHADO', 'VALOR TOTAL LIQUIDADO', 'QTDE ENTREGUE'] },
   { key: 'atas', gid: '1223289174', required: ['OBJETO', 'SITUAÇÃO', 'UGE', 'ESTÁGIO LICITATÓRIO'] },
 ];
 

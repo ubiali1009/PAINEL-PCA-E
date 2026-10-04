@@ -47,11 +47,12 @@ const context = vm.createContext({
   assert.equal(context.base[0].qtdContratadaRaw,'4.200'); assert.equal(context.base[0].qtdEntregueRaw,'2.100');
   assert.equal(context.base[0].valorUnitContratadoRaw,'R$ 1.000,00'); assert.equal(context.base[0].valorEmpenhadoRaw,'R$ 4.200.000,00');
   assert.equal(vm.runInContext('deliveredQty(base[0])',context),2100);
+  assert.equal(vm.runInContext("deliveredQty({qtdEntregueRaw:'',qtdEntregue:0,valorUnitContratado:1000,valorLiquidado:2100000})",context),0);
   assert.equal(vm.runInContext('pendingQty(base[0])',context),2100);
   assert.equal(context.atas[0].area,'EQUIPAMENTOS POLICIAIS'); assert.equal(context.atas[0].subarea,'MATERIAL BÉLICO');
   assert.equal(context.atas[0].dataEstagio,'2026-10-01'); assert(rendered>=2);
   assert(getNode('#sourcePill').textContent.includes('Dados consultados'));
-  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV6'));
+  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV9'));
   failed=true; await vm.runInContext('syncOnline()',context);
   assert.equal(context.base[0].valorEmpenhado,38792907);
   assert(getNode('#syncMessage').textContent.includes('mantendo a última cópia'));
@@ -68,6 +69,6 @@ const context = vm.createContext({
   assert(html.includes('if(key==="belico")return a==="EQUIPAMENTOS POLICIAIS"&&s==="MATERIAL BELICO";'));
   assert(!html.includes('COLDRE|FIEL RETRAT|ESPADA')); assert(html.includes('function renderItems')); assert(html.includes('function renderFinance'));
   assert(html.includes('Forma de contratação')); assert(html.includes('Valor total da aquisição')); assert(html.includes('Valor pago'));
-  assert(html.includes('Qtd. entregue (NL)'));
+  assert(html.includes('Qtd. entregue')); assert(!html.includes('Qtd. entregue (NL)')); assert(!html.includes('Qtd entregue (NL)'));
   console.log('Painel: sincronização, hierarquia, classificação da contratação, detalhes financeiros e recuperação — OK.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

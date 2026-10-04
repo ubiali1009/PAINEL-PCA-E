@@ -263,11 +263,7 @@ function contractedQty(r){
  return unit>0&&total>0?total/unit:0;
 }
 function deliveredQty(r){
- const explicit=numericValue(r.qtdEntregue,r.qtdEntregueRaw);
- if(hasSource(r.qtdEntregueRaw)||(typeof r.qtdEntregue==='number'&&Number.isFinite(r.qtdEntregue))) return Math.max(0,explicit);
- const unit=numericValue(r.valorUnitContratado,r.valorUnitContratadoRaw);
- const nl=numericValue(r.valorLiquidado,r.valorLiquidadoRaw);
- return unit>0&&nl>0?Math.max(0,nl/unit):0;
+ return Math.max(0,numericValue(r.qtdEntregue,r.qtdEntregueRaw));
 }
 function pendingQty(r){return Math.max(0,contractedQty(r)-deliveredQty(r))}
 function qtyDisplay(value,raw,{dashIfMissing=false}={}){
@@ -455,7 +451,7 @@ function renderItems(){
   {label:'Entrega',render:r=>`<span class="badge ${badgeClass(r.statusEntrega)}">${esc(r.statusEntrega||'—')}</span>`},
   {label:'Valor atual',render:r=>currentUnitValue(r)>0?fmtMoney(currentUnitValue(r)):'—'},
   {label:'Qtd comprada',render:r=>contractedQty(r)>0?fmtInt(contractedQty(r)):'—'},
-  {label:'Qtd entregue (NL)',render:r=>fmtInt(deliveredQty(r))},
+  {label:'Qtd entregue',render:r=>fmtInt(deliveredQty(r))},
   {label:'Qtd a entregar',render:r=>contractedQty(r)>0?fmtInt(pendingQty(r)):'—'},
   {label:'Total aquisição',render:r=>acquisitionTotal(r)>0?fmtMoney(acquisitionTotal(r)):'—'},
   {label:'Liquidado',render:r=>moneyDisplay(r.valorLiquidado,r.valorLiquidadoRaw,{dashIfMissing:true})},
@@ -518,7 +514,7 @@ function renderDaily(){
   {label:'Previsão',render:r=>fmtDate(r.previsaoEntrega)},
   {label:'Valor atual',render:r=>currentUnitValue(r)>0?fmtMoney(currentUnitValue(r)):'—'},
   {label:'Qtd comprada',render:r=>contractedQty(r)>0?fmtInt(contractedQty(r)):'—'},
-  {label:'Qtd entregue (NL)',render:r=>fmtInt(deliveredQty(r))},
+  {label:'Qtd entregue',render:r=>fmtInt(deliveredQty(r))},
   {label:'Qtd a entregar',render:r=>contractedQty(r)>0?fmtInt(pendingQty(r)):'—'},
   {label:'Total aquisição',render:r=>acquisitionTotal(r)>0?fmtMoney(acquisitionTotal(r)):'—'},
   {label:'Liquidado',render:r=>moneyDisplay(r.valorLiquidado,r.valorLiquidadoRaw,{dashIfMissing:true})},
@@ -538,7 +534,7 @@ function renderDeliveries(){
   {label:'Previsão',render:r=>fmtDate(r.previsaoEntrega)},
   {label:'Valor atual',render:r=>currentUnitValue(r)>0?fmtMoney(currentUnitValue(r)):'—'},
   {label:'Qtd comprada',render:r=>contractedQty(r)>0?fmtInt(contractedQty(r)):'—'},
-  {label:'Qtd entregue (NL)',render:r=>fmtInt(deliveredQty(r))},
+  {label:'Qtd entregue',render:r=>fmtInt(deliveredQty(r))},
   {label:'Qtd a entregar',render:r=>contractedQty(r)>0?fmtInt(pendingQty(r)):'—'},
   {label:'Total aquisição',render:r=>acquisitionTotal(r)>0?fmtMoney(acquisitionTotal(r)):'—'},
   {label:'Liquidado',render:r=>moneyDisplay(r.valorLiquidado,r.valorLiquidadoRaw,{dashIfMissing:true})},
@@ -555,7 +551,7 @@ function renderFinance(){
   {label:'Empenho',key:'empenho'},
   {label:'Valor atual',render:r=>currentUnitValue(r)>0?fmtMoney(currentUnitValue(r)):'—'},
   {label:'Qtd comprada',render:r=>contractedQty(r)>0?fmtInt(contractedQty(r)):'—'},
-  {label:'Qtd entregue (NL)',render:r=>fmtInt(deliveredQty(r))},
+  {label:'Qtd entregue',render:r=>fmtInt(deliveredQty(r))},
   {label:'Qtd a entregar',render:r=>contractedQty(r)>0?fmtInt(pendingQty(r)):'—'},
   {label:'Total aquisição',render:r=>acquisitionTotal(r)>0?fmtMoney(acquisitionTotal(r)):'—'},
   {label:'Empenhado',render:r=>`<span class="money">${moneyDisplay(r.valorEmpenhado,r.valorEmpenhadoRaw,{dashIfMissing:true})}</span>`},
@@ -596,7 +592,7 @@ function metricResultCard(r,mode){
    <div class="metric-result-field"><span>Previsão</span><strong>${fmtDate(r.previsaoEntrega)}</strong></div>
    <div class="metric-result-field"><span>Valor atual</span><strong>${valorAtual>0?fmtMoney(valorAtual):'—'}</strong></div>
    <div class="metric-result-field"><span>Qtd. comprada</span><strong>${contractedQty(r)>0?fmtInt(contractedQty(r)):'—'}</strong></div>
-   <div class="metric-result-field"><span>Qtd. entregue (NL)</span><strong>${fmtInt(deliveredQty(r))}</strong></div>
+   <div class="metric-result-field"><span>Qtd. entregue</span><strong>${fmtInt(deliveredQty(r))}</strong></div>
    <div class="metric-result-field"><span>Qtd. a entregar</span><strong>${contractedQty(r)>0?fmtInt(pendingQty(r)):'—'}</strong></div>
    <div class="metric-result-field"><span>Valor total da aquisição</span><strong>${total>0?fmtMoney(total):'—'}</strong></div>
    <div class="metric-result-field"><span>Empenhado</span><strong>${moneyDisplay(r.valorEmpenhado,r.valorEmpenhadoRaw,{dashIfMissing:true})}</strong></div>
@@ -682,7 +678,7 @@ function openDetail(kind,id){
    +detailCard('Modalidade',esc(r.formaModalidade||r.modalidade))
    +detailCard('Valor atual',currentUnitValue(r)>0?fmtMoney(currentUnitValue(r)):'—')
    +detailCard('Qtd. comprada',contractedQty(r)>0?fmtInt(contractedQty(r)):'—')
-   +detailCard('Qtd. entregue (NL)',fmtInt(deliveredQty(r)))
+   +detailCard('Qtd. entregue',fmtInt(deliveredQty(r)))
    +detailCard('Qtd. a entregar',contractedQty(r)>0?fmtInt(pendingQty(r)):'—')
    +detailCard('Valor total da aquisição',acquisitionTotal(r)>0?fmtMoney(acquisitionTotal(r)):'—')
    +detailCard('Empenhado',moneyDisplay(r.valorEmpenhado,r.valorEmpenhadoRaw,{dashIfMissing:true}))
@@ -767,7 +763,7 @@ function cAny(v){return v==null?'':String(v).trim().replace(/\.0$/,'')}
 function fromBase(d,i){return{id:'B'+i,kind:'base',objeto:cAny(d['OBJETO']),uge:cAny(d['UGE']),pcae:cAny(d['PCA-E']),qtdRef:cAny(d['QTD']),valorUnitRef:nAny(d['VALOR UNITÁRIO REFERENCIAL']),valorTotalRef:nAny(d['VALOR TOTAL REFERENCIAL']),natureza:cAny(d['NATUREZA DA DESPESA']),area:cAny(d['ÁREA']),subarea:cAny(d['SUBÁREA']),ano:cAny(d['ANO']),situacaoProcesso:cAny(d['SITUAÇÃO PROCESSO']),dataSituacao:isoAny(d['DATA DA SITUAÇÃO DO PROCESSO']),formaContratacao:cAny(d['FORMA DE CONTRATAÇÃO']),numeroAta:cAny(d['NÚMERO DA ATA']),contratoUGE:cAny(d['Contrato UGE']),dataContrato:isoAny(d['Data assinatura do contrato']),dataPublicacao:isoAny(d['Data de Publicação']),empenho:cAny(d['Nº EMPENHO']),processo:cAny(d['N. PROCESSO']),valorUnitContratadoRaw:cAny(d['VALOR UNIT CONTRATADO (REAIS)']),valorUnitContratado:nAny(d['VALOR UNIT CONTRATADO (REAIS)']),qtdContratadaRaw:cAny(d['QTDE TOTAL CONTRATADA']||d['QTDE TOTAL CONTRATADA 2']),qtdContratada:nAny(d['QTDE TOTAL CONTRATADA']||d['QTDE TOTAL CONTRATADA 2']),statusEntrega:cAny(d['STATUS']),previsaoEntrega:isoAny(d['DATA DA PREVISÃO DE ENTREGA']),diasEntrega:nAny(d['QTD DE DIAS']),qtdEntregueRaw:cAny(d['QTDE ENTREGUE']),qtdEntregue:nAny(d['QTDE ENTREGUE']),valorEmpenhadoRaw:cAny(d['VALOR TOTAL EMPENHADO']),valorEmpenhado:nAny(d['VALOR TOTAL EMPENHADO']),valorLiquidadoRaw:cAny(d['VALOR TOTAL LIQUIDADO']),valorLiquidado:nAny(d['VALOR TOTAL LIQUIDADO']),valorPago:nAny(d['VALOR TOTAL PAGO']||d['VALOR PAGO']||d['PAGO']),valorPagoInformado:[d['VALOR TOTAL PAGO'],d['VALOR PAGO'],d['PAGO']].some(v=>v!=null&&String(v).trim()!==''),pregao:cAny(d['N. OFERTA COMPRA/LICIT/PREG']),processoSEI:cAny(d['N. DO PROCESSO SEI']),parlamentar:cAny(d['PARLAMENTAR']),codigoTransferencia:cAny(d['CÓDIGO TRANSFERÊNCIA']),beneficiario:cAny(d['BENEFICIÁRIO']),acao:cAny(d['AÇÃO']),prioridade:cAny(d['PRIORIDADE']),fonte:cAny(d['DESCRIÇÃO FR']),modalidade:cAny(d['FORMA/MODALIDADE']),formaModalidade:cAny(d['FORMA/MODALIDADE']),contratoSistema:cAny(d['N. CONTRATO SISTEMA']),fornecedorModelo:cAny(d['MARCA/ MODELO/ FORNECEDOR']),observacoes:cAny(d['OBSERVAÇÕES'])}}
 function fromAta(d,i){return{id:'A'+i,kind:'ata',ano:cAny(d['ANO']),objeto:cAny(d['OBJETO']),situacao:cAny(d['SITUAÇÃO']),estagio:cAny(d['ESTÁGIO LICITATÓRIO']||d['ESTÁGIO LICITATÓRIO (CONFIRMADO)']),dataEstagio:isoAny(d['DATA DO ESTÁGIO CONFIRMADO']),proximaEtapa:isoAny(d['DATA DA PRÓXIMA ETAPA']),uge:cAny(d['UGE']),area:cAny(d['ÁREA']),subarea:cAny(d['SUBÁREA']),natureza:cAny(d['NATUREZA']),fornecedor:cAny(d['FORNECEDOR']),modelo:cAny(d['MODELO']),numeroAta:cAny(d['NÚMERO DA ATA']),dataAta:isoAny(d['DATA DE ASSINATURA DA ATA']||d['DATA DE ASS. DA ATA']),validadeAta:isoAny(d['VALIDADE DA ATA']),dias:nAny(d['DIAS']),qtdNegociada:nAny(d['QUANTIDADE NEGOCIADA']),precoAtual:nAny(d['PREÇO ATUAL DA ARP (REAIS)']),precoContratado:nAny(d['PREÇO CONTRATADO (REAIS)']),qtdBase:nAny(d['CONTRATAÇÃO-BASE DA ATA (SEM TA)']),qtdTA:nAny(d['ACRÉSCIMOS CONTRATUAIS (TA)']),qtdTotal:nAny(d['TOTAL CONTRATADO (COM TA)']),saldoAta:nAny(d['SALDO DA ATA (SEM TA)']),pregao:cAny(d['OFERTA DE COMPRA/PREGÃO']),processo:cAny(d['PROCESSO']),observacao:cAny(d['OBSERVAÇÃO']),controle:cAny(d['CONTROLE / PRÓXIMA AÇÃO']),dataAuditoria:isoAny(d['DATA DA ÚLTIMA AUDITORIA']),fonteConfirmacao:cAny(d['FONTE DA ÚLTIMA CONFIRMAÇÃO'])}}
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
-const CACHE_KEY = 'pcaePublicLastSyncV8';
+const CACHE_KEY = 'pcaePublicLastSyncV9';
 let syncInProgress = false, lastAttemptAt = 0, lastSuccessfulAt = '';
 function stamp(value) {
   return new Date(value).toLocaleString('pt-BR', {dateStyle:'short',timeStyle:'short',timeZone:'America/Sao_Paulo'});
