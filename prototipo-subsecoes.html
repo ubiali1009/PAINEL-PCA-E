@@ -34,8 +34,8 @@
 .area-secondary{display:none;gap:7px;align-items:center;flex-wrap:wrap;padding:9px 12px;border-top:1px solid var(--border);background:#f8fafc}
 .area-secondary.show{display:flex}.area-secondary-label{font-size:.78rem;font-weight:800;color:#53677d;margin-right:3px}
 .area-sub-btn{background:#fff;padding:7px 11px}.area-sub-btn.active{background:#e4ebf3;border-color:#94a9bf;color:#0b2a50}
-.area-context{display:none;margin:0 14px 10px;padding:9px 12px;border:1px dashed #a8b8c8;border-radius:9px;background:#f8fafc;color:#4c6075;font-size:.86rem}
-.area-context.show{display:block}
+
+
 @media(max-width:760px){.area-main{align-items:stretch}.area-title{width:100%}.area-btn{flex:1 1 46%}.area-secondary{align-items:stretch}.area-secondary-label{width:100%}.area-sub-btn{flex:1}}
 </style>
 </head>
@@ -60,7 +60,6 @@
  <div class="area-secondary" id="equipSub"><span class="area-secondary-label">Equipamentos Policiais</span><button class="area-sub-btn" data-parent="equipamentos" data-sub="belico">Material Bélico</button><button class="area-sub-btn" data-parent="equipamentos" data-sub="intendencia">Intendência</button></div>
  <div class="area-secondary" id="ftsSub"><span class="area-secondary-label">Frota, TIC e Saúde</span><button class="area-sub-btn" data-parent="fts" data-sub="frota">Frota</button><button class="area-sub-btn" data-parent="fts" data-sub="tic">TIC</button><button class="area-sub-btn" data-parent="fts" data-sub="saude">Saúde</button></div>
 </section>
-<div class="area-context" id="areaContext"></div>
 <section class="metrics" id="metrics"></section>
 <nav class="navtabs" id="navTabs">
  <button class="navtab active" data-view="overview">Visão geral</button><button class="navtab" data-view="daily">Acompanhamento diário</button><button class="navtab" data-view="items">Itens PCA-E</button><button class="navtab" data-view="atas">Licitações e atas</button><button class="navtab" data-view="deliveries">Entregas</button><button class="navtab" data-view="finance">Execução financeira</button>
@@ -203,7 +202,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
 
 (function(){
  const shell=document.getElementById("areaShell"); if(!shell)return;
- const pcae=document.getElementById("pcaeSub"),acao=document.getElementById("acaoSub"),obras=document.getElementById("obrasSub"),equip=document.getElementById("equipSub"),fts=document.getElementById("ftsSub"),ctx=document.getElementById("areaContext");
+ const pcae=document.getElementById("pcaeSub"),acao=document.getElementById("acaoSub"),obras=document.getElementById("obrasSub"),equip=document.getElementById("equipSub"),fts=document.getElementById("ftsSub");
  const groups={
   geral:["consolidado","acao"],
   acao:["muralha","integracao","ostensiva","obras"],
@@ -211,7 +210,6 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
   equipamentos:["belico","intendencia"],
   fts:["frota","tic","saude"]
  };
- const labels={geral:"PCA-E Geral",acao:"Por Ação",obras:"Obras",equipamentos:"Equipamentos Policiais",fts:"Frota, TIC e Saúde",imoveis:"Imóveis"};
  const chosen={
   geral:new Set(),
   acao:new Set(),
@@ -275,29 +273,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
    b.setAttribute("aria-pressed",on?"true":"false");
   });
 
-  shell.querySelectorAll(".group-toggle").forEach(b=>{
-   const box=document.getElementById(b.dataset.group);
-   const first=box&&box.querySelector(".area-sub-btn[data-parent]");
-   const key=first&&first.dataset.parent;
-   const all=!!(key&&groups[key]&&chosen[key].size===groups[key].length);
-   b.textContent=all?"Limpar todos":"Selecionar todos";
-  });
 
-  if(area==="geral"){
-   ctx.classList.remove("show");
-   ctx.textContent="";
-  }else{
-   ctx.classList.add("show");
-   if(area==="imoveis"){
-    ctx.textContent="Imóveis — exibindo todos os registros desta seleção.";
-   }else{
-    const total=(groups[area]||[]).length;
-    const explicit=chosen[area]?chosen[area].size:0;
-    ctx.textContent=explicit
-     ? labels[area]+" — "+explicit+" de "+total+" subdivisão(ões) selecionada(s). Clique novamente para retirar a seleção."
-     : labels[area]+" — exibindo todas as "+total+" subdivisões. Nenhuma subdivisão está selecionada individualmente.";
-   }
-  }
  }
 
  shell.addEventListener("click",e=>{
@@ -314,22 +290,6 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     }
     syncFilter();
    }
-   paint();
-   renderAll();
-   return;
-  }
-
-  const gt=e.target.closest(".group-toggle");
-  if(gt){
-   const box=document.getElementById(gt.dataset.group);
-   const first=box&&box.querySelector(".area-sub-btn[data-parent]");
-   const key=first&&first.dataset.parent;
-   if(!key||!groups[key]||!chosen[key])return;
-   const allExplicit=chosen[key].size===groups[key].length;
-   chosen[key]=allExplicit?new Set():new Set(groups[key]);
-   area=key;
-   selectPathTo(key);
-   syncFilter();
    paint();
    renderAll();
    return;
