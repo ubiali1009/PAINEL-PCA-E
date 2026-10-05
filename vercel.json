@@ -1,6 +1,74 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
-    "api/pcae.js": { "maxDuration": 20 }
-  }
+    "api/pcae.js": {
+      "maxDuration": 20
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/Consolidado",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Imoveis",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Equipamentos-Policiais",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Material-Belico",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Intendencia",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Frota-TIC-e-Saude",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Frota",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/TIC",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Saude",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Por-Acao",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Muralha-Paulista",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Integracao-e-Aparelhamento",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Policia-Ostensiva-e-Formacao",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Obras",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/COPOM",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/Construcao-e-Reforma-de-Quarteis",
+      "destination": "/index.html"
+    }
+  ]
 }
