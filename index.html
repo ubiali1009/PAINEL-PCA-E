@@ -352,7 +352,9 @@ function moneyDisplay(value,raw,{dashIfMissing=false}={}){
 function contractTypeLabel(r){
  const forma=norm(r.formaContratacao);
  if(forma==="ARP")return "ARP";
- if(forma==="CONTRATACAO DIRETA"||forma)return "CONTRATAÇÃO DIRETA";
+ if(forma==="LICITACAO (SEM ARP)"||forma==="LICITACAO SEM ARP"||forma==="LICITACAO")return "LICITAÇÃO (SEM ARP)";
+ if(forma==="CONTRATACAO DIRETA")return "CONTRATAÇÃO DIRETA";
+ if(forma)return r.formaContratacao||"—";
  return r.numeroAta?"ARP":"—";
 }
 function statusWithForm(form,status){
@@ -722,6 +724,7 @@ function openItemObject(objeto){
  const g=aggregateItemRows(rows)[0];
  const ataRows=itemAtasFor(rows,objeto);
  const arpRows=rows.filter(r=>contractTypeLabel(r)==='ARP');
+ const licitRows=rows.filter(r=>contractTypeLabel(r)==='LICITAÇÃO (SEM ARP)');
  const directRows=rows.filter(r=>contractTypeLabel(r)==='CONTRATAÇÃO DIRETA');
  $('#drawer').classList.add('item-mode');
  $('#drawerTitle').textContent=objeto;
@@ -739,7 +742,8 @@ function openItemObject(objeto){
   +'</div>';
  h+='<section class="item-summary-section"><h3>Atas / ARP</h3><p class="item-summary-note">Informações cadastrais e saldo das atas vinculadas a este objeto.</p>'+itemAtaDetailTable(ataRows)+'</section>';
  h+='<section class="item-summary-section"><h3>Contratações realizadas via ata</h3><p class="item-summary-note">Contratos, empenhos, quantidades e execução decorrentes das ARPs.</p>'+itemBaseDetailTable(arpRows)+'</section>';
- h+='<section class="item-summary-section"><h3>Compras / contratações diretas</h3><p class="item-summary-note">Aquisições do mesmo objeto que não utilizam Ata de Registro de Preços.</p>'+itemBaseDetailTable(directRows)+'</section>';
+ h+='<section class="item-summary-section"><h3>Licitações sem ARP</h3><p class="item-summary-note">Contratos originados de licitação própria, como Pregão Eletrônico, sem utilização de Ata de Registro de Preços.</p>'+itemBaseDetailTable(licitRows)+'</section>';
+ h+='<section class="item-summary-section"><h3>Contratações diretas</h3><p class="item-summary-note">Dispensas e inexigibilidades sem Ata de Registro de Preços.</p>'+itemBaseDetailTable(directRows)+'</section>';
  $('#drawerBody').innerHTML=h;
  $('#drawer').classList.add('open');$('#backdrop').classList.add('open');
  $$('#drawerBody [data-kind][data-id]').forEach(el=>el.onclick=()=>openDetail(el.dataset.kind,el.dataset.id));
@@ -880,7 +884,7 @@ function cAny(v){return v==null?'':String(v).trim().replace(/\.0$/,'')}
 function fromBase(d,i){return{id:'B'+i,kind:'base',objeto:cAny(d['OBJETO']),uge:cAny(d['UGE']),pcae:cAny(d['PCA-E']),qtdRef:cAny(d['QTD']),valorUnitRef:nAny(d['VALOR UNITÁRIO REFERENCIAL']),valorTotalRef:nAny(d['VALOR TOTAL REFERENCIAL']),natureza:cAny(d['NATUREZA DA DESPESA']),area:cAny(d['ÁREA']),subarea:cAny(d['SUBÁREA']),ano:cAny(d['ANO']),situacaoProcesso:cAny(d['SITUAÇÃO PROCESSO']),dataSituacao:isoAny(d['DATA DA SITUAÇÃO DO PROCESSO']),formaContratacao:cAny(d['FORMA DE CONTRATAÇÃO']),numeroAta:cAny(d['NÚMERO DA ATA']),contratoUGE:cAny(d['Contrato UGE']),dataContrato:isoAny(d['Data assinatura do contrato']),dataPublicacao:isoAny(d['Data de Publicação']),empenho:cAny(d['Nº EMPENHO']),processo:cAny(d['N. PROCESSO']),valorUnitContratadoRaw:cAny(d['VALOR UNIT CONTRATADO (REAIS)']),valorUnitContratado:nAny(d['VALOR UNIT CONTRATADO (REAIS)']),qtdContratadaRaw:cAny(d['QTDE TOTAL CONTRATADA']||d['QTDE TOTAL CONTRATADA 2']),qtdContratada:nAny(d['QTDE TOTAL CONTRATADA']||d['QTDE TOTAL CONTRATADA 2']),statusEntrega:cAny(d['STATUS']),previsaoEntrega:isoAny(d['DATA DA PREVISÃO DE ENTREGA']),diasEntrega:nAny(d['QTD DE DIAS']),qtdEntregueRaw:cAny(d['QTDE ENTREGUE']),qtdEntregue:nAny(d['QTDE ENTREGUE']),valorEmpenhadoRaw:cAny(d['VALOR TOTAL EMPENHADO']),valorEmpenhado:nAny(d['VALOR TOTAL EMPENHADO']),valorLiquidadoRaw:cAny(d['VALOR TOTAL LIQUIDADO']),valorLiquidado:nAny(d['VALOR TOTAL LIQUIDADO']),valorPago:nAny(d['VALOR TOTAL PAGO']||d['VALOR PAGO']||d['PAGO']),valorPagoInformado:[d['VALOR TOTAL PAGO'],d['VALOR PAGO'],d['PAGO']].some(v=>v!=null&&String(v).trim()!==''),pregao:cAny(d['N. OFERTA COMPRA/LICIT/PREG']),processoSEI:cAny(d['N. DO PROCESSO SEI']),parlamentar:cAny(d['PARLAMENTAR']),codigoTransferencia:cAny(d['CÓDIGO TRANSFERÊNCIA']),beneficiario:cAny(d['BENEFICIÁRIO']),acao:cAny(d['AÇÃO']),prioridade:cAny(d['PRIORIDADE']),fonte:cAny(d['DESCRIÇÃO FR']),modalidade:cAny(d['FORMA/MODALIDADE']),formaModalidade:cAny(d['FORMA/MODALIDADE']),contratoSistema:cAny(d['N. CONTRATO SISTEMA']),fornecedorModelo:cAny(d['MARCA/ MODELO/ FORNECEDOR']),observacoes:cAny(d['OBSERVAÇÕES'])}}
 function fromAta(d,i){return{id:'A'+i,kind:'ata',ano:cAny(d['ANO']),objeto:cAny(d['OBJETO']),situacao:cAny(d['SITUAÇÃO']),estagio:cAny(d['ESTÁGIO LICITATÓRIO']||d['ESTÁGIO LICITATÓRIO (CONFIRMADO)']),dataEstagio:isoAny(d['DATA DO ESTÁGIO CONFIRMADO']),proximaEtapa:isoAny(d['DATA DA PRÓXIMA ETAPA']),uge:cAny(d['UGE']),area:cAny(d['ÁREA']),subarea:cAny(d['SUBÁREA']),natureza:cAny(d['NATUREZA']),fornecedor:cAny(d['FORNECEDOR']),modelo:cAny(d['MODELO']),numeroAta:cAny(d['NÚMERO DA ATA']),dataAta:isoAny(d['DATA DE ASSINATURA DA ATA']||d['DATA DE ASS. DA ATA']),validadeAta:isoAny(d['VALIDADE DA ATA']),dias:nAny(d['DIAS']),qtdNegociada:nAny(d['QUANTIDADE NEGOCIADA']),precoAtual:nAny(d['PREÇO ATUAL DA ARP (REAIS)']),precoContratado:nAny(d['PREÇO CONTRATADO (REAIS)']),qtdBase:nAny(d['CONTRATAÇÃO-BASE DA ATA (SEM TA)']),qtdTA:nAny(d['ACRÉSCIMOS CONTRATUAIS (TA)']),qtdTotal:nAny(d['TOTAL CONTRATADO (COM TA)']),saldoAta:nAny(d['SALDO DA ATA (SEM TA)']),pregao:cAny(d['OFERTA DE COMPRA/PREGÃO']),processo:cAny(d['PROCESSO']),observacao:cAny(d['OBSERVAÇÃO']),controle:cAny(d['CONTROLE / PRÓXIMA AÇÃO']),dataAuditoria:isoAny(d['DATA DA ÚLTIMA AUDITORIA']),fonteConfirmacao:cAny(d['FONTE DA ÚLTIMA CONFIRMAÇÃO'])}}
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
-const CACHE_KEY = 'pcaePublicLastSyncV13';
+const CACHE_KEY = 'pcaePublicLastSyncV14';
 let syncInProgress = false, lastAttemptAt = 0, lastSuccessfulAt = '';
 function stamp(value) {
   return new Date(value).toLocaleString('pt-BR', {dateStyle:'short',timeStyle:'short',timeZone:'America/Sao_Paulo'});

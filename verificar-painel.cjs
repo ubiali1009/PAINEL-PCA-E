@@ -56,7 +56,7 @@ const context = vm.createContext({
   assert.equal(vm.runInContext("matchLeaf({area:'EQUIPAMENTOS E SEMOVENTES',subarea:'',objeto:'KIT AEROMEDICO'},'saude')",context),false);
   assert.equal(context.atas[0].dataEstagio,'2026-10-01'); assert(rendered>=2);
   assert(getNode('#sourcePill').textContent.includes('Dados consultados'));
-  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV13'));
+  assert.equal(timers[0].ms,300000); assert(store.has('pcaePublicLastSyncV14'));
   failed=true; await vm.runInContext('syncOnline()',context);
   assert.equal(context.base[0].valorEmpenhado,38792907);
   assert(getNode('#syncMessage').textContent.includes('mantendo a última cópia'));
