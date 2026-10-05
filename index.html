@@ -243,6 +243,201 @@
   .pmesp-brand-copy p{white-space:normal;line-height:1.25}
 }
 </style>
+
+<style id="pcae-modern-architecture">
+/* PCAE MODERN ARCHITECTURE 05OUT26 */
+:root{
+  --pcae-navy:#0b2545;
+  --pcae-navy-2:#15395e;
+  --pcae-blue:#1f6fbd;
+  --pcae-blue-soft:#eaf3fb;
+  --pcae-canvas:#eef3f7;
+  --pcae-card:#ffffff;
+  --pcae-line:#d9e2eb;
+  --pcae-text:#10243f;
+  --pcae-muted:#66788c;
+  --pcae-green:#159a68;
+  --pcae-amber:#d88912;
+  --pcae-red:#d92b36;
+}
+body{background:var(--pcae-canvas)!important;color:var(--pcae-text)!important}
+.app{max-width:none!important;margin:0!important;padding:0 0 18px!important}
+.pcae-body{display:grid;grid-template-columns:220px minmax(0,1fr);gap:12px;margin:10px 10px 0;align-items:start}
+.pcae-sidebar{
+  position:sticky;top:10px;min-height:calc(100vh - 30px);padding:14px 10px;border-radius:14px;
+  background:linear-gradient(180deg,#0e2a4b 0%,#0a2039 100%);box-shadow:0 8px 24px rgba(12,37,69,.15);color:#fff
+}
+.pcae-side-title{padding:5px 11px 12px;font-size:.69rem;font-weight:800;letter-spacing:.12em;color:rgba(255,255,255,.56);text-transform:uppercase}
+.pcae-side-nav{display:flex;flex-direction:column;gap:4px}
+.pcae-side-btn{
+  width:100%;min-height:42px;display:flex;align-items:center;gap:10px;border:0;border-radius:9px;padding:9px 11px;
+  background:transparent;color:rgba(255,255,255,.88);text-align:left;font-size:.84rem;font-weight:650;cursor:pointer;
+  transition:background .14s,color .14s,transform .14s
+}
+.pcae-side-btn:hover{background:rgba(255,255,255,.08);color:#fff}
+.pcae-side-btn.active{background:linear-gradient(90deg,#1d5b94,#1a4d7d);color:#fff;box-shadow:inset 3px 0 0 #fff}
+.pcae-side-icon{
+  width:25px;height:25px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.18);border-radius:7px;
+  font-size:.82rem;font-weight:900;color:#fff;flex:0 0 25px
+}
+.pcae-side-foot{margin:18px 9px 2px;padding-top:14px;border-top:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.55);font-size:.68rem;line-height:1.45}
+.pcae-content{min-width:0}
+.pcae-content .sync-info{
+  margin:0 0 8px!important;min-height:38px!important;padding:8px 12px!important;border:1px solid var(--pcae-line)!important;
+  border-radius:10px!important;background:#fff!important;color:var(--pcae-muted)!important;box-shadow:none!important;font-size:.73rem!important
+}
+.pcae-content .sync-info #sourcePill{font-weight:800;color:#2a415c}
+.pcae-content .filter-shell{
+  margin:0 0 8px!important;padding:12px!important;border:1px solid var(--pcae-line)!important;border-radius:12px!important;
+  background:#fff!important;box-shadow:0 2px 8px rgba(15,45,78,.04)!important
+}
+.pcae-content .filter-title{display:none!important}
+.pcae-content .smart-search-row{gap:10px!important}
+.pcae-content .smart-search input{
+  height:43px!important;border:1px solid #bac8d6!important;border-radius:9px!important;background:#fff!important;font-size:.84rem!important
+}
+.pcae-content .smart-search-icon{color:#345979!important;font-size:1.15rem!important}
+.pcae-content .advanced-toggle{
+  min-height:43px!important;border:1px solid #c9d5e0!important;border-radius:9px!important;background:#f7f9fb!important;
+  color:#183a5e!important;font-weight:750!important
+}
+.pcae-content .advanced-filters{margin-top:10px!important;padding-top:10px!important;border-top:1px solid #e5ebf1!important}
+.pcae-content .advanced-filters .field label{color:#64788e!important;font-size:.68rem!important;font-weight:750!important}
+.pcae-content .advanced-filters select{border:1px solid #ccd7e2!important;border-radius:8px!important;background:#fff!important}
+.pcae-content .area-shell{
+  margin:0 0 8px!important;padding:8px 10px!important;border:1px solid var(--pcae-line)!important;border-radius:10px!important;
+  background:#fff!important;box-shadow:none!important
+}
+.pcae-content .area-title{font-size:.68rem!important;color:#718396!important}
+.pcae-content .area-btn,.pcae-content .area-sub-btn{
+  min-height:30px!important;padding:5px 10px!important;border-radius:7px!important;border:1px solid #d3dde7!important;
+  background:#f7f9fb!important;color:#284764!important;font-size:.72rem!important;font-weight:700!important
+}
+.pcae-content .area-btn.active,.pcae-content .area-sub-btn.active{background:#eaf2fa!important;color:#0f4f86!important;border-color:#a9c6df!important}
+.pcae-content .metrics{
+  display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:8px!important;margin:0 0 8px!important;
+  padding:0!important;background:transparent!important
+}
+.pcae-content .metric{
+  min-width:0!important;padding:12px 12px 11px!important;border:1px solid var(--pcae-line)!important;border-left:3px solid #8399ad!important;
+  border-radius:11px!important;background:#fff!important;box-shadow:0 2px 8px rgba(15,45,78,.045)!important
+}
+.pcae-content .metric.primary{border-left-color:#2b73b8!important}
+.pcae-content .metric.success{border-left-color:#2b9270!important}
+.pcae-content .metric .label{display:flex!important;align-items:center;gap:7px;color:#466078!important;font-size:.69rem!important;font-weight:800!important;text-transform:none!important;letter-spacing:0!important}
+.pcae-content .metric .label .metric-symbol{
+  width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:#eef4f9;color:#2e5e8c;font-size:.72rem;font-weight:900
+}
+.pcae-content .metric .value{margin-top:7px!important;color:#0b2545!important;font-size:clamp(1.05rem,1.55vw,1.65rem)!important;font-weight:850!important;line-height:1!important}
+.pcae-content .metric .note{margin-top:6px!important;color:#748598!important;font-size:.64rem!important;line-height:1.25!important}
+.pcae-content .metric-drilldown{display:none!important}
+.pcae-content .navtabs{display:none!important}
+.pcae-content .workspace{display:block!important;grid-template-columns:none!important;margin:0!important;padding:0!important;background:transparent!important}
+.pcae-content .main{width:100%!important;max-width:none!important;min-width:0!important}
+.pcae-content .view{padding:0!important;background:transparent!important}
+.pcae-content .section-title{margin:0 0 8px!important}
+.pcae-content .section-title h2{font-size:1rem!important;color:#173452!important}
+.pcae-content .section-title p{font-size:.72rem!important;color:#728397!important}
+.pcae-overview{display:flex;flex-direction:column;gap:8px}
+.pcae-card{border:1px solid var(--pcae-line);border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(15,45,78,.045)}
+.pcae-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 12px 9px;border-bottom:1px solid #e8edf2}
+.pcae-card-head h3{margin:0;color:#143452;font-size:.88rem}
+.pcae-card-head p{margin:2px 0 0;color:#78899a;font-size:.66rem}
+.pcae-card-link{border:0;background:transparent;color:#1e68aa;font-size:.68rem;font-weight:750;cursor:pointer}
+.attention-shell{padding:0}
+.attention-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px 7px}
+.attention-title-wrap{display:flex;align-items:flex-start;gap:9px}
+.attention-title-icon{width:30px;height:30px;display:grid;place-items:center;border-radius:8px;background:#fff0f1;color:var(--pcae-red);font-weight:900;border:1px solid #f6d7da}
+.attention-title-wrap h3{margin:0;font-size:.94rem;color:#173452}
+.attention-title-wrap p{margin:2px 0 0;font-size:.67rem;color:#728397}
+.attention-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:0 12px 12px}
+.attention-btn{
+  position:relative;display:grid;grid-template-columns:34px minmax(0,1fr);gap:9px;align-items:center;min-height:72px;padding:10px;
+  border:1px solid #dbe4ec;border-radius:9px;background:#fff;text-align:left;cursor:pointer;transition:border-color .14s,background .14s,box-shadow .14s
+}
+.attention-btn:hover{border-color:#a9bfd3;background:#fbfdff}
+.attention-btn.active{border-color:#3180c5;background:#f6fbff;box-shadow:inset 0 0 0 1px #b9d8f0}
+.attention-ico{width:34px;height:34px;display:grid;place-items:center;border-radius:8px;background:#edf4fa;color:#2e648f;font-size:.72rem;font-weight:900}
+.attention-btn.warn .attention-ico{background:#fff7e8;color:#b87307}
+.attention-btn.danger .attention-ico{background:#fff0f1;color:#c72a36}
+.attention-meta strong{display:block;color:#1a3856;font-size:.72rem;line-height:1.15}
+.attention-meta b{display:inline-block;margin-top:4px;color:#0d2b49;font-size:1.2rem;line-height:1}
+.attention-meta span{margin-left:4px;color:#78899a;font-size:.62rem}
+.attention-meta small{display:block;margin-top:4px;color:#748598;font-size:.62rem}
+.overview-main-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:8px}
+.attention-table-card{min-width:0;overflow:hidden}
+.attention-table-card .table-wrap{border:0!important;border-radius:0!important;max-height:332px;overflow:auto}
+.attention-table-card .data-table{font-size:.69rem!important}
+.attention-table-card .data-table th{position:sticky;top:0;z-index:1;background:#f5f8fb!important;color:#52697f!important;font-size:.63rem!important;font-weight:800!important;padding:8px!important}
+.attention-table-card .data-table td{padding:8px!important;vertical-align:middle!important}
+.attention-table-card .data-table tbody tr{cursor:pointer}
+.attention-table-card .data-table tbody tr:hover{background:#f7fbff!important}
+.alerts-panel{padding-bottom:7px;overflow:hidden}
+.alerts-panel .pcae-card-head{padding-bottom:8px}
+.alert-list{display:flex;flex-direction:column;gap:6px;padding:8px}
+.alert-item{
+  display:grid;grid-template-columns:32px minmax(0,1fr) 16px;gap:8px;align-items:start;padding:9px;border:1px solid #e2e8ee;
+  border-radius:9px;background:#fbfcfd;cursor:pointer
+}
+.alert-item.danger{border-left:3px solid #d83b46;background:#fffafa}
+.alert-item.warn{border-left:3px solid #d28a18;background:#fffdf8}
+.alert-item.info{border-left:3px solid #477aa7}
+.alert-item.good{border-left:3px solid #2d8d6e}
+.alert-icon{width:30px;height:30px;display:grid;place-items:center;border-radius:8px;background:#eef3f7;color:#345875;font-size:.72rem;font-weight:900}
+.alert-item.danger .alert-icon{background:#fff0f1;color:#c82f3b}
+.alert-item.warn .alert-icon{background:#fff6e7;color:#b5760d}
+.alert-copy strong{display:block;color:#1d3a57;font-size:.69rem;line-height:1.2}
+.alert-copy span{display:block;margin-top:3px;color:#718396;font-size:.61rem;line-height:1.28}
+.alert-arrow{color:#66829d;font-weight:900}
+.overview-bottom-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:8px}
+.finance-flow{padding:10px 12px 12px}
+.flow-row{display:grid;grid-template-columns:116px minmax(0,1fr) 104px;align-items:center;gap:9px;margin:9px 0}
+.flow-label{font-size:.66rem;color:#4f667c;font-weight:750}
+.flow-track{height:10px;border-radius:999px;background:#e8eef4;overflow:hidden}
+.flow-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,#315f8a,#1f6fbd)}
+.flow-fill.secondary{background:#58738d}
+.flow-fill.success{background:#2c8d6f}
+.flow-value{text-align:right;color:#183a5a;font-size:.68rem;font-weight:800}
+.category-exec{padding:9px 12px 12px}
+.cat-row{display:grid;grid-template-columns:118px minmax(0,1fr) 42px;align-items:center;gap:8px;margin:7px 0}
+.cat-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#506980;font-size:.65rem}
+.cat-track{height:8px;background:#e8eef4;border-radius:999px;overflow:hidden}
+.cat-fill{height:100%;background:#2f6fa6;border-radius:inherit}
+.cat-value{text-align:right;color:#35536f;font-size:.63rem;font-weight:800}
+.pcae-content .panel,.pcae-content #view-items,.pcae-content #view-atas,.pcae-content #view-deliveries,.pcae-content #view-finance,.pcae-content #view-daily{
+  border:1px solid var(--pcae-line)!important;border-radius:12px!important;background:#fff!important;box-shadow:0 2px 8px rgba(15,45,78,.04)!important
+}
+.pcae-content #view-items,.pcae-content #view-atas,.pcae-content #view-deliveries,.pcae-content #view-finance,.pcae-content #view-daily{padding:12px!important}
+.pcae-content .table-wrap{border:1px solid #e0e7ee!important;border-radius:9px!important}
+.pcae-content .data-table th{background:#f5f8fb!important;color:#52697f!important}
+.pcae-content .data-table td{color:#304a62!important}
+.pcae-content .badge{border-radius:6px!important;font-size:.62rem!important}
+@media(max-width:1300px){
+  .pcae-content .metrics{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .overview-main-grid{grid-template-columns:minmax(0,1fr) 290px}
+}
+@media(max-width:1060px){
+  .pcae-body{grid-template-columns:180px minmax(0,1fr)}
+  .attention-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .overview-main-grid,.overview-bottom-grid{grid-template-columns:1fr}
+  .alerts-panel{order:2}
+}
+@media(max-width:820px){
+  .pcae-body{display:block;margin:8px 6px 0}
+  .pcae-sidebar{position:static;min-height:0;padding:8px;margin-bottom:8px}
+  .pcae-side-title,.pcae-side-foot{display:none}
+  .pcae-side-nav{flex-direction:row;overflow-x:auto;padding-bottom:2px}
+  .pcae-side-btn{width:auto;min-width:max-content;min-height:36px;padding:7px 10px;font-size:.74rem}
+  .pcae-side-icon{display:none}
+  .pcae-content .metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:560px){
+  .pcae-content .metrics{grid-template-columns:1fr!important}
+  .attention-grid{grid-template-columns:1fr}
+  .flow-row{grid-template-columns:96px minmax(0,1fr) 82px}
+  .cat-row{grid-template-columns:100px minmax(0,1fr) 38px}
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -1412,4 +1607,356 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
  storeCurrentHistory();
 })();
 </script>
+<script id="pcae-modern-architecture-script">/* PCAE MODERN ARCHITECTURE SCRIPT 05OUT26 */(function modernPatch(){
+  let attentionMode='licitation';
+
+  function moneyOrDash(v){ return Number(v||0)>0 ? fmtMoney(Number(v||0)) : '—'; }
+  function pcaePct(v){ return Number(v||0).toFixed(1).replace('.',',')+'%'; }
+  function pct(n,d){ return d>0?Math.max(0,n/d*100):0; }
+
+  function plannedTotal(rows){
+    const map=new Map();
+    rows.forEach(r=>{
+      const v=Number(r.valorTotalRef||0);
+      if(!(v>0)) return;
+      const k=[norm(r.objeto),norm(r.acao),norm(r.pcae),norm(r.ano)].join('|');
+      map.set(k,Math.max(map.get(k)||0,v));
+    });
+    return [...map.values()].reduce((s,v)=>s+v,0);
+  }
+
+  function paidTotal(rows){
+    return rows.reduce((s,r)=>s+(r.valorPagoInformado?Number(r.valorPago||0):0),0);
+  }
+
+  function buildShell(){
+    if(document.querySelector('.pcae-body')) return;
+    const header=document.querySelector('.pmesp-header');
+    const sync=document.querySelector('.sync-info');
+    const filter=document.querySelector('#filterShell');
+    const area=document.querySelector('#areaShell');
+    const metrics=document.querySelector('#metrics');
+    const drill=document.querySelector('#metricDrilldown');
+    const nav=document.querySelector('#navTabs');
+    const workspace=document.querySelector('.workspace');
+    if(!header||!sync||!filter||!metrics||!workspace) return;
+
+    const body=document.createElement('div');
+    body.className='pcae-body';
+    const side=document.createElement('aside');
+    side.className='pcae-sidebar';
+    side.innerHTML=
+      '<div class="pcae-side-title">Navegação</div>'+
+      '<nav class="pcae-side-nav" aria-label="Navegação principal">'+
+        '<button class="pcae-side-btn active" data-pcae-view="overview"><span class="pcae-side-icon">⌂</span><span>Central Gerencial</span></button>'+
+        '<button class="pcae-side-btn" data-pcae-view="items"><span class="pcae-side-icon">▦</span><span>Objetos PCA-E</span></button>'+
+        '<button class="pcae-side-btn" data-pcae-view="atas"><span class="pcae-side-icon">⌁</span><span>Licitações e ARPs</span></button>'+
+        '<button class="pcae-side-btn" data-pcae-view="deliveries"><span class="pcae-side-icon">▣</span><span>Contratos e Entregas</span></button>'+
+        '<button class="pcae-side-btn" data-pcae-view="finance"><span class="pcae-side-icon">▤</span><span>Execução Financeira</span></button>'+
+        '<button class="pcae-side-btn" data-pcae-view="imoveis"><span class="pcae-side-icon">⌖</span><span>Imóveis</span></button>'+
+      '</nav>'+
+      '<div class="pcae-side-foot">Painel gerencial PCA-E<br>PMESP · acompanhamento integrado</div>';
+
+    const content=document.createElement('div');
+    content.className='pcae-content';
+    [sync,filter,area,metrics,drill,nav,workspace].forEach(el=>{if(el)content.appendChild(el);});
+    header.insertAdjacentElement('afterend',body);
+    body.append(side,content);
+
+    side.addEventListener('click',e=>{
+      const btn=e.target.closest('[data-pcae-view]');
+      if(!btn) return;
+      let view=btn.dataset.pcaeView;
+      if(view==='imoveis'){
+        const areaBtn=document.querySelector('.area-btn[data-area="imoveis"]');
+        if(areaBtn) areaBtn.click();
+        view='overview';
+      }else if(view==='overview'){
+        const areaBtn=document.querySelector('.area-btn[data-area="geral"]');
+        if(areaBtn&&!areaBtn.classList.contains('active')) areaBtn.click();
+      }
+      const legacy=document.querySelector('.navtab[data-view="'+view+'"]');
+      if(legacy) legacy.click();
+      side.querySelectorAll('.pcae-side-btn').forEach(x=>x.classList.toggle('active',x===btn));
+    });
+  }
+
+  function renderNewMetrics(){
+    const rows=filteredBase();
+    const planned=plannedTotal(rows);
+    const empenho=rows.reduce((s,r)=>s+Number(r.valorEmpenhado||0),0);
+    const liq=rows.reduce((s,r)=>s+Number(r.valorLiquidado||0),0);
+    const pago=paidTotal(rows);
+    const saldo=planned>0?Math.max(0,planned-empenho):0;
+    const execDen=planned>0?planned:(empenho||1);
+    const cards=[
+      {label:'Planejado',symbol:'P',value:moneyOrDash(planned),note:planned>0?'referência consolidada do PCA-E':'sem valor de referência',cls:'primary'},
+      {label:'Empenhado',symbol:'E',value:moneyOrDash(empenho),note:planned>0?pcaePct(pct(empenho,planned))+' do planejado':rows.length+' registros financeiros'},
+      {label:'Liquidado',symbol:'L',value:moneyOrDash(liq),note:planned>0?pcaePct(pct(liq,planned))+' do planejado':pcaePct(pct(liq,empenho))+' do empenhado'},
+      {label:'Pago',symbol:'R</html>
+,value:moneyOrDash(pago),note:pago>0?(planned>0?pcaePct(pct(pago,planned))+' do planejado':'valor pago informado'):'pagamento ainda não informado',cls:'success'},
+      {label:'Saldo a empenhar',symbol:'S',value:planned>0?fmtMoney(saldo):'—',note:planned>0?pcaePct(pct(saldo,planned))+' do planejado':'depende do valor planejado'},
+      {label:'% de execução',symbol:'%',value:pcaePct(pct(liq,execDen)),note:planned>0?'liquidado / planejado':'liquidado / empenhado',cls:'primary'}
+    ];
+    const el=document.querySelector('#metrics');
+    el.innerHTML=cards.map(c=>
+      '<article class="metric '+(c.cls||'')+'">'+
+        '<div class="label"><span class="metric-symbol">'+c.symbol+'</span>'+c.label+'</div>'+
+        '<div class="value">'+c.value+'</div>'+
+        '<div class="note">'+c.note+'</div>'+
+      '</article>'
+    ).join('');
+  }
+
+  function criticalRows(){
+    const a=atasCoreRows().filter(r=>{
+      const d=daysUntil(r.proximaEtapa||r.validadeAta);
+      return d!==null&&d<=30;
+    }).map(r=>({kind:'ata',row:r,date:r.proximaEtapa||r.validadeAta,days:daysUntil(r.proximaEtapa||r.validadeAta)}));
+
+    const b=baseCoreRows().filter(r=>isPendingContract(r)).filter(r=>{
+      const d=daysUntil(r.previsaoEntrega);
+      return d!==null&&d<=30;
+    }).map(r=>({kind:'base',row:r,date:r.previsaoEntrega,days:daysUntil(r.previsaoEntrega)}));
+
+    return [...a,...b].sort((x,y)=>(x.days??9999)-(y.days??9999));
+  }
+
+  function attentionCounts(){
+    return {
+      licitation:atasCoreRows().filter(r=>norm(r.situacao)==='EM LICITACAO').length,
+      pendingitems:pendingItemGroups().length,
+      revalidate:atasCoreRows().filter(r=>norm(r.situacao)==='REVALIDAR').length,
+      critical:criticalRows().length
+    };
+  }
+
+  function attentionRows(){
+    if(attentionMode==='licitation'){
+      return atasCoreRows().filter(r=>norm(r.situacao)==='EM LICITACAO')
+        .sort((a,b)=>((dateVal(a.proximaEtapa)||9e15)-(dateVal(b.proximaEtapa)||9e15)))
+        .slice(0,8).map(r=>({
+          type:'ata',raw:r,objeto:r.objeto,processo:r.pregao||r.processo||r.numeroAta||'—',
+          modalidade:r.pregao?'Pregão / ARP':'ARP',situacao:r.estagio||r.situacao||'Em licitação',
+          etapa:r.controle||'Acompanhar próxima etapa',data:r.proximaEtapa,responsavel:r.uge||'—'
+        }));
+    }
+    if(attentionMode==='revalidate'){
+      return atasCoreRows().filter(r=>norm(r.situacao)==='REVALIDAR').slice(0,8).map(r=>({
+        type:'ata',raw:r,objeto:r.objeto,processo:r.pregao||r.processo||r.numeroAta||'—',
+        modalidade:'ARP',situacao:'Revalidar',etapa:r.controle||r.observacao||'Revisar vínculo, saldo e validade',
+        data:r.validadeAta||r.proximaEtapa,responsavel:r.uge||'—'
+      }));
+    }
+    if(attentionMode==='pendingitems'){
+      return pendingItemGroups().sort((a,b)=>(a.previsao||'9999').localeCompare(b.previsao||'9999')).slice(0,8).map(g=>({
+        type:'item',raw:g,objeto:g.objeto,processo:(g.contratos||g.registros)+' contrato(s)/registro(s)',
+        modalidade:g.forma||'—',situacao:g.status||'Pendente',etapa:'Acompanhar recebimento',
+        data:g.previsao,responsavel:g.uge||'—'
+      }));
+    }
+    return criticalRows().slice(0,8).map(x=>{
+      const r=x.row;
+      if(x.kind==='ata') return {
+        type:'ata',raw:r,objeto:r.objeto,processo:r.pregao||r.processo||r.numeroAta||'—',
+        modalidade:'ARP',situacao:(x.days<0?'Prazo vencido':'Prazo próximo'),
+        etapa:r.controle||r.estagio||'Acompanhar marco',data:x.date,responsavel:r.uge||'—'
+      };
+      return {
+        type:'base',raw:r,objeto:r.objeto,processo:r.contratoUGE||r.empenho||r.processoSEI||'—',
+        modalidade:contractTypeLabel(r),situacao:(x.days<0?'Entrega vencida':'Entrega próxima'),
+        etapa:'Acompanhar recebimento',data:x.date,responsavel:r.uge||'—'
+      };
+    });
+  }
+
+  function attentionTitle(){
+    return {
+      licitation:['Itens em licitação','Certames em andamento ordenados pela próxima etapa.'],
+      pendingitems:['Contratos/NE não entregues','Objetos consolidados com recebimento pendente.'],
+      revalidate:['Itens a revalidar','Atas e processos que exigem conferência ou providência.'],
+      critical:['Prazos críticos','Marcos e entregas vencidos ou previstos para os próximos 30 dias.']
+    }[attentionMode];
+  }
+
+  function attentionTableHtml(rows){
+    if(!rows.length) return '<div class="empty">Nenhum item nesta condição.</div>';
+    return '<div class="table-wrap"><table class="data-table"><thead><tr>'+
+      '<th>Objeto</th><th>Processo / contrato</th><th>Modalidade</th><th>Situação atual</th><th>Próxima etapa</th><th>Data</th><th>Responsável</th>'+
+      '</tr></thead><tbody>'+
+      rows.map(x=>{
+        const attrs=x.type==='item'
+          ? 'data-item-object="'+esc(x.raw.objeto)+'"'
+          : 'data-kind="'+x.type+'" data-id="'+x.raw.id+'"';
+        return '<tr '+attrs+'>'+
+          '<td><strong>'+esc(x.objeto||'—')+'</strong></td>'+
+          '<td>'+esc(x.processo||'—')+'</td>'+
+          '<td>'+esc(x.modalidade||'—')+'</td>'+
+          '<td><span class="badge '+badgeClass(x.situacao)+'">'+esc(x.situacao||'—')+'</span></td>'+
+          '<td><div class="action-text">'+esc(x.etapa||'—')+'</div></td>'+
+          '<td>'+fmtDate(x.data)+'</td>'+
+          '<td>'+esc(x.responsavel||'—')+'</td>'+
+        '</tr>';
+      }).join('')+
+      '</tbody></table></div>';
+  }
+
+  function alertData(){
+    const groups=aggregateItemRows(baseCoreRows());
+    const mismatch=groups.filter(g=>{
+      const phys=g.qtdContratada>0?g.qtdEntregue/g.qtdContratada:0;
+      const fin=g.valorEmpenhado>0?g.valorLiquidado/g.valorEmpenhado:0;
+      return (phys>=.70&&fin<.50)||(fin>=.70&&phys<.50);
+    });
+    const highFinLowPhysical=groups.filter(g=>{
+      const phys=g.qtdContratada>0?g.qtdEntregue/g.qtdContratada:0;
+      const fin=g.valorEmpenhado>0?g.valorLiquidado/g.valorEmpenhado:0;
+      return fin>=.80&&phys<.50;
+    });
+    const reval=atasCoreRows().filter(r=>{
+      if(norm(r.situacao)==='REVALIDAR') return true;
+      const d=daysUntil(r.validadeAta);
+      return d!==null&&d>=0&&d<=90;
+    });
+    const licNoDate=atasCoreRows().filter(r=>norm(r.situacao)==='EM LICITACAO'&&!r.proximaEtapa).length;
+    const overdue=baseCoreRows().filter(r=>isPendingContract(r)&&daysUntil(r.previsaoEntrega)!==null&&daysUntil(r.previsaoEntrega)<0).length;
+    const planned=plannedTotal(baseCoreRows());
+    const empenho=baseCoreRows().reduce((s,r)=>s+Number(r.valorEmpenhado||0),0);
+    const saldo=planned>0?Math.max(0,planned-empenho):0;
+    return [
+      {cls:'danger',icon:'↗',title:'Diferença entre execução física e financeira',text:mismatch.length+' objeto(s) apresentam descompasso relevante entre entrega e execução financeira.',mode:'items'},
+      {cls:'warn',icon:'!',title:'Alto financeiro e baixa entrega',text:highFinLowPhysical.length+' objeto(s) têm liquidação elevada e menos de 50% da entrega física.',mode:'deliveries'},
+      {cls:'warn',icon:'↻',title:'Revalidações próximas',text:reval.length+' ata(s)/processo(s) exigem revalidação ou vencem em até 90 dias.',attention:'revalidate'},
+      {cls:'danger',icon:'⌛',title:'Principais gargalos identificados',text:licNoDate+' licitação(ões) sem próxima data e '+overdue+' entrega(s) vencida(s).',attention:'critical'},
+      {cls:'info',icon:'R</html>
+,title:'Disponibilidade do planejado',text:planned>0?('Saldo estimado a empenhar: '+fmtMoney(saldo)+' ('+pcaePct(pct(saldo,planned))+').'):'Valor planejado insuficiente para calcular o saldo.',mode:'finance'}
+    ];
+  }
+
+  function categoryExecutionHtml(){
+    const map=new Map();
+    baseCoreRows().forEach(r=>{
+      const k=r.area||'SEM ÁREA';
+      const x=map.get(k)||{e:0,l:0};
+      x.e+=Number(r.valorEmpenhado||0);
+      x.l+=Number(r.valorLiquidado||0);
+      map.set(k,x);
+    });
+    const rows=[...map.entries()].map(([k,v])=>[k,v.e>0?v.l/v.e*100:0]).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    if(!rows.length) return '<div class="empty">Sem dados financeiros na seleção.</div>';
+    return rows.map(([k,v])=>
+      '<div class="cat-row">'+
+        '<div class="cat-label" title="'+esc(k)+'">'+esc(k)+'</div>'+
+        '<div class="cat-track"><div class="cat-fill" style="width:'+Math.max(0,Math.min(100,v))+'%"></div></div>'+
+        '<div class="cat-value">'+pcaePct(v)+'</div>'+
+      '</div>'
+    ).join('');
+  }
+
+  function financialFlowHtml(){
+    const rows=baseCoreRows();
+    const planned=plannedTotal(rows);
+    const e=rows.reduce((s,r)=>s+Number(r.valorEmpenhado||0),0);
+    const l=rows.reduce((s,r)=>s+Number(r.valorLiquidado||0),0);
+    const p=paidTotal(rows);
+    const ref=planned>0?planned:Math.max(1,e,l,p);
+    const arr=[['Planejado',planned,''],['Empenhado',e,'secondary'],['Liquidado',l,''],['Pago',p,'success']];
+    return arr.map(([label,val,cls])=>
+      '<div class="flow-row">'+
+        '<div class="flow-label">'+label+'</div>'+
+        '<div class="flow-track"><div class="flow-fill '+cls+'" style="width:'+Math.max(0,Math.min(100,Number(val||0)/ref*100))+'%"></div></div>'+
+        '<div class="flow-value">'+moneyOrDash(val)+'</div>'+
+      '</div>'
+    ).join('');
+  }
+
+  function setSideActive(view){
+    document.querySelectorAll('.pcae-side-btn').forEach(x=>x.classList.toggle('active',x.dataset.pcaeView===view));
+  }
+
+  function renderNewOverview(){
+    const view=document.querySelector('#view-overview');
+    if(!view) return;
+    const counts=attentionCounts();
+    const title=attentionTitle();
+    view.innerHTML=
+      '<div class="pcae-overview">'+
+        '<section class="pcae-card attention-shell">'+
+          '<div class="attention-title-row">'+
+            '<div class="attention-title-wrap"><div class="attention-title-icon">!</div><div><h3>Central de Atenção</h3><p>Acompanhe os itens que requerem ação prioritária da gestão.</p></div></div>'+
+            '<button class="pcae-card-link" data-attention-all>Ver todos os itens →</button>'+
+          '</div>'+
+          '<div class="attention-grid">'+
+            '<button class="attention-btn '+(attentionMode==='licitation'?'active':'')+'" data-attention="licitation"><span class="attention-ico">L</span><span class="attention-meta"><strong>Em licitação</strong><b>'+fmtInt(counts.licitation)+'</b><span>itens</span><small>Processos em andamento</small></span></button>'+
+            '<button class="attention-btn '+(attentionMode==='pendingitems'?'active':'')+'" data-attention="pendingitems"><span class="attention-ico">NE</span><span class="attention-meta"><strong>Contratos/NE não entregues</strong><b>'+fmtInt(counts.pendingitems)+'</b><span>itens</span><small>Recebimento pendente</small></span></button>'+
+            '<button class="attention-btn warn '+(attentionMode==='revalidate'?'active':'')+'" data-attention="revalidate"><span class="attention-ico">↻</span><span class="attention-meta"><strong>Revalidar</strong><b>'+fmtInt(counts.revalidate)+'</b><span>itens</span><small>Conferência necessária</small></span></button>'+
+            '<button class="attention-btn danger '+(attentionMode==='critical'?'active':'')+'" data-attention="critical"><span class="attention-ico">!</span><span class="attention-meta"><strong>Prazo crítico</strong><b>'+fmtInt(counts.critical)+'</b><span>itens</span><small>Vencidos ou próximos de 30 dias</small></span></button>'+
+          '</div>'+
+        '</section>'+
+
+        '<div class="overview-main-grid">'+
+          '<section class="pcae-card attention-table-card">'+
+            '<div class="pcae-card-head"><div><h3>'+title[0]+'</h3><p>'+title[1]+'</p></div><button class="pcae-card-link" data-attention-all>Ver todos →</button></div>'+
+            '<div id="attentionTable">'+attentionTableHtml(attentionRows())+'</div>'+
+          '</section>'+
+          '<aside class="pcae-card alerts-panel">'+
+            '<div class="pcae-card-head"><div><h3>Alertas gerenciais</h3><p>Exceções e sinais que merecem decisão.</p></div></div>'+
+            '<div class="alert-list">'+alertData().map(a=>
+              '<div class="alert-item '+a.cls+'" '+(a.attention?('data-alert-attention="'+a.attention+'"'):('data-alert-view="'+a.mode+'"'))+'>'+
+                '<div class="alert-icon">'+a.icon+'</div><div class="alert-copy"><strong>'+a.title+'</strong><span>'+a.text+'</span></div><div class="alert-arrow">›</div>'+
+              '</div>'
+            ).join('')+'</div>'+
+          '</aside>'+
+        '</div>'+
+
+        '<div class="overview-bottom-grid">'+
+          '<section class="pcae-card"><div class="pcae-card-head"><div><h3>Fluxo da execução financeira</h3><p>Planejado, empenhado, liquidado e pago na seleção atual.</p></div></div><div class="finance-flow">'+financialFlowHtml()+'</div></section>'+
+          '<section class="pcae-card"><div class="pcae-card-head"><div><h3>% de execução por categoria</h3><p>Liquidação em relação ao empenho por área.</p></div></div><div class="category-exec">'+categoryExecutionHtml()+'</div></section>'+
+        '</div>'+
+      '</div>';
+
+    view.querySelectorAll('[data-attention]').forEach(btn=>btn.addEventListener('click',()=>{
+      attentionMode=btn.dataset.attention;
+      renderNewOverview();
+      bindRows();
+    }));
+
+    view.querySelectorAll('[data-attention-all]').forEach(btn=>btn.addEventListener('click',()=>{
+      const target=attentionMode==='pendingitems'?'deliveries':'atas';
+      const legacy=document.querySelector('.navtab[data-view="'+target+'"]');
+      if(legacy) legacy.click();
+      setSideActive(target);
+    }));
+
+    view.querySelectorAll('[data-alert-attention]').forEach(el=>el.addEventListener('click',()=>{
+      attentionMode=el.dataset.alertAttention;
+      renderNewOverview();
+      bindRows();
+      view.scrollIntoView({behavior:'smooth',block:'start'});
+    }));
+
+    view.querySelectorAll('[data-alert-view]').forEach(el=>el.addEventListener('click',()=>{
+      const v=el.dataset.alertView;
+      const legacy=document.querySelector('.navtab[data-view="'+v+'"]');
+      if(legacy) legacy.click();
+      setSideActive(v);
+    }));
+  }
+
+  buildShell();
+  try{ if(typeof metricFilters!=='undefined'&&metricFilters.clear) metricFilters.clear(); }catch(e){}
+  try{
+    renderMetrics=renderNewMetrics;
+    renderMetricDrilldown=function(){
+      const p=document.querySelector('#metricDrilldown');
+      if(p){p.hidden=true;p.innerHTML='';}
+    };
+    renderOverview=renderNewOverview;
+  }catch(e){console.error('Falha ao aplicar arquitetura PCA-E',e);}
+
+  if(typeof renderAll==='function') renderAll();
+
+  const current=document.querySelector('.navtab.active');
+  if(current) setSideActive(current.dataset.view);
+})();</script>
 </body></html>
