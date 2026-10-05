@@ -102,188 +102,245 @@
 
 @media(max-width:760px){}
 
-/* Identidade visual PMESP - cabeçalho institucional PCA-E */
-.pmesp-hero{
-  position:relative;top:auto;z-index:30;min-height:174px;margin:8px 10px 0;
-  padding:22px 22px 58px 26px;background:linear-gradient(180deg,#ffffff 0%,#f4f6f8 100%);
-  border:1px solid #bfc8d2;border-radius:20px;display:flex;align-items:flex-start;
-  justify-content:space-between;gap:22px;overflow:hidden;box-shadow:0 7px 22px rgba(15,35,55,.10)
+
+/* Cabeçalho institucional PMESP — implementação canônica 05OUT26 */
+.pmesp-header{
+  position:relative!important;
+  top:auto!important;
+  z-index:30;
+  min-height:168px;
+  margin:8px 10px 0;
+  padding:20px 24px 52px 28px;
+  background:linear-gradient(180deg,#ffffff 0%,#f7f9fb 100%);
+  border:1px solid #bec8d2;
+  border-radius:20px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  overflow:hidden;
+  box-shadow:0 5px 18px rgba(20,42,66,.08);
 }
-.pmesp-hero:before{display:none!important}.pmesp-hero>*{position:relative;z-index:3}
-.hero-top-wave,.hero-bottom-wave{position:absolute!important;z-index:1!important;pointer-events:none}
-.hero-top-wave{right:0;top:0;width:43%;height:80px}.hero-bottom-wave{left:0;bottom:-1px;width:100%;height:105px}
-.pmesp-hero .brand{display:flex;align-items:center;gap:18px;min-width:0;z-index:4}
-.pmesp-hero .crest{width:136px;height:112px;overflow:hidden;flex:0 0 136px;border:0;border-radius:0;background:transparent;box-shadow:none;display:block}
-.pmesp-hero .crest img{height:112px;width:auto;max-width:none;display:block;transform:translateX(-88px);filter:grayscale(1) contrast(1.12) brightness(.96)}
-.pmesp-hero .brand-divider{width:1px;height:112px;background:#8b98a7;opacity:.8;flex:0 0 auto}
-.pmesp-hero .brand-copy{min-width:0;padding-top:3px}
-.pmesp-hero .brand-eyebrow{display:block;margin:0 0 5px;font-family:"Arial Narrow","Roboto Condensed","Segoe UI",sans-serif;font-size:.92rem;font-weight:800;letter-spacing:.18em;color:#708092}
-.pmesp-hero .brand h1{margin:0;font-family:"Arial Narrow","Roboto Condensed","Segoe UI",sans-serif;font-size:clamp(2rem,3.1vw,3.45rem);line-height:.98;letter-spacing:-.03em;font-weight:900;color:#071d36}
-.pmesp-hero .brand p{margin:9px 0 0;color:#5d6b79;font-size:clamp(.82rem,1.05vw,1rem);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pmesp-hero .actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;padding-top:10px;z-index:5}
-.pmesp-hero .action{min-height:44px;padding:10px 15px;border-radius:12px;font-size:.76rem;font-weight:850;box-shadow:0 5px 14px rgba(8,25,42,.12)}
-.pmesp-hero .action.online{background:linear-gradient(180deg,#10375e,#0b2a50);border-color:#092442}
-.pmesp-hero .action.dark{background:linear-gradient(180deg,#2a3036,#1f2429);border-color:#161a1e}
-.pmesp-hero .action-icon{font-size:1rem;line-height:1}
-.anniversary-mark{position:absolute!important;right:28px;bottom:17px;z-index:4!important;width:150px;text-align:center;line-height:.82;font-family:"Arial Narrow","Roboto Condensed","Segoe UI",sans-serif;color:#5d6267;font-style:italic;transform:skew(-6deg)}
-.anniversary-mark span{display:block;font-size:.62rem;font-weight:900;letter-spacing:.05em}
-.anniversary-mark strong{display:inline-block;font-size:2.65rem;line-height:.78;font-style:italic;font-weight:950;letter-spacing:-.08em;color:#4a4e53}
-.anniversary-mark em{display:block;font-size:.82rem;font-weight:900;letter-spacing:.16em;color:#555b61}
-.anniversary-mark:after{content:"";position:absolute;right:-2px;top:22px;width:30px;height:8px;background:#d71920;transform:skew(-18deg);border-radius:1px;opacity:.95}
-@media(max-width:1100px){
- .pmesp-hero{min-height:164px;padding:18px 18px 56px}.pmesp-hero .crest{width:112px;height:94px;flex-basis:112px}
- .pmesp-hero .crest img{height:94px;transform:translateX(-74px)}.pmesp-hero .brand-divider{height:94px}
- .pmesp-hero .brand h1{font-size:clamp(1.7rem,4vw,2.7rem)}.pmesp-hero .brand p{max-width:680px}
- .hero-top-wave{width:52%}.anniversary-mark{width:124px;right:20px}.anniversary-mark strong{font-size:2.2rem}
+.pmesp-header:before{display:none!important}
+.pmesp-header>*{position:relative;z-index:3}
+.pmesp-top-curve,.pmesp-bottom-curve{
+  position:absolute!important;
+  z-index:1!important;
+  pointer-events:none;
 }
-@media(max-width:760px){
- .pmesp-hero{position:relative;min-height:218px;padding:16px 14px 62px;flex-direction:column;gap:10px}
- .pmesp-hero .brand{width:100%;gap:10px;align-items:center}.pmesp-hero .crest{width:80px;height:70px;flex-basis:80px}
- .pmesp-hero .crest img{height:70px;transform:translateX(-55px)}.pmesp-hero .brand-divider{height:68px}
- .pmesp-hero .brand-eyebrow{font-size:.68rem}.pmesp-hero .brand h1{font-size:1.72rem}
- .pmesp-hero .brand p{font-size:.73rem;white-space:normal;line-height:1.25;margin-top:5px}
- .pmesp-hero .actions{width:100%;padding-top:0;justify-content:flex-start}.pmesp-hero .action{min-height:38px;padding:8px 10px;font-size:.68rem}
- .hero-top-wave{width:70%;height:62px}.hero-bottom-wave{height:74px}
- .anniversary-mark{right:12px;bottom:12px;width:95px}.anniversary-mark strong{font-size:1.75rem}.anniversary-mark span{font-size:.48rem}.anniversary-mark em{font-size:.58rem}
+.pmesp-top-curve{top:-1px;right:-1px;width:31%;height:54px}
+.pmesp-bottom-curve{left:0;bottom:-1px;width:100%;height:78px}
+
+.pmesp-brand{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  min-width:0;
+  z-index:4!important;
+}
+.pmesp-crest{
+  width:126px;
+  height:104px;
+  flex:0 0 126px;
+  background-image:url("https://policiamilitar.sp.gov.br/unidades/ccomsoc/pmesp190anos/assets/img/logos.png");
+  background-repeat:no-repeat;
+  background-position:right center;
+  background-size:auto 104px;
+  filter:grayscale(1) contrast(1.08);
+}
+.pmesp-divider{
+  width:1px;
+  height:108px;
+  flex:0 0 auto;
+  background:#9aa6b4;
+}
+.pmesp-copy{min-width:0;padding-top:2px}
+.pmesp-kicker{
+  display:block;
+  margin:0 0 5px;
+  font-family:"Roboto Condensed","Arial Narrow","Segoe UI",sans-serif;
+  font-size:.78rem;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.20em;
+  color:#657991;
+}
+.pmesp-copy h1{
+  margin:0;
+  font-family:"Roboto Condensed","Arial Narrow","Segoe UI",sans-serif;
+  font-size:clamp(2rem,2.7vw,3rem);
+  line-height:1;
+  letter-spacing:-.028em;
+  font-weight:900;
+  color:#061c36;
+}
+.pmesp-copy p{
+  margin:9px 0 0;
+  color:#5d6a78;
+  font-size:clamp(.78rem,.95vw,.96rem);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
-/* Refinamento visual 05OUT26 */
-.pmesp-hero{
-  min-height:190px!important;
-  padding:24px 24px 64px 28px!important;
+.pmesp-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:9px;
+  flex-wrap:wrap;
+  padding-top:18px;
+  z-index:5!important;
 }
-.hero-top-wave{
-  width:31%!important;
-  height:58px!important;
-  right:-2px!important;
-  top:-1px!important;
+.pmesp-header .action{
+  min-height:42px;
+  padding:9px 14px;
+  border-radius:11px;
+  font-size:.72rem;
+  font-weight:850;
+  box-shadow:0 4px 12px rgba(12,28,45,.12);
 }
-.hero-bottom-wave{
-  height:88px!important;
-  bottom:-1px!important;
+.pmesp-header .action.online{
+  background:linear-gradient(180deg,#123b66,#0b2a50);
+  border-color:#092444;
 }
-.pmesp-hero .crest{
-  width:150px!important;
-  height:112px!important;
-  flex:0 0 150px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  overflow:hidden!important;
+.pmesp-header .action.dark{
+  background:linear-gradient(180deg,#2b3035,#20252a);
+  border-color:#171b1f;
 }
-.pmesp-hero .crest img{
-  height:106px!important;
-  width:auto!important;
-  max-width:none!important;
-  transform:none!important;
-  margin-left:0!important;
-  object-fit:contain!important;
-  filter:grayscale(1) contrast(1.12) brightness(.96)!important;
+
+.pmesp-200{
+  position:absolute!important;
+  right:28px;
+  bottom:33px;
+  width:104px;
+  z-index:4!important;
+  text-align:center;
+  color:#555b61;
+  font-family:"Roboto Condensed","Arial Narrow","Segoe UI",sans-serif;
+  font-style:italic;
+  transform:skew(-5deg);
+  opacity:.82;
 }
-.pmesp-hero .brand-divider{height:126px!important}
-.pmesp-hero .brand-copy{padding-top:5px!important}
-.pmesp-hero .brand h1{
-  font-size:clamp(2.05rem,3.05vw,3.35rem)!important;
+.pmesp-200 small{
+  display:block;
+  font-size:.46rem;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.10em;
 }
-.pmesp-hero .brand p{
-  margin-top:10px!important;
-  font-size:clamp(.84rem,1vw,.98rem)!important;
+.pmesp-200>div{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  height:30px;
 }
-.pmesp-hero .actions{
-  padding-top:13px!important;
-  padding-right:0!important;
+.pmesp-200 strong{
+  font-size:2rem;
+  line-height:.8;
+  font-weight:950;
+  letter-spacing:-.09em;
 }
-.anniversary-mark{
-  right:30px!important;
-  bottom:46px!important;
-  width:112px!important;
-  opacity:.82!important;
-  transform:skew(-5deg) scale(.92)!important;
+.pmesp-200 i{
+  display:block;
+  width:22px;
+  height:6px;
+  background:#d71920;
+  transform:skew(-18deg);
+  border-radius:1px;
 }
-.anniversary-mark strong{font-size:2.05rem!important}
-.anniversary-mark span{font-size:.53rem!important}
-.anniversary-mark em{font-size:.62rem!important}
-.anniversary-mark:after{
-  right:-4px!important;
-  top:18px!important;
-  width:25px!important;
-  height:6px!important;
+.pmesp-200 b{
+  display:block;
+  margin-top:1px;
+  font-size:.56rem;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.16em;
 }
+
 @media(max-width:1100px){
-  .pmesp-hero{min-height:180px!important;padding-bottom:60px!important}
-  .hero-top-wave{width:38%!important;height:54px!important}
-  .hero-bottom-wave{height:82px!important}
-  .pmesp-hero .crest{width:126px!important;height:96px!important;flex-basis:126px!important}
-  .pmesp-hero .crest img{height:92px!important}
-  .pmesp-hero .brand-divider{height:102px!important}
-  .anniversary-mark{bottom:42px!important;right:22px!important;width:98px!important}
+  .pmesp-header{min-height:158px;padding:18px 18px 49px}
+  .pmesp-top-curve{width:38%;height:48px}
+  .pmesp-bottom-curve{height:72px}
+  .pmesp-crest{width:112px;height:92px;flex-basis:112px;background-size:auto 92px}
+  .pmesp-divider{height:94px}
+  .pmesp-copy h1{font-size:clamp(1.75rem,3.6vw,2.55rem)}
+  .pmesp-copy p{max-width:650px}
+  .pmesp-200{right:20px;bottom:30px;width:92px}
 }
 @media(max-width:760px){
-  .pmesp-hero{min-height:220px!important;padding:16px 14px 64px!important}
-  .hero-top-wave{width:55%!important;height:48px!important}
-  .hero-bottom-wave{height:72px!important}
-  .pmesp-hero .crest{width:86px!important;height:70px!important;flex-basis:86px!important}
-  .pmesp-hero .crest img{height:68px!important}
-  .pmesp-hero .brand-divider{height:70px!important}
-  .anniversary-mark{bottom:18px!important;right:12px!important;width:78px!important}
+  .pmesp-header{
+    min-height:218px;
+    padding:15px 14px 60px;
+    flex-direction:column;
+    gap:9px;
+  }
+  .pmesp-top-curve{width:56%;height:42px}
+  .pmesp-bottom-curve{height:68px}
+  .pmesp-brand{gap:10px;width:100%}
+  .pmesp-crest{width:82px;height:68px;flex-basis:82px;background-size:auto 68px}
+  .pmesp-divider{height:68px}
+  .pmesp-kicker{font-size:.62rem}
+  .pmesp-copy h1{font-size:1.65rem}
+  .pmesp-copy p{font-size:.72rem;white-space:normal;line-height:1.25;margin-top:5px}
+  .pmesp-actions{padding-top:0;justify-content:flex-start;width:100%}
+  .pmesp-header .action{min-height:36px;padding:7px 10px;font-size:.66rem}
+  .pmesp-200{right:11px;bottom:15px;width:76px}
+  .pmesp-200 strong{font-size:1.55rem}
 }
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar pmesp-hero">
-  <svg class="hero-top-wave" viewBox="0 0 600 90" preserveAspectRatio="none" aria-hidden="true">
-  <path d="M30 1 C170 1 350 9 600 58" fill="none" stroke="#d71920" stroke-width="10" stroke-linecap="round"/>
-  <path d="M20 13 C175 13 355 22 600 69" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
-  <path d="M8 24 C180 24 365 34 600 82" fill="none" stroke="#252a2f" stroke-width="13" stroke-linecap="round"/>
-</svg>
+<header class="topbar pmesp-header">
+  <svg class="pmesp-top-curve" viewBox="0 0 720 92" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M145 0 H720 V31 C602 17 489 10 374 8 C282 6 213 7 145 9 Z" fill="#d71920"/>
+    <path d="M105 18 C283 18 504 29 720 63 L720 79 C505 43 286 32 105 32 Z" fill="#252a2f"/>
+    <path d="M118 14 C294 14 508 24 720 56" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  </svg>
 
-  <svg class="hero-bottom-wave" viewBox="0 0 1600 150" preserveAspectRatio="none" aria-hidden="true">
-  <path d="M0 18
-           C18 67 49 92 105 105
-           C222 132 388 139 590 140
-           C770 141 931 136 1060 119
-           C1188 102 1296 95 1390 102
-           C1472 108 1540 123 1600 142
-           L1600 150 L0 150 Z"
-        fill="#252a2f"/>
-  <path d="M0 12
-           C20 61 52 86 110 99
-           C226 126 391 133 591 134
-           C769 135 929 130 1058 113
-           C1186 96 1294 89 1388 96
-           C1470 102 1538 117 1600 136"
-        fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round"/>
-  <path d="M0 6
-           C22 55 56 80 116 93
-           C231 120 394 127 593 128
-           C769 129 928 124 1056 107
-           C1184 90 1292 83 1386 90
-           C1468 96 1536 111 1600 130"
-        fill="none" stroke="#d71920" stroke-width="9" stroke-linecap="round"/>
-</svg>
+  <svg class="pmesp-bottom-curve" viewBox="0 0 1600 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 18
+             C24 70 72 94 190 104
+             C368 119 604 116 820 113
+             C1012 110 1154 101 1282 86
+             C1398 72 1494 79 1600 118
+             L1600 120 L0 120 Z"
+          fill="#252a2f"/>
+    <path d="M0 12
+             C26 64 76 88 196 98
+             C374 113 608 110 824 107
+             C1014 104 1156 95 1282 80
+             C1396 66 1492 73 1600 112"
+          fill="none" stroke="#ffffff" stroke-width="13" stroke-linecap="round"/>
+    <path d="M0 6
+             C29 58 81 82 202 92
+             C379 107 612 104 828 101
+             C1016 98 1158 89 1282 74
+             C1394 60 1490 67 1600 106"
+          fill="none" stroke="#d71920" stroke-width="8" stroke-linecap="round"/>
+  </svg>
 
-  <div class="brand">
-    <div class="crest" aria-label="Logomarca da Polícia Militar do Estado de São Paulo">
-      <img src="https://policiamilitar.sp.gov.br/unidades/ccomsoc/pmesp190anos/assets/img/logos.png" alt="Polícia Militar do Estado de São Paulo">
-    </div>
-    <div class="brand-divider" aria-hidden="true"></div>
-    <div class="brand-copy">
-      <span class="brand-eyebrow">PMESP</span>
+  <div class="pmesp-brand">
+    <div class="pmesp-crest" role="img" aria-label="Polícia Militar do Estado de São Paulo"></div>
+    <div class="pmesp-divider" aria-hidden="true"></div>
+    <div class="pmesp-copy">
+      <span class="pmesp-kicker">PMESP</span>
       <h1>Painel Gerencial PCA-E</h1>
       <p>Acompanhamento de execução, licitações, atas, contratos e entregas</p>
     </div>
   </div>
 
-  <div class="actions">
-    <button id="onlineSyncBtn" class="action online" title="Consultar os dados atuais, sem alterar a planilha"><span class="action-icon">↻</span> Atualizar dados</button>
-    <button id="exportBtn" class="action dark"><span class="action-icon">⇩</span> Exportar filtrados</button>
+  <div class="actions pmesp-actions">
+    <button id="onlineSyncBtn" class="action online" title="Consultar os dados atuais, sem alterar a planilha"><span aria-hidden="true">↻</span> Atualizar dados</button>
+    <button id="exportBtn" class="action dark"><span aria-hidden="true">⇩</span> Exportar filtrados</button>
   </div>
 
-  <div class="anniversary-mark" aria-label="Rumo aos 200 anos">
-    <span>RUMO AOS</span>
-    <strong>200</strong>
-    <em>ANOS</em>
+  <div class="pmesp-200" aria-label="Rumo aos 200 anos">
+    <small>RUMO AOS</small>
+    <div><strong>200</strong><i></i></div>
+    <b>ANOS</b>
   </div>
 </header>
 <div class="sync-info" role="status" aria-live="polite"><span id="sourcePill">Consultando a planilha…</span><span id="syncMessage">Somente leitura · consulta automática a cada 5 minutos.</span></div>
