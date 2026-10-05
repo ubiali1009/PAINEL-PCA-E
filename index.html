@@ -969,6 +969,89 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
  let area="geral";
 
  const HISTORY_KEY="pcaeHierarchy";
+ const ROUTES={
+  "/":{title:"PCA-E Geral",area:"geral"},
+  "/Consolidado":{title:"Consolidado",area:"geral",parent:"geral",sub:"consolidado"},
+  "/Imoveis":{title:"Imóveis",area:"imoveis"},
+  "/Equipamentos-Policiais":{title:"Equipamentos Policiais",area:"equipamentos"},
+  "/Material-Belico":{title:"Material Bélico",area:"equipamentos",parent:"equipamentos",sub:"belico"},
+  "/Intendencia":{title:"Intendência",area:"equipamentos",parent:"equipamentos",sub:"intendencia"},
+  "/Frota-TIC-e-Saude":{title:"Frota, TIC e Saúde",area:"fts"},
+  "/Frota":{title:"Frota",area:"fts",parent:"fts",sub:"frota"},
+  "/TIC":{title:"TIC",area:"fts",parent:"fts",sub:"tic"},
+  "/Saude":{title:"Saúde",area:"fts",parent:"fts",sub:"saude"},
+  "/Por-Acao":{title:"Por Ação",area:"acao",parent:"geral",sub:"acao"},
+  "/Muralha-Paulista":{title:"Muralha Paulista",area:"acao",parent:"acao",sub:"muralha"},
+  "/Integracao-e-Aparelhamento":{title:"Integração e Aparelhamento",area:"acao",parent:"acao",sub:"integracao"},
+  "/Policia-Ostensiva-e-Formacao":{title:"Polícia Ostensiva e Formação",area:"acao",parent:"acao",sub:"ostensiva"},
+  "/Obras":{title:"Obras",area:"obras",parent:"acao",sub:"obras"},
+  "/COPOM":{title:"COPOM",area:"obras",parent:"obras",sub:"copom"},
+  "/Construcao-e-Reforma-de-Quarteis":{title:"Construção e Reforma de Quartéis",area:"obras",parent:"obras",sub:"quarteis"}
+ };
+ const SUB_PATHS={
+  "geral:consolidado":"/Consolidado","geral:acao":"/Por-Acao",
+  "acao:muralha":"/Muralha-Paulista","acao:integracao":"/Integracao-e-Aparelhamento","acao:ostensiva":"/Policia-Ostensiva-e-Formacao","acao:obras":"/Obras",
+  "obras:copom":"/COPOM","obras:quarteis":"/Construcao-e-Reforma-de-Quarteis",
+  "equipamentos:belico":"/Material-Belico","equipamentos:intendencia":"/Intendencia",
+  "fts:frota":"/Frota","fts:tic":"/TIC","fts:saude":"/Saude"
+ };
+ function normalizePath(path){
+  if(!path||path==="/")return "/";
+  return ("/"+String(path).replace(/^\/+|\/+$/g,"")).replace(/\/+/g,"/");
+ }
+ function routePath(){
+  if(area==="imoveis")return "/Imoveis";
+  if(area==="equipamentos"){
+   const a=[...chosen.equipamentos];
+   return a.length===1?(SUB_PATHS["equipamentos:"+a[0]]||"/Equipamentos-Policiais"):"/Equipamentos-Policiais";
+  }
+  if(area==="fts"){
+   const a=[...chosen.fts];
+   return a.length===1?(SUB_PATHS["fts:"+a[0]]||"/Frota-TIC-e-Saude"):"/Frota-TIC-e-Saude";
+  }
+  if(area==="obras"){
+   const a=[...chosen.obras];
+   return a.length===1?(SUB_PATHS["obras:"+a[0]]||"/Obras"):"/Obras";
+  }
+  if(area==="acao"){
+   const a=[...chosen.acao].filter(x=>x!=="obras");
+   return a.length===1?(SUB_PATHS["acao:"+a[0]]||"/Por-Acao"):"/Por-Acao";
+  }
+  if(chosen.geral.has("consolidado"))return "/Consolidado";
+  return "/";
+ }
+ function routeTitle(path=routePath()){
+  const def=ROUTES[normalizePath(path)];
+  return def?def.title:"PCA-E Geral";
+ }
+ function updateDocumentTitle(path=routePath()){
+  const title=routeTitle(path);
+  document.title=(path==="/")?"Painel Gerencial PCA-E — PMESP":title+" — Painel Gerencial PCA-E — PMESP";
+ }
+ function resetRouteSelections(){
+  Object.values(chosen).forEach(set=>set.clear());
+ }
+ function applyRoute(path){
+  const p=normalizePath(path),def=ROUTES[p];
+  if(!def)return false;
+  resetRouteSelections();
+  area=def.area;
+  if(p==="/Por-Acao"){
+   chosen.geral.add("acao");
+  }else if(p==="/Obras"){
+   chosen.geral.add("acao");chosen.acao.add("obras");
+  }else if(def.parent==="acao"){
+   chosen.geral.add("acao");chosen.acao.add(def.sub);
+  }else if(def.parent==="obras"){
+   chosen.geral.add("acao");chosen.acao.add("obras");chosen.obras.add(def.sub);
+  }else if(def.parent&&def.sub){
+   chosen[def.parent].add(def.sub);
+  }
+  if(area==="imoveis")sectionFilter={area:"imoveis",subs:new Set(["imoveis"])};
+  else syncFilter();
+  updateDocumentTitle(p);
+  return true;
+ }
  function navSnapshot(){
   const saved={};
   Object.keys(chosen).forEach(key=>saved[key]=[...chosen[key]]);
@@ -976,11 +1059,15 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
  }
  function storeCurrentHistory(){
   const state=(history.state&&typeof history.state==="object")?history.state:{};
-  history.replaceState({...state,[HISTORY_KEY]:navSnapshot()},"",location.href);
+  const path=routePath();
+  history.replaceState({...state,[HISTORY_KEY]:navSnapshot()},"",path);
+  updateDocumentTitle(path);
  }
  function pushNavHistory(){
   const state=(history.state&&typeof history.state==="object")?history.state:{};
-  history.pushState({...state,[HISTORY_KEY]:navSnapshot()},"",location.href);
+  const path=routePath();
+  history.pushState({...state,[HISTORY_KEY]:navSnapshot()},"",path);
+  updateDocumentTitle(path);
  }
  window.pushPcaeHistory=pushNavHistory;
  function restoreNavHistory(snapshot){
@@ -1009,10 +1096,12 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
   setActiveView(snapshot.activeView||"overview");
   paint();
   renderAll();
+  updateDocumentTitle(location.pathname);
  }
  window.addEventListener("popstate",event=>{
   const snapshot=event.state&&event.state[HISTORY_KEY];
   if(snapshot)restoreNavHistory(snapshot);
+  else if(applyRoute(location.pathname)){paint();renderAll();}
  });
 
  function rootArea(){
@@ -1167,8 +1256,9 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
   pushNavHistory();
  });
 
- syncFilter();
+ if(!applyRoute(location.pathname))applyRoute("/");
  paint();
+ renderAll();
  storeCurrentHistory();
 })();
 </script>
