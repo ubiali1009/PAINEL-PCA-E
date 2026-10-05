@@ -1693,8 +1693,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
       {label:'Planejado',symbol:'P',value:moneyOrDash(planned),note:planned>0?'referência consolidada do PCA-E':'sem valor de referência',cls:'primary'},
       {label:'Empenhado',symbol:'E',value:moneyOrDash(empenho),note:planned>0?pcaePct(pct(empenho,planned))+' do planejado':rows.length+' registros financeiros'},
       {label:'Liquidado',symbol:'L',value:moneyOrDash(liq),note:planned>0?pcaePct(pct(liq,planned))+' do planejado':pcaePct(pct(liq,empenho))+' do empenhado'},
-      {label:'Pago',symbol:'R</html>
-,value:moneyOrDash(pago),note:pago>0?(planned>0?pcaePct(pct(pago,planned))+' do planejado':'valor pago informado'):'pagamento ainda não informado',cls:'success'},
+      {label:'Pago',symbol:'R$',value:moneyOrDash(pago),note:pago>0?(planned>0?pcaePct(pct(pago,planned))+' do planejado':'valor pago informado'):'pagamento ainda não informado',cls:'success'},
       {label:'Saldo a empenhar',symbol:'S',value:planned>0?fmtMoney(saldo):'—',note:planned>0?pcaePct(pct(saldo,planned))+' do planejado':'depende do valor planejado'},
       {label:'% de execução',symbol:'%',value:pcaePct(pct(liq,execDen)),note:planned>0?'liquidado / planejado':'liquidado / empenhado',cls:'primary'}
     ];
@@ -1828,8 +1827,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
       {cls:'warn',icon:'!',title:'Alto financeiro e baixa entrega',text:highFinLowPhysical.length+' objeto(s) têm liquidação elevada e menos de 50% da entrega física.',mode:'deliveries'},
       {cls:'warn',icon:'↻',title:'Revalidações próximas',text:reval.length+' ata(s)/processo(s) exigem revalidação ou vencem em até 90 dias.',attention:'revalidate'},
       {cls:'danger',icon:'⌛',title:'Principais gargalos identificados',text:licNoDate+' licitação(ões) sem próxima data e '+overdue+' entrega(s) vencida(s).',attention:'critical'},
-      {cls:'info',icon:'R</html>
-,title:'Disponibilidade do planejado',text:planned>0?('Saldo estimado a empenhar: '+fmtMoney(saldo)+' ('+pcaePct(pct(saldo,planned))+').'):'Valor planejado insuficiente para calcular o saldo.',mode:'finance'}
+      {cls:'info',icon:'R$',title:'Disponibilidade do planejado',text:planned>0?('Saldo estimado a empenhar: '+fmtMoney(saldo)+' ('+pcaePct(pct(saldo,planned))+').'):'Valor planejado insuficiente para calcular o saldo.',mode:'finance'}
     ];
   }
 
