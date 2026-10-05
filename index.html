@@ -103,244 +103,102 @@
 @media(max-width:760px){}
 
 
-/* Cabeçalho institucional PMESP — implementação canônica 05OUT26 */
+/* Cabeçalho institucional PMESP — imagem aprovada 05OUT26 */
 .pmesp-header{
   position:relative!important;
   top:auto!important;
   z-index:30;
-  min-height:168px;
+  width:auto;
+  min-height:0!important;
   margin:8px 10px 0;
-  padding:20px 24px 52px 28px;
-  background:linear-gradient(180deg,#ffffff 0%,#f7f9fb 100%);
-  border:1px solid #bec8d2;
-  border-radius:20px;
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:20px;
-  overflow:hidden;
-  box-shadow:0 5px 18px rgba(20,42,66,.08);
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  display:block!important;
+  overflow:visible!important;
+  box-shadow:none!important;
 }
-.pmesp-header:before{display:none!important}
-.pmesp-header>*{position:relative;z-index:3}
-.pmesp-top-curve,.pmesp-bottom-curve{
-  position:absolute!important;
+.pmesp-header:before,
+.pmesp-header:after{display:none!important}
+.pmesp-header .pmesp-header-image{
+  position:relative!important;
+  inset:auto!important;
   z-index:1!important;
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:none;
+  border:0;
+  border-radius:0;
+  user-select:none;
+  -webkit-user-drag:none;
   pointer-events:none;
 }
-.pmesp-top-curve{top:-1px;right:-1px;width:31%;height:54px}
-.pmesp-bottom-curve{left:0;bottom:-1px;width:100%;height:78px}
-
-.pmesp-brand{
-  display:flex;
-  align-items:center;
-  gap:18px;
-  min-width:0;
-  z-index:4!important;
-}
-.pmesp-crest{
-  width:126px;
-  height:104px;
-  flex:0 0 126px;
-  background-image:url("https://policiamilitar.sp.gov.br/unidades/ccomsoc/pmesp190anos/assets/img/logos.png");
-  background-repeat:no-repeat;
-  background-position:right center;
-  background-size:auto 104px;
-  filter:grayscale(1) contrast(1.08);
-}
-.pmesp-divider{
-  width:1px;
-  height:108px;
-  flex:0 0 auto;
-  background:#9aa6b4;
-}
-.pmesp-copy{min-width:0;padding-top:2px}
-.pmesp-kicker{
-  display:block;
-  margin:0 0 5px;
-  font-family:"Roboto Condensed","Arial Narrow","Segoe UI",sans-serif;
-  font-size:.78rem;
-  line-height:1;
-  font-weight:800;
-  letter-spacing:.20em;
-  color:#657991;
-}
-.pmesp-copy h1{
-  margin:0;
-  font-family:"Roboto Condensed","Arial Narrow","Segoe UI",sans-serif;
-  font-size:clamp(2rem,2.7vw,3rem);
-  line-height:1;
-  letter-spacing:-.028em;
-  font-weight:900;
-  color:#061c36;
-}
-.pmesp-copy p{
-  margin:9px 0 0;
-  color:#5d6a78;
-  font-size:clamp(.78rem,.95vw,.96rem);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.pmesp-actions{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:9px;
-  flex-wrap:wrap;
-  padding-top:18px;
+.pmesp-header .pmesp-actions{
+  position:absolute!important;
+  inset:0!important;
   z-index:5!important;
+  display:block!important;
+  padding:0!important;
+  margin:0!important;
+  pointer-events:none;
 }
 .pmesp-header .action{
-  min-height:42px;
-  padding:9px 14px;
-  border-radius:11px;
-  font-size:.72rem;
-  font-weight:850;
-  box-shadow:0 4px 12px rgba(12,28,45,.12);
-}
-.pmesp-header .action.online{
-  background:linear-gradient(180deg,#123b66,#0b2a50);
-  border-color:#092444;
-}
-.pmesp-header .action.dark{
-  background:linear-gradient(180deg,#2b3035,#20252a);
-  border-color:#171b1f;
-}
-
-.pmesp-200{
   position:absolute!important;
-  right:28px;
-  bottom:33px;
-  width:104px;
-  z-index:4!important;
-  text-align:center;
-  color:#555b61;
-  font-family:"Roboto Condensed","Arial Narrow","Segoe UI",sans-serif;
-  font-style:italic;
-  transform:skew(-5deg);
-  opacity:.82;
+  display:block!important;
+  min-height:0!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:transparent!important;
+  color:transparent!important;
+  box-shadow:none!important;
+  opacity:.001!important;
+  pointer-events:auto!important;
+  cursor:pointer!important;
+  transform:none!important;
+  filter:none!important;
+  overflow:hidden!important;
 }
-.pmesp-200 small{
-  display:block;
-  font-size:.46rem;
-  line-height:1;
-  font-weight:900;
-  letter-spacing:.10em;
+.pmesp-header .action:hover{
+  opacity:.001!important;
+  transform:none!important;
+  filter:none!important;
 }
-.pmesp-200>div{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  height:30px;
+.pmesp-header .action:focus-visible{
+  opacity:.12!important;
+  outline:4px solid #8db8e3!important;
+  outline-offset:2px!important;
+  background:#0b2a50!important;
 }
-.pmesp-200 strong{
-  font-size:2rem;
-  line-height:.8;
-  font-weight:950;
-  letter-spacing:-.09em;
+.pmesp-header #onlineSyncBtn{
+  left:65.2%!important;
+  top:29.7%!important;
+  width:14.8%!important;
+  height:14.2%!important;
 }
-.pmesp-200 i{
-  display:block;
-  width:22px;
-  height:6px;
-  background:#d71920;
-  transform:skew(-18deg);
-  border-radius:1px;
-}
-.pmesp-200 b{
-  display:block;
-  margin-top:1px;
-  font-size:.56rem;
-  line-height:1;
-  font-weight:900;
-  letter-spacing:.16em;
-}
-
-@media(max-width:1100px){
-  .pmesp-header{min-height:158px;padding:18px 18px 49px}
-  .pmesp-top-curve{width:38%;height:48px}
-  .pmesp-bottom-curve{height:72px}
-  .pmesp-crest{width:112px;height:92px;flex-basis:112px;background-size:auto 92px}
-  .pmesp-divider{height:94px}
-  .pmesp-copy h1{font-size:clamp(1.75rem,3.6vw,2.55rem)}
-  .pmesp-copy p{max-width:650px}
-  .pmesp-200{right:20px;bottom:30px;width:92px}
+.pmesp-header #exportBtn{
+  left:81.0%!important;
+  top:29.7%!important;
+  width:15.8%!important;
+  height:14.2%!important;
 }
 @media(max-width:760px){
-  .pmesp-header{
-    min-height:218px;
-    padding:15px 14px 60px;
-    flex-direction:column;
-    gap:9px;
-  }
-  .pmesp-top-curve{width:56%;height:42px}
-  .pmesp-bottom-curve{height:68px}
-  .pmesp-brand{gap:10px;width:100%}
-  .pmesp-crest{width:82px;height:68px;flex-basis:82px;background-size:auto 68px}
-  .pmesp-divider{height:68px}
-  .pmesp-kicker{font-size:.62rem}
-  .pmesp-copy h1{font-size:1.65rem}
-  .pmesp-copy p{font-size:.72rem;white-space:normal;line-height:1.25;margin-top:5px}
-  .pmesp-actions{padding-top:0;justify-content:flex-start;width:100%}
-  .pmesp-header .action{min-height:36px;padding:7px 10px;font-size:.66rem}
-  .pmesp-200{right:11px;bottom:15px;width:76px}
-  .pmesp-200 strong{font-size:1.55rem}
+  .pmesp-header{margin:6px 6px 0}
+  .pmesp-header .action{border-radius:7px!important}
+  .pmesp-header .action:focus-visible{outline-width:2px!important;outline-offset:1px!important}
 }
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar pmesp-header">
-  <svg class="pmesp-top-curve" viewBox="0 0 720 92" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M145 0 H720 V31 C602 17 489 10 374 8 C282 6 213 7 145 9 Z" fill="#d71920"/>
-    <path d="M105 18 C283 18 504 29 720 63 L720 79 C505 43 286 32 105 32 Z" fill="#252a2f"/>
-    <path d="M118 14 C294 14 508 24 720 56" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
-  </svg>
-
-  <svg class="pmesp-bottom-curve" viewBox="0 0 1600 120" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 18
-             C24 70 72 94 190 104
-             C368 119 604 116 820 113
-             C1012 110 1154 101 1282 86
-             C1398 72 1494 79 1600 118
-             L1600 120 L0 120 Z"
-          fill="#252a2f"/>
-    <path d="M0 12
-             C26 64 76 88 196 98
-             C374 113 608 110 824 107
-             C1014 104 1156 95 1282 80
-             C1396 66 1492 73 1600 112"
-          fill="none" stroke="#ffffff" stroke-width="13" stroke-linecap="round"/>
-    <path d="M0 6
-             C29 58 81 82 202 92
-             C379 107 612 104 828 101
-             C1016 98 1158 89 1282 74
-             C1394 60 1490 67 1600 106"
-          fill="none" stroke="#d71920" stroke-width="8" stroke-linecap="round"/>
-  </svg>
-
-  <div class="pmesp-brand">
-    <div class="pmesp-crest" role="img" aria-label="Polícia Militar do Estado de São Paulo"></div>
-    <div class="pmesp-divider" aria-hidden="true"></div>
-    <div class="pmesp-copy">
-      <span class="pmesp-kicker">PMESP</span>
-      <h1>Painel Gerencial PCA-E</h1>
-      <p>Acompanhamento de execução, licitações, atas, contratos e entregas</p>
-    </div>
-  </div>
-
-  <div class="actions pmesp-actions">
-    <button id="onlineSyncBtn" class="action online" title="Consultar os dados atuais, sem alterar a planilha"><span aria-hidden="true">↻</span> Atualizar dados</button>
-    <button id="exportBtn" class="action dark"><span aria-hidden="true">⇩</span> Exportar filtrados</button>
-  </div>
-
-  <div class="pmesp-200" aria-label="Rumo aos 200 anos">
-    <small>RUMO AOS</small>
-    <div><strong>200</strong><i></i></div>
-    <b>ANOS</b>
+<header class="topbar pmesp-header" aria-label="Cabeçalho institucional do Painel Gerencial PCA-E">
+  <img class="pmesp-header-image" src="/assets/pcae-header.webp" alt="PMESP — Painel Gerencial PCA-E. Acompanhamento de execução, licitações, atas, contratos e entregas.">
+  <div class="actions pmesp-actions" aria-label="Ações do painel">
+    <button id="onlineSyncBtn" class="action online" type="button" title="Atualizar dados" aria-label="Atualizar dados">Atualizar dados</button>
+    <button id="exportBtn" class="action dark" type="button" title="Exportar filtrados" aria-label="Exportar filtrados">Exportar filtrados</button>
   </div>
 </header>
 <div class="sync-info" role="status" aria-live="polite"><span id="sourcePill">Consultando a planilha…</span><span id="syncMessage">Somente leitura · consulta automática a cada 5 minutos.</span></div>
