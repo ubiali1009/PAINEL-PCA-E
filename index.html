@@ -103,102 +103,296 @@
 @media(max-width:760px){}
 
 
-/* Cabeçalho institucional PMESP — imagem aprovada 05OUT26 */
+/* Cabeçalho institucional PMESP — reconstrução vetorial responsiva 05OUT26 */
 .pmesp-header{
   position:relative!important;
   top:auto!important;
   z-index:30;
   width:auto;
+  aspect-ratio:1707/451;
   min-height:0!important;
-  margin:8px 10px 0;
+  margin:0!important;
   padding:0!important;
   border:0!important;
   border-radius:0!important;
-  background:transparent!important;
+  background:#fff!important;
   display:block!important;
-  overflow:visible!important;
+  overflow:hidden!important;
   box-shadow:none!important;
 }
 .pmesp-header:before,
 .pmesp-header:after{display:none!important}
-.pmesp-header .pmesp-header-image{
-  position:relative!important;
-  inset:auto!important;
-  z-index:1!important;
-  display:block;
-  width:100%;
-  height:auto;
-  max-width:none;
-  border:0;
-  border-radius:0;
-  user-select:none;
-  -webkit-user-drag:none;
-  pointer-events:none;
+
+.pmesp-frame{
+  position:absolute;
+  inset:6.0% .55% 8.85% .55%;
+  overflow:hidden;
+  background:linear-gradient(180deg,#fff 0%,#fbfcfd 54%,#f7f9fb 100%);
+  border:1px solid #cbd3db;
+  border-radius:13px;
+  box-shadow:0 7px 22px rgba(24,44,67,.14);
 }
-.pmesp-header .pmesp-actions{
+
+.pmesp-frame:before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  width:33%;
+  aspect-ratio:1;
+  right:8.5%;
+  top:-20%;
+  opacity:.045;
+  background-image:url("https://policiamilitar.sp.gov.br/unidades/ccomsoc/pmesp190anos/assets/img/logos.png");
+  background-repeat:no-repeat;
+  background-position:right center;
+  background-size:auto 100%;
+  filter:grayscale(1) contrast(1.08);
+}
+
+.pmesp-top-curve,
+.pmesp-bottom-curve{
   position:absolute!important;
-  inset:0!important;
-  z-index:5!important;
-  display:block!important;
+  inset:auto!important;
+  pointer-events:none;
+  z-index:1!important;
+}
+.pmesp-top-curve{top:-1px;right:-1px;width:38%;height:34%}
+.pmesp-bottom-curve{left:-1px;bottom:-1px;width:calc(100% + 2px);height:54%}
+
+.pmesp-brand{
+  position:absolute!important;
+  z-index:4!important;
+  left:2.8%;
+  top:12.5%;
+  right:42%;
+  display:flex;
+  align-items:center;
+  gap:1.7%;
+  min-width:0;
+}
+.pmesp-crest{
+  width:13.0vw;
+  max-width:190px;
+  min-width:92px;
+  aspect-ratio:1.12;
+  flex:0 0 auto;
+  background-image:url("https://policiamilitar.sp.gov.br/unidades/ccomsoc/pmesp190anos/assets/img/logos.png");
+  background-repeat:no-repeat;
+  background-position:right center;
+  background-size:auto 100%;
+  filter:grayscale(1) contrast(1.12);
+}
+.pmesp-divider{
+  width:1px;
+  height:8.2vw;
+  max-height:120px;
+  min-height:66px;
+  flex:0 0 auto;
+  background:#8f9ba8;
+}
+.pmesp-copy{min-width:0}
+.pmesp-kicker{
+  display:block;
+  margin:0 0 .45vw;
+  font-family:"Arial Narrow","Roboto Condensed","Segoe UI",sans-serif;
+  font-size:clamp(12px,1.25vw,22px);
+  line-height:1;
+  font-weight:850;
+  letter-spacing:.055em;
+  color:#667789;
+}
+.pmesp-copy h1{
+  margin:0;
+  font-family:"Arial Narrow","Roboto Condensed","Segoe UI",Arial,sans-serif;
+  font-size:clamp(28px,3.8vw,66px);
+  line-height:.96;
+  letter-spacing:-.035em;
+  font-weight:950;
+  color:#041b34;
+  white-space:nowrap;
+}
+.pmesp-copy p{
+  margin:.55vw 0 0;
+  color:#566b80;
+  font-size:clamp(13px,1.55vw,27px);
+  line-height:1.1;
+  white-space:nowrap;
+}
+
+.pmesp-actions{
+  position:absolute!important;
+  z-index:6!important;
+  right:2.1%;
+  top:26.2%;
+  display:flex!important;
+  gap:1.2vw;
   padding:0!important;
   margin:0!important;
-  pointer-events:none;
+  align-items:center;
 }
 .pmesp-header .action{
-  position:absolute!important;
-  display:block!important;
+  position:relative!important;
   min-height:0!important;
-  padding:0!important;
+  height:clamp(42px,3.65vw,63px);
+  padding:0 clamp(18px,2.05vw,35px)!important;
   margin:0!important;
-  border:0!important;
-  border-radius:12px!important;
-  background:transparent!important;
-  color:transparent!important;
-  box-shadow:none!important;
-  opacity:.001!important;
-  pointer-events:auto!important;
+  border:1px solid #172431!important;
+  border-radius:10px!important;
+  color:#fff!important;
+  font-size:clamp(13px,1.15vw,20px)!important;
+  font-weight:850!important;
+  line-height:1!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:.65vw!important;
+  box-shadow:0 5px 12px rgba(12,28,45,.16)!important;
   cursor:pointer!important;
   transform:none!important;
-  filter:none!important;
-  overflow:hidden!important;
+}
+.pmesp-header .action.online{
+  background:linear-gradient(180deg,#173958 0%,#10283e 100%)!important;
+}
+.pmesp-header .action.dark{
+  background:linear-gradient(180deg,#202f3c 0%,#15232e 100%)!important;
 }
 .pmesp-header .action:hover{
-  opacity:.001!important;
-  transform:none!important;
-  filter:none!important;
+  filter:brightness(1.06)!important;
+  transform:translateY(-1px)!important;
 }
-.pmesp-header .action:focus-visible{
-  opacity:.12!important;
-  outline:4px solid #8db8e3!important;
-  outline-offset:2px!important;
-  background:#0b2a50!important;
+.pmesp-header .action .pmesp-action-icon{
+  font-size:clamp(23px,2.0vw,34px);
+  font-weight:400;
+  line-height:1;
 }
-.pmesp-header #onlineSyncBtn{
-  left:65.32%!important;
-  top:30.38%!important;
-  width:14.47%!important;
-  height:13.30%!important;
+
+.pmesp-200{
+  position:absolute!important;
+  z-index:5!important;
+  right:2.4%;
+  top:63.2%;
+  width:10.1%;
+  min-width:105px;
+  text-align:center;
+  color:#686d72;
+  font-family:"Arial Narrow","Roboto Condensed","Segoe UI",sans-serif;
+  font-style:italic;
+  transform:skew(-5deg);
 }
-.pmesp-header #exportBtn{
-  left:81.08%!important;
-  top:30.38%!important;
-  width:15.64%!important;
-  height:13.30%!important;
+.pmesp-200 small{
+  display:block;
+  font-size:clamp(9px,.78vw,14px);
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.07em;
 }
-@media(max-width:760px){
-  .pmesp-header{margin:6px 6px 0}
-  .pmesp-header .action{border-radius:7px!important}
-  .pmesp-header .action:focus-visible{outline-width:2px!important;outline-offset:1px!important}
+.pmesp-200>div{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.25vw;
+  height:clamp(31px,3.0vw,52px);
+}
+.pmesp-200 strong{
+  font-size:clamp(36px,4.1vw,70px);
+  line-height:.75;
+  font-weight:950;
+  letter-spacing:-.08em;
+}
+.pmesp-200 strong .redzero{color:#d71920}
+.pmesp-200 i{
+  display:block;
+  width:clamp(18px,2.1vw,36px);
+  height:clamp(4px,.42vw,7px);
+  background:#d71920;
+  transform:skew(-18deg);
+  border-radius:1px;
+  margin-left:.15vw;
+}
+.pmesp-200 b{
+  display:block;
+  margin-top:.1vw;
+  font-size:clamp(10px,.84vw,15px);
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+@media(max-width:980px){
+  .pmesp-brand{right:38%;top:13%}
+  .pmesp-actions{right:2%;top:27%}
+  .pmesp-header .action{padding:0 16px!important}
+  .pmesp-copy p{font-size:clamp(12px,1.45vw,18px)}
+}
+@media(max-width:700px){
+  .pmesp-header{aspect-ratio:1707/560}
+  .pmesp-frame{inset:4% 1% 5% 1%}
+  .pmesp-brand{left:3%;top:9%;right:3%;gap:10px}
+  .pmesp-crest{min-width:68px;width:18vw}
+  .pmesp-divider{min-height:58px;height:15vw}
+  .pmesp-copy h1{font-size:clamp(22px,5.7vw,34px)}
+  .pmesp-copy p{font-size:clamp(10px,2.7vw,16px);white-space:normal;max-width:70vw}
+  .pmesp-actions{left:27%;right:auto;top:48%;gap:8px}
+  .pmesp-header .action{height:34px;padding:0 10px!important;font-size:11px!important;border-radius:7px!important}
+  .pmesp-header .action .pmesp-action-icon{font-size:18px}
+  .pmesp-200{right:3%;top:72%;width:18%;min-width:76px}
+  .pmesp-top-curve{width:48%;height:28%}
+  .pmesp-bottom-curve{height:46%}
 }
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar pmesp-header" aria-label="Cabeçalho institucional do Painel Gerencial PCA-E">
-  <img class="pmesp-header-image" src="/assets/pcae-header.webp" alt="PMESP — Painel Gerencial PCA-E. Acompanhamento de execução, licitações, atas, contratos e entregas.">
-  <div class="actions pmesp-actions" aria-label="Ações do painel">
-    <button id="onlineSyncBtn" class="action online" type="button" title="Atualizar dados" aria-label="Atualizar dados">Atualizar dados</button>
-    <button id="exportBtn" class="action dark" type="button" title="Exportar filtrados" aria-label="Exportar filtrados">Exportar filtrados</button>
+  <div class="pmesp-frame">
+    <svg class="pmesp-top-curve" viewBox="0 0 650 130" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M180 0 H650 V30 C545 19 455 12 365 10 C292 8 234 8 180 10 Z" fill="#e11b22"/>
+      <path d="M125 20 C285 18 470 33 650 72 L650 94 C472 50 292 34 125 35 Z" fill="#222b32"/>
+      <path d="M135 15 C300 16 475 28 650 65" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round"/>
+    </svg>
+
+    <svg class="pmesp-bottom-curve" viewBox="0 0 1707 220" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 55
+               C36 128 116 165 270 185
+               C470 211 708 208 925 190
+               C1113 175 1290 132 1435 147
+               C1548 159 1633 185 1707 219
+               L1707 220 L0 220 Z"
+            fill="#252c32"/>
+      <path d="M0 38
+               C42 113 125 151 279 171
+               C478 196 710 193 927 176
+               C1110 161 1289 119 1435 134
+               C1547 146 1632 172 1707 206"
+            fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round"/>
+      <path d="M0 27
+               C46 101 132 140 286 159
+               C482 184 713 181 930 164
+               C1110 149 1288 108 1435 123
+               C1545 134 1630 160 1707 195"
+            fill="none" stroke="#e11b22" stroke-width="10" stroke-linecap="round"/>
+    </svg>
+
+    <div class="pmesp-brand">
+      <div class="pmesp-crest" role="img" aria-label="Polícia Militar do Estado de São Paulo"></div>
+      <div class="pmesp-divider" aria-hidden="true"></div>
+      <div class="pmesp-copy">
+        <span class="pmesp-kicker">PMESP</span>
+        <h1>Painel Gerencial PCA-E</h1>
+        <p>Acompanhamento de execução, licitações, atas, contratos e entregas</p>
+      </div>
+    </div>
+
+    <div class="actions pmesp-actions" aria-label="Ações do painel">
+      <button id="onlineSyncBtn" class="action online" type="button" title="Atualizar dados"><span class="pmesp-action-icon" aria-hidden="true">↻</span><span>Atualizar dados</span></button>
+      <button id="exportBtn" class="action dark" type="button" title="Exportar filtrados"><span class="pmesp-action-icon" aria-hidden="true">⇩</span><span>Exportar filtrados</span></button>
+    </div>
+
+    <div class="pmesp-200" aria-label="Rumo aos 200 anos">
+      <small>RUMO AOS</small>
+      <div><strong>20<span class="redzero">0</span></strong><i></i></div>
+      <b>ANOS</b>
+    </div>
   </div>
 </header>
 <div class="sync-info" role="status" aria-live="polite"><span id="sourcePill">Consultando a planilha…</span><span id="syncMessage">Somente leitura · consulta automática a cada 5 minutos.</span></div>
