@@ -146,22 +146,122 @@
  .hero-top-wave{width:70%;height:62px}.hero-bottom-wave{height:74px}
  .anniversary-mark{right:12px;bottom:12px;width:95px}.anniversary-mark strong{font-size:1.75rem}.anniversary-mark span{font-size:.48rem}.anniversary-mark em{font-size:.58rem}
 }
+
+/* Refinamento visual 05OUT26 */
+.pmesp-hero{
+  min-height:190px!important;
+  padding:24px 24px 64px 28px!important;
+}
+.hero-top-wave{
+  width:31%!important;
+  height:58px!important;
+  right:-2px!important;
+  top:-1px!important;
+}
+.hero-bottom-wave{
+  height:88px!important;
+  bottom:-1px!important;
+}
+.pmesp-hero .crest{
+  width:150px!important;
+  height:112px!important;
+  flex:0 0 150px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:hidden!important;
+}
+.pmesp-hero .crest img{
+  height:106px!important;
+  width:auto!important;
+  max-width:none!important;
+  transform:none!important;
+  margin-left:0!important;
+  object-fit:contain!important;
+  filter:grayscale(1) contrast(1.12) brightness(.96)!important;
+}
+.pmesp-hero .brand-divider{height:126px!important}
+.pmesp-hero .brand-copy{padding-top:5px!important}
+.pmesp-hero .brand h1{
+  font-size:clamp(2.05rem,3.05vw,3.35rem)!important;
+}
+.pmesp-hero .brand p{
+  margin-top:10px!important;
+  font-size:clamp(.84rem,1vw,.98rem)!important;
+}
+.pmesp-hero .actions{
+  padding-top:13px!important;
+  padding-right:0!important;
+}
+.anniversary-mark{
+  right:30px!important;
+  bottom:46px!important;
+  width:112px!important;
+  opacity:.82!important;
+  transform:skew(-5deg) scale(.92)!important;
+}
+.anniversary-mark strong{font-size:2.05rem!important}
+.anniversary-mark span{font-size:.53rem!important}
+.anniversary-mark em{font-size:.62rem!important}
+.anniversary-mark:after{
+  right:-4px!important;
+  top:18px!important;
+  width:25px!important;
+  height:6px!important;
+}
+@media(max-width:1100px){
+  .pmesp-hero{min-height:180px!important;padding-bottom:60px!important}
+  .hero-top-wave{width:38%!important;height:54px!important}
+  .hero-bottom-wave{height:82px!important}
+  .pmesp-hero .crest{width:126px!important;height:96px!important;flex-basis:126px!important}
+  .pmesp-hero .crest img{height:92px!important}
+  .pmesp-hero .brand-divider{height:102px!important}
+  .anniversary-mark{bottom:42px!important;right:22px!important;width:98px!important}
+}
+@media(max-width:760px){
+  .pmesp-hero{min-height:220px!important;padding:16px 14px 64px!important}
+  .hero-top-wave{width:55%!important;height:48px!important}
+  .hero-bottom-wave{height:72px!important}
+  .pmesp-hero .crest{width:86px!important;height:70px!important;flex-basis:86px!important}
+  .pmesp-hero .crest img{height:68px!important}
+  .pmesp-hero .brand-divider{height:70px!important}
+  .anniversary-mark{bottom:18px!important;right:12px!important;width:78px!important}
+}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar pmesp-hero">
-  <svg class="hero-top-wave" viewBox="0 0 1600 150" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M1080 0 C1240 7 1415 16 1600 0 L1600 78 C1490 69 1382 62 1272 58 C1205 56 1140 56 1080 58 Z" fill="#20252a"/>
-    <path d="M1110 0 C1260 6 1420 12 1600 0 L1600 63 C1496 58 1394 53 1294 50 C1224 48 1160 49 1110 50 Z" fill="#ffffff"/>
-    <path d="M1260 0 C1370 3 1482 3 1600 0 L1600 43 C1514 42 1425 41 1338 42 C1306 42 1280 43 1260 44 Z" fill="#d71920"/>
-  </svg>
+  <svg class="hero-top-wave" viewBox="0 0 600 90" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M30 1 C170 1 350 9 600 58" fill="none" stroke="#d71920" stroke-width="10" stroke-linecap="round"/>
+  <path d="M20 13 C175 13 355 22 600 69" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+  <path d="M8 24 C180 24 365 34 600 82" fill="none" stroke="#252a2f" stroke-width="13" stroke-linecap="round"/>
+</svg>
 
-  <svg class="hero-bottom-wave" viewBox="0 0 1600 190" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 40 C16 104 50 137 112 150 C275 178 492 176 690 169 C862 163 1035 136 1180 130 C1322 124 1432 141 1512 158 C1552 167 1582 174 1600 179 L1600 190 L0 190 Z" fill="#252a2f"/>
-    <path d="M0 33 C18 98 53 131 116 144 C280 171 493 170 692 163 C864 157 1036 130 1180 124 C1320 118 1430 135 1510 152 C1551 160 1581 168 1600 173" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round"/>
-    <path d="M0 27 C20 92 57 125 120 138 C284 165 495 164 694 157 C865 151 1036 124 1180 118 C1318 112 1428 129 1508 146 C1549 154 1579 162 1600 167" fill="none" stroke="#d71920" stroke-width="10" stroke-linecap="round"/>
-  </svg>
+  <svg class="hero-bottom-wave" viewBox="0 0 1600 150" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 18
+           C18 67 49 92 105 105
+           C222 132 388 139 590 140
+           C770 141 931 136 1060 119
+           C1188 102 1296 95 1390 102
+           C1472 108 1540 123 1600 142
+           L1600 150 L0 150 Z"
+        fill="#252a2f"/>
+  <path d="M0 12
+           C20 61 52 86 110 99
+           C226 126 391 133 591 134
+           C769 135 929 130 1058 113
+           C1186 96 1294 89 1388 96
+           C1470 102 1538 117 1600 136"
+        fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round"/>
+  <path d="M0 6
+           C22 55 56 80 116 93
+           C231 120 394 127 593 128
+           C769 129 928 124 1056 107
+           C1184 90 1292 83 1386 90
+           C1468 96 1536 111 1600 130"
+        fill="none" stroke="#d71920" stroke-width="9" stroke-linecap="round"/>
+</svg>
 
   <div class="brand">
     <div class="crest" aria-label="Logomarca da Polícia Militar do Estado de São Paulo">
