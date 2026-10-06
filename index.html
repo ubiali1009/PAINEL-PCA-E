@@ -476,6 +476,24 @@ body{background:var(--pcae-canvas)!important;color:var(--pcae-text)!important}
  .pcae-content .metric .value.metric-value-tiny{font-size:.96rem!important}
 }
 @media(max-width:600px){.pcae-content .metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* Planejamento agrupado por Ação — 06OUT26 */
+.planning-actions{display:grid;gap:12px;padding:12px 14px 15px;background:#f4f7fa}
+.planning-action{overflow:hidden;border:1px solid #ccd8e4;border-radius:12px;background:#fff;box-shadow:0 2px 7px rgba(15,45,78,.045)}
+.planning-action-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 13px;background:linear-gradient(180deg,#f8fbfd,#f1f5f8);border-bottom:1px solid #d8e2eb}
+.planning-action-title{min-width:0}.planning-action-title>span,.planning-action-total>span{display:block;font-size:.55rem;line-height:1;text-transform:uppercase;letter-spacing:.08em;color:#718397;font-weight:900}
+.planning-action-title h3{margin:4px 0 2px;color:#102f50;font-size:.92rem;line-height:1.2}.planning-action-title small{display:block;color:#718397;font-size:.59rem}
+.planning-action-total{flex:0 0 auto;text-align:right}.planning-action-total strong{display:block;margin-top:4px;color:#0b2a50;font-size:.9rem;font-variant-numeric:tabular-nums}
+.planning-action-resources{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:8px 10px;border-bottom:1px solid #e0e7ee;background:#fbfcfd}
+.planning-action-resource{min-width:0;border-radius:8px;padding:7px 9px;border:1px solid #d7e0e9;background:#fff}
+.planning-action-resource span{display:block;font-size:.52rem;text-transform:uppercase;letter-spacing:.035em;font-weight:850;color:#617489}
+.planning-action-resource strong{display:block;margin-top:3px;font-size:.72rem;color:#17324f;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.planning-action-resource.available{background:#eef8f2;border-color:#b8ddc6}.planning-action-resource.contingent{background:#fff9e6;border-color:#ead893}.planning-action-resource.supplement{background:#fff0ef;border-color:#e5b3af}
+.planning-action .planning-table-wrap{max-height:none!important;padding:0!important;overflow-x:auto!important;overflow-y:visible!important}
+.planning-action .planning-table{min-width:1050px!important;margin:0!important}.planning-action .planning-table thead th{top:0!important}
+@media(max-width:900px){
+ .planning-action-head{align-items:flex-start}.planning-action-resources{grid-template-columns:1fr}.planning-action-total{min-width:120px}
+}
 </style>
 </head>
 <body>
@@ -1840,14 +1858,25 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     if(s==='RECURSO CONTINGENCIADO')return 'contingent';
     return 'supplement';
   }
+  function planningSort(rows){
+    return [...rows].sort((a,b)=>{
+      const pa=Number(a.prioridade||0),pb=Number(b.prioridade||0);
+      const va=pa>0?pa:Number.MAX_SAFE_INTEGER,vb=pb>0?pb:Number.MAX_SAFE_INTEGER;
+      if(va!==vb)return va-vb;
+      const oa=Number(a.ordem||0),ob=Number(b.ordem||0);
+      if(oa!==ob)return oa-ob;
+      return String(a.id||'').localeCompare(String(b.id||''),'pt-BR',{numeric:true});
+    });
+  }
+
   function planningTableHtml(rows){
-    if(!rows.length)return '<div class="empty">Nenhum item planejado para a seleção atual.</div>';
+    if(!rows.length)return '<div class="empty">Nenhum item planejado para esta ação.</div>';
+    const ordered=planningSort(rows);
     return '<div class="planning-table-wrap"><table class="data-table planning-table"><thead><tr>'+
-      '<th>Situação</th><th>Ação</th><th>Subgrupo</th><th>Prioridade</th><th>UGE</th><th>Área</th><th>Objeto</th><th>Qtd.</th><th>Valor</th>'+
+      '<th>Situação</th><th>Subgrupo</th><th>Prioridade</th><th>UGE</th><th>Área</th><th>Objeto</th><th>Qtd.</th><th>Valor</th>'+
     '</tr></thead><tbody>'+
-    rows.map(r=>'<tr>'+
+    ordered.map(r=>'<tr>'+
       '<td><span class="planning-status '+planningStatusClass(r.situacaoOrc)+'">'+esc(r.situacaoOrc)+'</span></td>'+
-      '<td>'+esc(r.acao)+'</td>'+
       '<td>'+esc(r.subgrupo||'—')+'</td>'+
       '<td class="planning-priority"><strong>'+fmtInt(r.prioridade)+'</strong><small>'+esc(/SEM NUMERACAO EXPRESSA/.test(norm(r.origemPrioridade))?'ordem do PDF':'prioridade do PDF')+'</small></td>'+
       '<td>'+esc(r.uge||'—')+'</td>'+
@@ -1859,10 +1888,34 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     '</tbody></table></div>';
   }
 
+  function planningActionGroupsHtml(rows){
+    const groups=new Map();
+    rows.forEach((r,index)=>{
+      const key=cAny(r.acao)||'Ação não informada';
+      if(!groups.has(key))groups.set(key,{acao:key,rows:[],first:index});
+      groups.get(key).rows.push(r);
+    });
+    return '<div class="planning-actions">'+[...groups.values()].map(group=>{
+      const t=planningTotals(group.rows);
+      return '<section class="planning-action">'+
+        '<div class="planning-action-head">'+
+          '<div class="planning-action-title"><span>Ação</span><h3>'+esc(group.acao)+'</h3><small>'+fmtInt(t.count)+' item'+(t.count===1?'':'s')+' planejado'+(t.count===1?'':'s')+'</small></div>'+
+          '<div class="planning-action-total"><span>Total da ação</span><strong>'+fmtMoney(t.total)+'</strong></div>'+
+        '</div>'+
+        '<div class="planning-action-resources">'+
+          '<div class="planning-action-resource available"><span>Disponível</span><strong>'+fmtMoney(t.available)+'</strong></div>'+
+          '<div class="planning-action-resource contingent"><span>Contingenciado</span><strong>'+fmtMoney(t.contingent)+'</strong></div>'+
+          '<div class="planning-action-resource supplement"><span>Depende de suplementação</span><strong>'+fmtMoney(t.supplement)+'</strong></div>'+
+        '</div>'+
+        planningTableHtml(group.rows)+
+      '</section>';
+    }).join('')+'</div>';
+  }
+
   function planningDrilldownHtml(rows=planningCoreRows(),opts={}){
     const t=planningTotals(rows);
     const title=opts.title||'Planejamento PCA-E 2026';
-    const note=opts.note||'Itens dos cinco documentos de planejamento, preservados na ordem de prioridade de cada ação.';
+    const note=opts.note||'Planejamento organizado por Ação; dentro de cada ação, os itens seguem a prioridade definida nos documentos, da prioridade 1 para as seguintes.';
     if(!rows.length)return '<div class="empty">Nenhum item planejado para a seleção atual.</div>';
     return '<div class="planning-head">'+
       '<div><h2>'+esc(title)+'</h2><p>'+esc(note)+'</p></div>'+
@@ -1874,7 +1927,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
       '<div class="planning-chip supplement"><span>Depende de suplementação</span><strong>'+fmtMoney(t.supplement)+'</strong></div>'+
       '<div class="planning-chip total"><span>Total planejado</span><strong>'+fmtMoney(t.total)+'</strong><small>'+fmtInt(t.count)+' itens</small></div>'+
     '</div>'+
-    planningTableHtml(rows);
+    planningActionGroupsHtml(rows);
   }
 
   function metricFinanceRows(mode){
