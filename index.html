@@ -536,155 +536,6 @@ body{background:var(--pcae-canvas)!important;color:var(--pcae-text)!important}
  .planning-action-head{align-items:flex-start}.planning-action-resources{grid-template-columns:1fr}.planning-action-total{min-width:120px}
 }
 </style>
-
-<style id="pcae-finance-card-standardization">
-.finance-actions{display:grid;gap:12px;padding:12px 14px 15px;background:#f4f7fa}
-.finance-action-resources{grid-template-columns:repeat(4,minmax(0,1fr))!important}
-.finance-action .planning-action-resource.is-focus{border-color:#7fa9cf!important;background:#edf5fc!important;box-shadow:inset 0 0 0 1px rgba(31,111,189,.18)}
-.finance-action .planning-action-resource.is-focus span{color:#16598e!important}
-.finance-action .planning-action-resource.is-focus strong{color:#0b2a50!important}
-.finance-action-body>.planning-table-wrap{margin:0!important;border:0!important;border-radius:0!important;max-height:390px!important;overflow:auto!important}
-.finance-action-body>.planning-table-wrap .data-table th{top:0!important}
-.finance-summary .planning-chip{min-width:0}
-.pcae-content .metric .value{display:block!important;width:100%!important;min-width:0!important;overflow:hidden!important;text-overflow:clip!important;line-height:1.05!important}
-@media(max-width:1050px){.finance-action-resources{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-@media(max-width:650px){.finance-action-resources{grid-template-columns:1fr!important}.metric-head-actions{flex-wrap:wrap!important;justify-content:flex-start!important}}
-</style>
-
-<style id="pcae-card-unification-06out26">
-/* Padrão único dos cards superiores — referência: Planejado */
-.pcae-content .metrics{
-  align-items:stretch!important;
-}
-.pcae-content .metric.metric-control{
-  display:flex!important;
-  flex-direction:column!important;
-  min-height:104px!important;
-  padding:12px 12px 11px!important;
-  border:1px solid var(--pcae-line)!important;
-  border-left:3px solid #8399ad!important;
-  border-radius:11px!important;
-  background:#fff!important;
-  box-shadow:0 2px 8px rgba(15,45,78,.045)!important;
-}
-.pcae-content .metric.metric-control.primary,
-.pcae-content .metric.metric-control.success{
-  border-left-color:#8399ad!important;
-  background:#fff!important;
-}
-.pcae-content .metric.metric-control .label{
-  min-height:24px!important;
-  margin:0!important;
-  display:flex!important;
-  align-items:center!important;
-  gap:7px!important;
-  color:#466078!important;
-  font-size:.69rem!important;
-  font-weight:800!important;
-  line-height:1.1!important;
-}
-.pcae-content .metric.metric-control .metric-symbol{
-  flex:0 0 24px!important;
-  width:24px!important;height:24px!important;
-  border-radius:7px!important;
-  background:#eef4f9!important;
-  color:#2e5e8c!important;
-  font-size:.72rem!important;
-  font-weight:900!important;
-}
-.pcae-content .metric.metric-control .value{
-  min-height:27px!important;
-  margin-top:7px!important;
-  color:#0b2545!important;
-  font-weight:850!important;
-  line-height:1.05!important;
-}
-.pcae-content .metric.metric-control .note{
-  min-height:20px!important;
-  margin-top:auto!important;
-  padding-top:6px!important;
-  color:#748598!important;
-  font-size:.64rem!important;
-  line-height:1.25!important;
-}
-.pcae-content .metric.metric-control:hover{
-  border-color:#8eabc4!important;
-  border-left-color:#8399ad!important;
-  background:#fff!important;
-}
-.pcae-content .metric.metric-control.active-filter{
-  border-color:#1f6fbd!important;
-  border-left-color:#1f6fbd!important;
-  background:#f2f7fc!important;
-  box-shadow:inset 0 0 0 1px #1f6fbd,0 6px 16px rgba(31,111,189,.11)!important;
-}
-.pcae-content .metric.metric-control.active-filter .metric-symbol{
-  background:#dfeefa!important;
-  color:#164f83!important;
-}
-
-/* Detalhamentos: mesma linguagem do Planejado */
-.pcae-content .metric-drilldown .planning-head{
-  padding:14px 16px!important;
-  border-bottom:1px solid var(--border)!important;
-  background:#f8fafc!important;
-}
-.pcae-content .metric-drilldown .planning-summary{
-  gap:8px!important;
-  padding:12px 14px!important;
-  border-bottom:1px solid var(--border)!important;
-}
-.pcae-content .metric-drilldown .planning-chip{
-  min-height:64px!important;
-  padding:9px 10px!important;
-  border-radius:10px!important;
-}
-.pcae-content .metric-drilldown .planning-actions,
-.pcae-content .metric-drilldown .finance-actions{
-  gap:12px!important;
-  padding:12px 14px 15px!important;
-  background:#f4f7fa!important;
-}
-.pcae-content .metric-drilldown .planning-action,
-.pcae-content .metric-drilldown .finance-action{
-  border:1px solid #ccd8e4!important;
-  border-radius:12px!important;
-  background:#fff!important;
-  box-shadow:0 2px 7px rgba(15,45,78,.045)!important;
-}
-.pcae-content .metric-drilldown .planning-action-head{
-  padding:11px 13px!important;
-  gap:14px!important;
-  background:linear-gradient(180deg,#f8fbfd,#f1f5f8)!important;
-  border-bottom:1px solid #d8e2eb!important;
-}
-.pcae-content .metric-drilldown .planning-action-resources,
-.pcae-content .metric-drilldown .finance-action-resources{
-  gap:7px!important;
-  padding:8px 10px!important;
-  border-bottom:1px solid #e0e7ee!important;
-  background:#fbfcfd!important;
-}
-.pcae-content .metric-drilldown .planning-action-toggle{
-  min-height:32px!important;
-  padding:6px 9px!important;
-  border-radius:8px!important;
-}
-.pcae-content .metric-drilldown .finance-action .planning-action-resource.is-focus{
-  border-color:#d7e0e9!important;
-  background:#fff!important;
-  box-shadow:none!important;
-}
-.pcae-content .metric-drilldown .finance-action .planning-action-resource.is-focus span{
-  color:#617489!important;
-}
-.pcae-content .metric-drilldown .finance-action .planning-action-resource.is-focus strong{
-  color:#17324f!important;
-}
-@media(max-width:900px){
-  .pcae-content .metric.metric-control{min-height:100px!important}
-}
-</style>
 </head>
 <body>
 <div class="app">
@@ -1546,7 +1397,7 @@ function fromPlanejamento(d,i){
  };
 }
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
-const CACHE_KEY = 'pcaePublicLastSyncV18Planejamento';
+const CACHE_KEY = 'pcaePublicLastSyncV16Planejamento';
 let syncInProgress = false, lastAttemptAt = 0, lastSuccessfulAt = '';
 function stamp(value) {
   return new Date(value).toLocaleString('pt-BR', {dateStyle:'short',timeStyle:'short',timeZone:'America/Sao_Paulo'});
@@ -1965,7 +1816,6 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     });
   }
   const collapsedPlanningActions=new Set();
-  const collapsedFinanceActions=new Set();
 
   function planningCoreRows(){
     const f=selected();
@@ -2150,14 +2000,9 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     const title=opts.title||'Planejamento PCA-E 2026';
     const note=opts.note||'Planejamento organizado por Ação; dentro de cada ação, os itens seguem a prioridade definida nos documentos, da prioridade 1 para as seguintes.';
     if(!rows.length)return '<div class="empty">Nenhum item planejado para a seleção atual.</div>';
-    const actionKeys=[...new Set(rows.map(r=>cAny(r.acao)||'Ação não informada'))];
-    const allCollapsed=actionKeys.length>0&&actionKeys.every(key=>collapsedPlanningActions.has(key));
     return '<div class="planning-head">'+
       '<div><h2>'+esc(title)+'</h2><p>'+esc(note)+'</p></div>'+
-      '<div class="metric-head-actions">'+
-        '<button type="button" class="smallbtn" data-toggle-all-planning-actions aria-expanded="'+(allCollapsed?'false':'true')+'">'+(allCollapsed?'Expandir todos':'Recolher todos')+'</button>'+
-        '<button type="button" class="smallbtn" data-close-metric>Fechar</button>'+
-      '</div>'+
+      '<button type="button" class="smallbtn" data-close-metric>Fechar</button>'+
     '</div>'+
     '<div class="planning-summary">'+
       '<div class="planning-chip available"><span>Recurso disponível</span><strong>'+fmtMoney(t.available)+'</strong></div>'+
@@ -2201,108 +2046,18 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
       '</tbody></table></div>';
   }
 
-  function financeActionTotals(rows){
-    const out={count:rows.length,empenhado:0,liquidado:0,pago:0,pagoCount:0,execution:0};
-    rows.forEach(r=>{
-      out.empenhado+=Number(r.valorEmpenhado||0);
-      out.liquidado+=Number(r.valorLiquidado||0);
-      if(r.valorPagoInformado){
-        out.pago+=Number(r.valorPago||0);
-        out.pagoCount++;
-      }
-    });
-    out.execution=out.empenhado>0?out.liquidado/out.empenhado*100:0;
-    return out;
-  }
-
-  function financeModeActionValue(mode,t){
-    if(mode==='empenhado')return t.empenhado;
-    if(mode==='liquidado')return t.liquidado;
-    if(mode==='pago')return t.pago;
-    if(mode==='execution')return t.execution;
-    return t.empenhado;
-  }
-
-  function financeModeActionLabel(mode){
-    if(mode==='empenhado')return 'Empenhado da ação';
-    if(mode==='liquidado')return 'Liquidado da ação';
-    if(mode==='pago')return 'Pago da ação';
-    if(mode==='execution')return '% de execução';
-    return 'Total da ação';
-  }
-
-  function financeModeActionDisplay(mode,t){
-    return mode==='execution'?pcaePct(t.execution):fmtMoney(financeModeActionValue(mode,t));
-  }
-
-  function financeActionGroupsHtml(mode,rows){
-    const groups=new Map();
-    rows.forEach((r,index)=>{
-      const key=cAny(r.acao)||'Ação não informada';
-      if(!groups.has(key))groups.set(key,{acao:key,rows:[],first:index});
-      groups.get(key).rows.push(r);
-    });
-    const ordered=[...groups.values()].map(group=>({...group,totals:financeActionTotals(group.rows)}))
-      .sort((a,b)=>{
-        const av=financeModeActionValue(mode,a.totals),bv=financeModeActionValue(mode,b.totals);
-        if(av!==bv)return bv-av;
-        return a.first-b.first;
-      });
-    return '<div class="finance-actions">'+ordered.map(group=>{
-      const t=group.totals,key=mode+'::'+group.acao;
-      const collapsed=collapsedFinanceActions.has(key);
-      return '<section class="planning-action finance-action'+(collapsed?' is-collapsed':'')+'" data-finance-action="'+esc(key)+'">'+
-        '<div class="planning-action-head">'+
-          '<div class="planning-action-title"><span>Ação</span><h3>'+esc(group.acao)+'</h3><small>'+fmtInt(t.count)+' registro'+(t.count===1?'':'s')+'</small></div>'+
-          '<div class="planning-action-head-tools">'+
-            '<div class="planning-action-total"><span>'+financeModeActionLabel(mode)+'</span><strong>'+financeModeActionDisplay(mode,t)+'</strong></div>'+
-            '<button type="button" class="planning-action-toggle" data-toggle-finance-action="'+esc(key)+'" aria-expanded="'+(collapsed?'false':'true')+'" title="'+(collapsed?'Mostrar registros desta ação':'Recolher registros desta ação')+'">'+
-              '<span class="planning-action-toggle-icon" aria-hidden="true">'+(collapsed?'＋':'−')+'</span>'+
-              '<span class="planning-action-toggle-label">'+(collapsed?'Mostrar':'Recolher')+'</span>'+
-            '</button>'+
-          '</div>'+
-        '</div>'+
-        '<div class="planning-action-body finance-action-body"'+(collapsed?' hidden':'')+'>'+
-          '<div class="planning-action-resources finance-action-resources">'+
-            '<div class="planning-action-resource '+(mode==='empenhado'?'is-focus':'')+'"><span>Empenhado</span><strong>'+fmtMoney(t.empenhado)+'</strong></div>'+
-            '<div class="planning-action-resource '+(mode==='liquidado'?'is-focus':'')+'"><span>Liquidado</span><strong>'+fmtMoney(t.liquidado)+'</strong></div>'+
-            '<div class="planning-action-resource '+(mode==='pago'?'is-focus':'')+'"><span>Pago informado</span><strong>'+(t.pagoCount?fmtMoney(t.pago):'—')+'</strong></div>'+
-            '<div class="planning-action-resource '+(mode==='execution'?'is-focus':'')+'"><span>% execução</span><strong>'+pcaePct(t.execution)+'</strong></div>'+
-          '</div>'+
-          financeMetricTableHtml(mode,group.rows)+
-        '</div>'+
-      '</section>';
-    }).join('')+'</div>';
-  }
-
   function financeMetricDrilldownHtml(mode){
     const labels={
-      empenhado:['Empenhado','Execução financeira organizada por Ação. Dentro de cada ação, os registros permanecem ordenados do maior valor empenhado para o menor.'],
-      liquidado:['Liquidado','Execução financeira organizada por Ação. Dentro de cada ação, os registros permanecem ordenados do maior valor liquidado para o menor.'],
-      pago:['Pago','Pagamentos informados organizados por Ação, preservando somente registros com valor pago confirmado.'],
-      execution:['% de execução','Execução financeira organizada por Ação, com percentual agregado de liquidado sobre empenhado em cada bloco.']
+      empenhado:['Empenhado','Registros da Base com valor empenhado, do maior para o menor.'],
+      liquidado:['Liquidado','Registros da Base com valor liquidado, do maior para o menor.'],
+      pago:['Pago','Registros em que o valor pago está efetivamente informado.'],
+      execution:['% de execução','Registros com execução financeira, ordenados pela relação liquidado / empenhado.']
     };
     const rows=metricFinanceRows(mode),meta=labels[mode]||['Execução financeira','Registros financeiros da seleção atual.'];
-    if(!rows.length)return '<div class="planning-head"><div><h2>'+meta[0]+'</h2><p>'+meta[1]+'</p></div><div class="metric-head-actions"><button type="button" class="smallbtn" data-close-metric>Fechar</button></div></div><div class="empty">Nenhum registro encontrado para este indicador na seleção atual.</div>';
-    const actions=[...new Set(rows.map(r=>cAny(r.acao)||'Ação não informada'))];
-    const actionKeys=actions.map(action=>mode+'::'+action);
-    const allCollapsed=actionKeys.length>0&&actionKeys.every(key=>collapsedFinanceActions.has(key));
-    const t=financeActionTotals(rows);
     return '<div class="planning-head">'+
       '<div><h2>'+meta[0]+'</h2><p>'+meta[1]+'</p></div>'+
-      '<div class="metric-head-actions">'+
-        '<span class="metric-drilldown-count">'+fmtInt(rows.length)+' registro'+(rows.length===1?'':'s')+' · '+fmtInt(actions.length)+' ação'+(actions.length===1?'':'ões')+'</span>'+
-        '<button type="button" class="smallbtn" data-toggle-all-finance-actions aria-expanded="'+(allCollapsed?'false':'true')+'">'+(allCollapsed?'Expandir todos':'Recolher todos')+'</button>'+
-        '<button type="button" class="smallbtn" data-close-metric>Fechar</button>'+
-      '</div>'+
-    '</div>'+
-    '<div class="planning-summary finance-summary">'+
-      '<div class="planning-chip"><span>Empenhado</span><strong>'+fmtMoney(t.empenhado)+'</strong></div>'+
-      '<div class="planning-chip"><span>Liquidado</span><strong>'+fmtMoney(t.liquidado)+'</strong></div>'+
-      '<div class="planning-chip"><span>Pago informado</span><strong>'+(t.pagoCount?fmtMoney(t.pago):'—')+'</strong></div>'+
-      '<div class="planning-chip total"><span>% execução</span><strong>'+pcaePct(t.execution)+'</strong><small>liquidado / empenhado</small></div>'+
-    '</div>'+
-    financeActionGroupsHtml(mode,rows);
+      '<div class="metric-head-actions"><span class="metric-drilldown-count">'+fmtInt(rows.length)+' registro'+(rows.length===1?'':'s')+'</span><button type="button" class="smallbtn" data-close-metric>Fechar</button></div>'+
+    '</div>'+financeMetricTableHtml(mode,rows);
   }
 
   function renderFinancialMetricDrilldown(){
@@ -2329,34 +2084,12 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
       renderNewMetrics();
       renderFinancialMetricDrilldown();
     });
-    p.querySelector('[data-toggle-all-planning-actions]')?.addEventListener('click',()=>{
-      const keys=[...new Set(planningCoreRows().map(r=>cAny(r.acao)||'Ação não informada'))];
-      const allCollapsed=keys.length>0&&keys.every(key=>collapsedPlanningActions.has(key));
-      keys.forEach(key=>{if(allCollapsed)collapsedPlanningActions.delete(key);else collapsedPlanningActions.add(key);});
-      renderFinancialMetricDrilldown();
-    });
     p.querySelectorAll('[data-toggle-planning-action]').forEach(btn=>{
       btn.addEventListener('click',()=>{
         const key=btn.getAttribute('data-toggle-planning-action')||'';
         if(!key)return;
         if(collapsedPlanningActions.has(key))collapsedPlanningActions.delete(key);
         else collapsedPlanningActions.add(key);
-        renderFinancialMetricDrilldown();
-      });
-    });
-    p.querySelector('[data-toggle-all-finance-actions]')?.addEventListener('click',()=>{
-      if(!['empenhado','liquidado','pago','execution'].includes(financialMetricMode))return;
-      const keys=[...new Set(metricFinanceRows(financialMetricMode).map(r=>financialMetricMode+'::'+(cAny(r.acao)||'Ação não informada')))];
-      const allCollapsed=keys.length>0&&keys.every(key=>collapsedFinanceActions.has(key));
-      keys.forEach(key=>{if(allCollapsed)collapsedFinanceActions.delete(key);else collapsedFinanceActions.add(key);});
-      renderFinancialMetricDrilldown();
-    });
-    p.querySelectorAll('[data-toggle-finance-action]').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const key=btn.getAttribute('data-toggle-finance-action')||'';
-        if(!key)return;
-        if(collapsedFinanceActions.has(key))collapsedFinanceActions.delete(key);
-        else collapsedFinanceActions.add(key);
         renderFinancialMetricDrilldown();
       });
     });
@@ -2388,278 +2121,12 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     const saldo=available>0?Math.max(0,available-empenho):0;
     const execDen=available>0?available:(empenho||1);
     const cards=[
-      {key:'planned',label:'Planejado',symbol:'P',value:moneyOrDash(planned),note:planRows.length+' itens · recursos e prioridades'},
+      {key:'planned',label:'Planejado',symbol:'P',value:moneyOrDash(planned),note:planRows.length+' itens · recursos e prioridades',cls:'primary'},
       {key:'empenhado',label:'Empenhado',symbol:'E',value:moneyOrDash(empenho),note:available>0?pcaePct(pct(empenho,available))+' do recurso disponível':rows.length+' registros financeiros'},
       {key:'liquidado',label:'Liquidado',symbol:'L',value:moneyOrDash(liq),note:available>0?pcaePct(pct(liq,available))+' do recurso disponível':pcaePct(pct(liq,empenho))+' do empenhado'},
-      {key:'pago',label:'Pago',symbol:'R
-    ];
-    const el=document.querySelector('#metrics');
-    el.innerHTML=cards.map(card=>{
-      const active=financialMetricMode===card.key;
-      return '<article class="metric metric-control quick-filter '+(active?'active-filter':'')+'" data-financial-metric="'+card.key+'" role="button" tabindex="0" aria-pressed="'+(active?'true':'false')+'" aria-label="Filtrar por '+esc(card.label)+'">'+
-        '<div class="label"><span class="metric-symbol">'+card.symbol+'</span>'+card.label+'</div>'+
-        '<div class="value '+metricValueSize(card.value)+'" title="'+esc(card.value)+'">'+card.value+'</div>'+
-        '<div class="note">'+card.note+'</div>'+
-      '</article>';
-    }).join('');
-    el.querySelectorAll('[data-financial-metric]').forEach(card=>{
-      const activate=()=>toggleFinancialMetric(card.dataset.financialMetric);
-      card.addEventListener('click',activate);
-      card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate();}});
-    });
-  }
-
-  function criticalRows(){
-    const a=atasCoreRows().filter(r=>{
-      const d=daysUntil(r.proximaEtapa||r.validadeAta);
-      return d!==null&&d<=30;
-    }).map(r=>({kind:'ata',row:r,date:r.proximaEtapa||r.validadeAta,days:daysUntil(r.proximaEtapa||r.validadeAta)}));
-
-    const b=baseCoreRows().filter(r=>isPendingContract(r)).filter(r=>{
-      const d=daysUntil(r.previsaoEntrega);
-      return d!==null&&d<=30;
-    }).map(r=>({kind:'base',row:r,date:r.previsaoEntrega,days:daysUntil(r.previsaoEntrega)}));
-
-    return [...a,...b].sort((x,y)=>(x.days??9999)-(y.days??9999));
-  }
-
-  function attentionCounts(){
-    return {
-      licitation:atasCoreRows().filter(r=>norm(r.situacao)==='EM LICITACAO').length,
-      pendingitems:pendingItemGroups().length,
-      revalidate:atasCoreRows().filter(r=>norm(r.situacao)==='REVALIDAR').length,
-      critical:criticalRows().length
-    };
-  }
-
-  function attentionRows(){
-    if(attentionMode==='licitation'){
-      return atasCoreRows().filter(r=>norm(r.situacao)==='EM LICITACAO')
-        .sort((a,b)=>((dateVal(a.proximaEtapa)||9e15)-(dateVal(b.proximaEtapa)||9e15)))
-        .slice(0,8).map(r=>({
-          type:'ata',raw:r,objeto:r.objeto,processo:r.pregao||r.processo||r.numeroAta||'—',
-          modalidade:r.pregao?'Pregão / ARP':'ARP',situacao:r.estagio||r.situacao||'Em licitação',
-          etapa:r.controle||'Acompanhar próxima etapa',data:r.proximaEtapa,responsavel:r.uge||'—'
-        }));
-    }
-    if(attentionMode==='revalidate'){
-      return atasCoreRows().filter(r=>norm(r.situacao)==='REVALIDAR').slice(0,8).map(r=>({
-        type:'ata',raw:r,objeto:r.objeto,processo:r.pregao||r.processo||r.numeroAta||'—',
-        modalidade:'ARP',situacao:'Revalidar',etapa:r.controle||r.observacao||'Revisar vínculo, saldo e validade',
-        data:r.validadeAta||r.proximaEtapa,responsavel:r.uge||'—'
-      }));
-    }
-    if(attentionMode==='pendingitems'){
-      return pendingItemGroups().sort((a,b)=>(a.previsao||'9999').localeCompare(b.previsao||'9999')).slice(0,8).map(g=>({
-        type:'item',raw:g,objeto:g.objeto,processo:(g.contratos||g.registros)+' contrato(s)/registro(s)',
-        modalidade:g.forma||'—',situacao:g.status||'Pendente',etapa:'Acompanhar recebimento',
-        data:g.previsao,responsavel:g.uge||'—'
-      }));
-    }
-    return criticalRows().slice(0,8).map(x=>{
-      const r=x.row;
-      if(x.kind==='ata') return {
-        type:'ata',raw:r,objeto:r.objeto,processo:r.pregao||r.processo||r.numeroAta||'—',
-        modalidade:'ARP',situacao:(x.days<0?'Prazo vencido':'Prazo próximo'),
-        etapa:r.controle||r.estagio||'Acompanhar marco',data:x.date,responsavel:r.uge||'—'
-      };
-      return {
-        type:'base',raw:r,objeto:r.objeto,processo:r.contratoUGE||r.empenho||r.processoSEI||'—',
-        modalidade:contractTypeLabel(r),situacao:(x.days<0?'Entrega vencida':'Entrega próxima'),
-        etapa:'Acompanhar recebimento',data:x.date,responsavel:r.uge||'—'
-      };
-    });
-  }
-
-  function attentionTitle(){
-    return {
-      licitation:['Itens em licitação','Certames em andamento ordenados pela próxima etapa.'],
-      pendingitems:['Contratos/NE não entregues','Objetos consolidados com recebimento pendente.'],
-      revalidate:['Itens a revalidar','Atas e processos que exigem conferência ou providência.'],
-      critical:['Prazos críticos','Marcos e entregas vencidos ou previstos para os próximos 30 dias.']
-    }[attentionMode];
-  }
-
-  function attentionTableHtml(rows){
-    if(!rows.length) return '<div class="empty">Nenhum item nesta condição.</div>';
-    return '<div class="table-wrap"><table class="data-table"><thead><tr>'+
-      '<th>Objeto</th><th>Processo / contrato</th><th>Modalidade</th><th>Situação atual</th><th>Próxima etapa</th><th>Data</th><th>Responsável</th>'+
-      '</tr></thead><tbody>'+
-      rows.map(x=>{
-        const attrs=x.type==='item'
-          ? 'data-item-object="'+esc(x.raw.objeto)+'"'
-          : 'data-kind="'+x.type+'" data-id="'+x.raw.id+'"';
-        return '<tr '+attrs+'>'+
-          '<td><strong>'+esc(x.objeto||'—')+'</strong></td>'+
-          '<td>'+esc(x.processo||'—')+'</td>'+
-          '<td>'+esc(x.modalidade||'—')+'</td>'+
-          '<td><span class="badge '+badgeClass(x.situacao)+'">'+esc(x.situacao||'—')+'</span></td>'+
-          '<td><div class="action-text">'+esc(x.etapa||'—')+'</div></td>'+
-          '<td>'+fmtDate(x.data)+'</td>'+
-          '<td>'+esc(x.responsavel||'—')+'</td>'+
-        '</tr>';
-      }).join('')+
-      '</tbody></table></div>';
-  }
-
-  function alertData(){
-    const groups=aggregateItemRows(baseCoreRows());
-    const mismatch=groups.filter(g=>{
-      const phys=g.qtdContratada>0?g.qtdEntregue/g.qtdContratada:0;
-      const fin=g.valorEmpenhado>0?g.valorLiquidado/g.valorEmpenhado:0;
-      return (phys>=.70&&fin<.50)||(fin>=.70&&phys<.50);
-    });
-    const highFinLowPhysical=groups.filter(g=>{
-      const phys=g.qtdContratada>0?g.qtdEntregue/g.qtdContratada:0;
-      const fin=g.valorEmpenhado>0?g.valorLiquidado/g.valorEmpenhado:0;
-      return fin>=.80&&phys<.50;
-    });
-    const reval=atasCoreRows().filter(r=>{
-      if(norm(r.situacao)==='REVALIDAR') return true;
-      const d=daysUntil(r.validadeAta);
-      return d!==null&&d>=0&&d<=90;
-    });
-    const licNoDate=atasCoreRows().filter(r=>norm(r.situacao)==='EM LICITACAO'&&!r.proximaEtapa).length;
-    const overdue=baseCoreRows().filter(r=>isPendingContract(r)&&daysUntil(r.previsaoEntrega)!==null&&daysUntil(r.previsaoEntrega)<0).length;
-    const planned=plannedTotal(baseCoreRows());
-    const empenho=baseCoreRows().reduce((s,r)=>s+Number(r.valorEmpenhado||0),0);
-    const saldo=planned>0?Math.max(0,planned-empenho):0;
-    return [
-      {cls:'danger',icon:'↗',title:'Diferença entre execução física e financeira',text:mismatch.length+' objeto(s) apresentam descompasso relevante entre entrega e execução financeira.',mode:'items'},
-      {cls:'warn',icon:'!',title:'Alto financeiro e baixa entrega',text:highFinLowPhysical.length+' objeto(s) têm liquidação elevada e menos de 50% da entrega física.',mode:'deliveries'},
-      {cls:'warn',icon:'↻',title:'Revalidações próximas',text:reval.length+' ata(s)/processo(s) exigem revalidação ou vencem em até 90 dias.',attention:'revalidate'},
-      {cls:'danger',icon:'⌛',title:'Principais gargalos identificados',text:licNoDate+' licitação(ões) sem próxima data e '+overdue+' entrega(s) vencida(s).',attention:'critical'},
-      {cls:'info',icon:'R$',title:'Disponibilidade do planejado',text:planned>0?('Saldo estimado a empenhar: '+fmtMoney(saldo)+' ('+pcaePct(pct(saldo,planned))+').'):'Valor planejado insuficiente para calcular o saldo.',mode:'finance'}
-    ];
-  }
-
-  function categoryExecutionHtml(){
-    const map=new Map();
-    baseCoreRows().forEach(r=>{
-      const k=r.area||'SEM ÁREA';
-      const x=map.get(k)||{e:0,l:0};
-      x.e+=Number(r.valorEmpenhado||0);
-      x.l+=Number(r.valorLiquidado||0);
-      map.set(k,x);
-    });
-    const rows=[...map.entries()].map(([k,v])=>[k,v.e>0?v.l/v.e*100:0]).sort((a,b)=>b[1]-a[1]).slice(0,8);
-    if(!rows.length) return '<div class="empty">Sem dados financeiros na seleção.</div>';
-    return rows.map(([k,v])=>
-      '<div class="cat-row">'+
-        '<div class="cat-label" title="'+esc(k)+'">'+esc(k)+'</div>'+
-        '<div class="cat-track"><div class="cat-fill" style="width:'+Math.max(0,Math.min(100,v))+'%"></div></div>'+
-        '<div class="cat-value">'+pcaePct(v)+'</div>'+
-      '</div>'
-    ).join('');
-  }
-
-  function financialFlowHtml(){
-    const rows=baseCoreRows();
-    const plan=planningTotals(planningCoreRows());
-    const planned=plan.total,available=plan.available;
-    const e=rows.reduce((s,r)=>s+Number(r.valorEmpenhado||0),0);
-    const l=rows.reduce((s,r)=>s+Number(r.valorLiquidado||0),0);
-    const p=paidTotal(rows);
-    const ref=Math.max(1,planned,e,l,p);
-    const arr=[['Planejado total',planned,'planned'],['Recurso disponível',available,'available'],['Empenhado',e,'secondary'],['Liquidado',l,''],['Pago',p,'success']];
-    return arr.map(([label,val,cls])=>
-      '<div class="flow-row">'+
-        '<div class="flow-label">'+label+'</div>'+
-        '<div class="flow-track"><div class="flow-fill '+cls+'" style="width:'+Math.max(0,Math.min(100,Number(val||0)/ref*100))+'%"></div></div>'+
-        '<div class="flow-value">'+moneyOrDash(val)+'</div>'+
-      '</div>'
-    ).join('');
-  }
-  function setSideActive(view){
-    document.querySelectorAll('.pcae-side-btn').forEach(x=>x.classList.toggle('active',x.dataset.pcaeView===view));
-  }
-
-  function renderNewOverview(){
-    const view=document.querySelector('#view-overview');
-    if(!view) return;
-    const counts=attentionCounts();
-    const title=attentionTitle();
-    view.innerHTML=
-      '<div class="pcae-overview">'+
-        '<section class="pcae-card attention-shell">'+
-          '<div class="attention-title-row">'+
-            '<div class="attention-title-wrap"><div class="attention-title-icon">!</div><div><h3>Central de Atenção</h3><p>Acompanhe os itens que requerem ação prioritária da gestão.</p></div></div>'+
-            '<button class="pcae-card-link" data-attention-all>Ver todos os itens →</button>'+
-          '</div>'+
-          '<div class="attention-grid">'+
-            '<button class="attention-btn '+(attentionMode==='licitation'?'active':'')+'" data-attention="licitation"><span class="attention-ico">L</span><span class="attention-meta"><strong>Em licitação</strong><b>'+fmtInt(counts.licitation)+'</b><span>itens</span><small>Processos em andamento</small></span></button>'+
-            '<button class="attention-btn '+(attentionMode==='pendingitems'?'active':'')+'" data-attention="pendingitems"><span class="attention-ico">NE</span><span class="attention-meta"><strong>Contratos/NE não entregues</strong><b>'+fmtInt(counts.pendingitems)+'</b><span>itens</span><small>Recebimento pendente</small></span></button>'+
-            '<button class="attention-btn warn '+(attentionMode==='revalidate'?'active':'')+'" data-attention="revalidate"><span class="attention-ico">↻</span><span class="attention-meta"><strong>Revalidar</strong><b>'+fmtInt(counts.revalidate)+'</b><span>itens</span><small>Conferência necessária</small></span></button>'+
-            '<button class="attention-btn danger '+(attentionMode==='critical'?'active':'')+'" data-attention="critical"><span class="attention-ico">!</span><span class="attention-meta"><strong>Prazo crítico</strong><b>'+fmtInt(counts.critical)+'</b><span>itens</span><small>Vencidos ou próximos de 30 dias</small></span></button>'+
-          '</div>'+
-        '</section>'+
-
-        '<div class="overview-main-grid">'+
-          '<section class="pcae-card attention-table-card">'+
-            '<div class="pcae-card-head"><div><h3>'+title[0]+'</h3><p>'+title[1]+'</p></div><button class="pcae-card-link" data-attention-all>Ver todos →</button></div>'+
-            '<div id="attentionTable">'+attentionTableHtml(attentionRows())+'</div>'+
-          '</section>'+
-          '<aside class="pcae-card alerts-panel">'+
-            '<div class="pcae-card-head"><div><h3>Alertas gerenciais</h3><p>Exceções e sinais que merecem decisão.</p></div></div>'+
-            '<div class="alert-list">'+alertData().map(a=>
-              '<div class="alert-item '+a.cls+'" '+(a.attention?('data-alert-attention="'+a.attention+'"'):('data-alert-view="'+a.mode+'"'))+'>'+
-                '<div class="alert-icon">'+a.icon+'</div><div class="alert-copy"><strong>'+a.title+'</strong><span>'+a.text+'</span></div><div class="alert-arrow">›</div>'+
-              '</div>'
-            ).join('')+'</div>'+
-          '</aside>'+
-        '</div>'+
-
-        '<div class="overview-bottom-grid">'+
-          '<section class="pcae-card"><div class="pcae-card-head"><div><h3>Fluxo da execução financeira</h3><p>Planejado, empenhado, liquidado e pago na seleção atual.</p></div></div><div class="finance-flow">'+financialFlowHtml()+'</div></section>'+
-          '<section class="pcae-card"><div class="pcae-card-head"><div><h3>% de execução por categoria</h3><p>Liquidação em relação ao empenho por área.</p></div></div><div class="category-exec">'+categoryExecutionHtml()+'</div></section>'+
-        '</div>'+
-      '</div>';
-
-    view.querySelectorAll('[data-attention]').forEach(btn=>btn.addEventListener('click',()=>{
-      attentionMode=btn.dataset.attention;
-      renderNewOverview();
-      bindRows();
-    }));
-
-    view.querySelectorAll('[data-attention-all]').forEach(btn=>btn.addEventListener('click',()=>{
-      const target=attentionMode==='pendingitems'?'deliveries':'atas';
-      const legacy=document.querySelector('.navtab[data-view="'+target+'"]');
-      if(legacy) legacy.click();
-      setSideActive(target);
-    }));
-
-    view.querySelectorAll('[data-alert-attention]').forEach(el=>el.addEventListener('click',()=>{
-      attentionMode=el.dataset.alertAttention;
-      renderNewOverview();
-      bindRows();
-      view.scrollIntoView({behavior:'smooth',block:'start'});
-    }));
-
-    view.querySelectorAll('[data-alert-view]').forEach(el=>el.addEventListener('click',()=>{
-      const v=el.dataset.alertView;
-      const legacy=document.querySelector('.navtab[data-view="'+v+'"]');
-      if(legacy) legacy.click();
-      setSideActive(v);
-    }));
-  }
-
-  buildShell();
-  try{ if(typeof metricFilters!=='undefined'&&metricFilters.clear) metricFilters.clear(); }catch(e){}
-  try{
-    renderMetrics=renderNewMetrics;
-    renderMetricDrilldown=renderFinancialMetricDrilldown;
-    renderOverview=renderNewOverview;
-  }catch(e){console.error('Falha ao aplicar arquitetura PCA-E',e);}
-
-  if(typeof renderAll==='function') renderAll();
-
-  const current=document.querySelector('.navtab.active');
-  if(current) setSideActive(current.dataset.view);
-})();</script>
-</body></html>
-,value:moneyOrDash(pago),note:pago>0?(available>0?pcaePct(pct(pago,available))+' do recurso disponível':'valor pago informado'):'pagamento ainda não informado'},
+      {key:'pago',label:'Pago',symbol:'R$',value:moneyOrDash(pago),note:pago>0?(available>0?pcaePct(pct(pago,available))+' do recurso disponível':'valor pago informado'):'pagamento ainda não informado',cls:'success'},
       {key:'saldo',label:'Saldo a empenhar',symbol:'S',value:available>0?fmtMoney(saldo):'—',note:available>0?'recurso disponível menos empenhado':'depende do recurso disponível'},
-      {key:'execution',label:'% de execução',symbol:'%',value:pcaePct(pct(liq,execDen)),note:available>0?'liquidado / recurso disponível':'liquidado / empenhado'}
+      {key:'execution',label:'% de execução',symbol:'%',value:pcaePct(pct(liq,execDen)),note:available>0?'liquidado / recurso disponível':'liquidado / empenhado',cls:'primary'}
     ];
     const el=document.querySelector('#metrics');
     el.innerHTML=cards.map(card=>{
