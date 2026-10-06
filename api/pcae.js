@@ -4,6 +4,7 @@ const TABS = [
   { key: 'base', gid: '0', required: ['OBJETO', 'UGE', 'VALOR TOTAL EMPENHADO', 'VALOR TOTAL LIQUIDADO', 'QTDE ENTREGUE'] },
   { key: 'atas', gid: '1223289174', required: ['OBJETO', 'SITUAÇÃO', 'UGE', 'ESTÁGIO LICITATÓRIO'] },
   { key: 'imoveis', gid: '1905202605', headerRow: 5, keyField: 'OPM', required: ['Nº PROCESSO', 'OPM', 'MUNICÍPIO', 'OBJETO RESUMIDO', 'STATUS DO SERVIÇO', 'RECURSO EMPENHADO', 'RECURSO LIQUIDADO'] },
+  { key: 'planejamento', gid: '131289957', range: 'A1:U500', keyField: 'AÇÃO', required: ['ANO', 'AÇÃO', 'SITUAÇÃO ORÇAMENTÁRIA', 'PRIORIDADE', 'ORDEM NO BLOCO', 'UGE', 'ÁREA', 'OBJETO RESUMIDO', 'VALOR TOTAL/REFERENCIAL'] },
 ];
 
 // A exportação CSV mantém valores mistos, datas e identificadores como aparecem na planilha.
@@ -46,6 +47,7 @@ async function readTab(tab, signal) {
   const url = new URL('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/export');
   url.searchParams.set('format', 'csv');
   url.searchParams.set('gid', tab.gid);
+  if (tab.range) url.searchParams.set('range', tab.range);
   // Evita uma exportação antiga no cache da origem.
   url.searchParams.set('_', String(Date.now()));
   const response = await fetch(url, { method: 'GET', credentials: 'omit', redirect: 'follow', cache: 'no-store', signal });
@@ -67,11 +69,12 @@ async function handler(req, res) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 15000);
   try {
-    const [base, atas, imoveis] = await Promise.all(TABS.map(tab => readTab(tab, controller.signal)));
+    const [base, atas, imoveis, planejamento] = await Promise.all(TABS.map(tab => readTab(tab, controller.signal)));
     if (!base.length) throw new Error('Base sem registros.');
     if (!imoveis.length) throw new Error('Acompanhamento Imóveis sem registros.');
+    if (!planejamento.length) throw new Error('PCA-E-2026 sem registros.');
     res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60');
-    return res.status(200).json({ base, atas, imoveis, fetchedAt: new Date().toISOString() });
+    return res.status(200).json({ base, atas, imoveis, planejamento, fetchedAt: new Date().toISOString() });
   } catch {
     controller.abort();
     res.setHeader('Cache-Control', 'no-store');
