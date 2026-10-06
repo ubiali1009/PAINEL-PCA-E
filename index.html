@@ -254,6 +254,25 @@
 .planning-chip.available{background:#eef8f2;border-color:#b8ddc6}.planning-chip.contingent{background:#fff9e6;border-color:#ead893}.planning-chip.supplement{background:#fff0ef;border-color:#e5b3af}.planning-chip.total{background:#eef3f8;border-color:#bdccda}
 .planning-table-wrap{max-height:520px;overflow:auto;padding:0 10px 10px}.planning-table{min-width:1220px}.planning-table thead th{position:sticky;top:0;z-index:2;background:#edf3f8}.planning-table td{vertical-align:top}.planning-table td small{display:block;margin-top:3px;color:#73849a;font-size:.58rem;line-height:1.35}.planning-status{display:inline-block;border-radius:999px;padding:4px 7px;font-size:.55rem;font-weight:900;line-height:1.25}.planning-status.available{background:#d7efdf;color:#17663d}.planning-status.contingent{background:#fff0b8;color:#725100}.planning-status.supplement{background:#f7d1ce;color:#8b231b}.planning-priority{text-align:center}.planning-priority strong{display:block;font-size:.82rem}.planning-priority small{white-space:nowrap}.flow-fill.available{background:#23865f}.flow-fill.planned{background:#0b2a50}
 @media(max-width:900px){.planning-summary{grid-template-columns:1fr 1fr}.planning-head{flex-direction:column}.planning-table-wrap{max-height:440px}}
+
+/* Planejamento PCA-E 2026 — situação orçamentária antes da prioridade */
+.planning-resource-sections{display:grid;gap:12px;margin-top:12px}
+.planning-resource-section{border:1px solid #d8e1eb;border-radius:12px;overflow:hidden;background:#fff}
+.planning-resource-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:#f8fafc;border-bottom:1px solid #d8e1eb}
+.planning-resource-section-head span{display:block;font-size:.56rem;text-transform:uppercase;letter-spacing:.05em;color:#71839a;font-weight:850}
+.planning-resource-section-head h4{margin:2px 0 0;font-size:.88rem;color:#153451}
+.planning-resource-section-meta{text-align:right;flex:0 0 auto}
+.planning-resource-section-meta strong{display:block;font-size:.7rem;color:#274766}
+.planning-resource-section-meta small{display:block;margin-top:2px;font-size:.62rem;color:#687b8e;font-weight:750}
+.planning-resource-section.available{border-left:4px solid #16865c}
+.planning-resource-section.contingent{border-left:4px solid #d4771f}
+.planning-resource-section.supplement{border-left:4px solid #c63b2d}
+.planning-resource-section.other{border-left:4px solid #718096}
+.planning-resource-section .planning-table-wrap{margin:0;border:0;border-radius:0}
+@media(max-width:760px){
+ .planning-resource-section-head{align-items:flex-start}
+ .planning-resource-section-meta{max-width:42%}
+}
 </style>
 
 <style id="pcae-modern-architecture">
@@ -1858,8 +1877,17 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     if(s==='RECURSO CONTINGENCIADO')return 'contingent';
     return 'supplement';
   }
+  function planningStatusRank(status){
+    const s=norm(status);
+    if(s==='RECURSO DISPONIVEL'||s==='RECURSOS DISPONIVEIS')return 1;
+    if(s==='RECURSO CONTINGENCIADO'||s==='RECURSOS CONTINGENCIADOS')return 2;
+    if(s.includes('SUPLEMENT'))return 3;
+    return 4;
+  }
   function planningSort(rows){
     return [...rows].sort((a,b)=>{
+      const sa=planningStatusRank(a.situacaoOrc),sb=planningStatusRank(b.situacaoOrc);
+      if(sa!==sb)return sa-sb;
       const pa=Number(a.prioridade||0),pb=Number(b.prioridade||0);
       const va=pa>0?pa:Number.MAX_SAFE_INTEGER,vb=pb>0?pb:Number.MAX_SAFE_INTEGER;
       if(va!==vb)return va-vb;
@@ -1888,6 +1916,27 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     '</tbody></table></div>';
   }
 
+  function planningResourceSectionsHtml(rows){
+    const definitions=[
+      {rank:1,label:'Recurso disponível',className:'available'},
+      {rank:2,label:'Recurso contingenciado',className:'contingent'},
+      {rank:3,label:'Depende de suplementação',className:'supplement'},
+      {rank:4,label:'Outras situações',className:'other'}
+    ];
+    return '<div class="planning-resource-sections">'+definitions.map(def=>{
+      const subset=planningSort(rows.filter(r=>planningStatusRank(r.situacaoOrc)===def.rank));
+      if(!subset.length)return '';
+      const total=subset.reduce((sum,r)=>sum+Number(r.valorTotal||0),0);
+      return '<section class="planning-resource-section '+def.className+'">'+
+        '<div class="planning-resource-section-head">'+
+          '<div><span>Situação orçamentária</span><h4>'+esc(def.label)+'</h4></div>'+
+          '<div class="planning-resource-section-meta"><strong>'+fmtInt(subset.length)+' item'+(subset.length===1?'':'s')+'</strong><small>'+fmtMoney(total)+'</small></div>'+
+        '</div>'+
+        planningTableHtml(subset)+
+      '</section>';
+    }).join('')+'</div>';
+  }
+
   function planningActionGroupsHtml(rows){
     const groups=new Map();
     rows.forEach((r,index)=>{
@@ -1907,7 +1956,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
           '<div class="planning-action-resource contingent"><span>Contingenciado</span><strong>'+fmtMoney(t.contingent)+'</strong></div>'+
           '<div class="planning-action-resource supplement"><span>Depende de suplementação</span><strong>'+fmtMoney(t.supplement)+'</strong></div>'+
         '</div>'+
-        planningTableHtml(group.rows)+
+        planningResourceSectionsHtml(group.rows)+
       '</section>';
     }).join('')+'</div>';
   }
