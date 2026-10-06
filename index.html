@@ -317,6 +317,41 @@
   .planning-subgroup-filter label{min-width:0;max-width:none;width:100%}
   .planning-subgroup-filter small{padding-bottom:0}
 }
+
+/* PCA-E 2026 — agrupamento fixo por grupo e recolhimento por situação orçamentária */
+.planning-subgroup-filter{display:none!important}
+.planning-subgroup-groups{display:grid;gap:10px;padding:10px}
+.planning-subgroup-group{border:1px solid #e1e8ef;border-radius:10px;overflow:hidden;background:#fff}
+.planning-subgroup-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:8px 10px;background:#f4f7fa;border-bottom:1px solid #e1e8ef
+}
+.planning-subgroup-head span{
+  display:block;font-size:.52rem;text-transform:uppercase;letter-spacing:.06em;
+  color:#71839a;font-weight:900
+}
+.planning-subgroup-head h5{margin:2px 0 0;font-size:.78rem;color:#173754}
+.planning-subgroup-head>div:last-child{text-align:right;flex:0 0 auto}
+.planning-subgroup-head strong{display:block;font-size:.64rem;color:#31516d}
+.planning-subgroup-head small{display:block;margin-top:2px;font-size:.58rem;color:#718096;font-weight:750}
+.planning-subgroup-group .planning-table-wrap{margin:0!important;border:0!important;border-radius:0!important}
+.planning-resource-section-tools{display:flex;align-items:center;gap:10px}
+.planning-resource-toggle{
+  min-height:31px;display:inline-flex;align-items:center;gap:5px;padding:5px 8px;
+  border:1px solid #c2ceda;border-radius:8px;background:#fff;color:#173754;
+  font-size:.62rem;font-weight:850;cursor:pointer
+}
+.planning-resource-toggle:hover{background:#eef4f9;border-color:#9eb1c4}
+.planning-resource-toggle span{font-size:.9rem;line-height:1;color:#173754}
+.planning-resource-toggle em{font-style:normal}
+.planning-resource-section.is-collapsed .planning-resource-section-head{border-bottom:0}
+.planning-resource-section-body[hidden]{display:none!important}
+@media(max-width:760px){
+  .planning-resource-section-tools{gap:6px}
+  .planning-resource-toggle em{display:none}
+  .planning-resource-toggle{padding:5px 7px}
+  .planning-subgroup-head{align-items:flex-start}
+}
 </style>
 
 <style id="pcae-modern-architecture">
@@ -1419,7 +1454,7 @@ function fromPlanejamento(d,i){
  };
 }
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
-const CACHE_KEY = 'pcaePublicLastSyncV16Planejamento';
+const CACHE_KEY = 'pcaePublicLastSyncV17Planejamento';
 let syncInProgress = false, lastAttemptAt = 0, lastSuccessfulAt = '';
 function stamp(value) {
   return new Date(value).toLocaleString('pt-BR', {dateStyle:'short',timeStyle:'short',timeZone:'America/Sao_Paulo'});
@@ -1838,7 +1873,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     });
   }
   const collapsedPlanningActions=new Set();
-  const planningSubgroupFilters=new Map();
+  const collapsedPlanningResources=new Set();
 
   function planningCoreRows(){
     const f=selected();
@@ -1963,27 +1998,58 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     '</tbody></table></div>';
   }
 
-  function planningSubgroupOptions(rows){
-    return [...new Set(rows.map(r=>cAny(r.subgrupo)).filter(Boolean))]
-      .sort((a,b)=>String(a).localeCompare(String(b),'pt-BR',{numeric:true,sensitivity:'base'}));
+  function planningSubgroupRank(value){
+    const s=norm(value);
+    if(s==='UNIFORMES')return 1;
+    if(s==='MATERIAL BELICO')return 2;
+    if(s==='EQUIPAMENTOS POLICIAIS')return 3;
+    if(!s)return 99;
+    return 10;
   }
 
-  function planningSubgroupFilterHtml(actionKey,rows){
-    const options=planningSubgroupOptions(rows);
-    if(options.length<=1)return '';
-    const selected=planningSubgroupFilters.get(actionKey)||'';
-    return '<div class="planning-subgroup-filter">'+
-      '<label><span>Subgrupo</span>'+
-        '<select data-planning-subgroup-action="'+esc(actionKey)+'" aria-label="Filtrar subgrupo da ação '+esc(actionKey)+'">'+
-          '<option value="">Todos os subgrupos</option>'+
-          options.map(value=>'<option value="'+esc(value)+'"'+(selected===value?' selected':'')+'>'+esc(value)+'</option>').join('')+
-        '</select>'+
-      '</label>'+
-      '<small>Opções em ordem crescente</small>'+
-    '</div>';
+  function planningSubgroupCompare(a,b){
+    const ra=planningSubgroupRank(a),rb=planningSubgroupRank(b);
+    if(ra!==rb)return ra-rb;
+    return String(a||'').localeCompare(String(b||''),'pt-BR',{numeric:true,sensitivity:'base'});
   }
 
-  function planningResourceSectionsHtml(rows){
+  function planningRowsBySubgroup(rows){
+    const groups=new Map();
+    rows.forEach(r=>{
+      const subgroup=cAny(r.subgrupo)||'Demais itens';
+      if(!groups.has(subgroup))groups.set(subgroup,[]);
+      groups.get(subgroup).push(r);
+    });
+    return [...groups.entries()]
+      .sort((a,b)=>planningSubgroupCompare(a[0],b[0]))
+      .map(([subgrupo,items])=>({
+        subgrupo,
+        rows:[...items].sort((a,b)=>{
+          const pa=Number(a.prioridade||0),pb=Number(b.prioridade||0);
+          const va=pa>0?pa:Number.MAX_SAFE_INTEGER,vb=pb>0?pb:Number.MAX_SAFE_INTEGER;
+          if(va!==vb)return va-vb;
+          const oa=Number(a.ordem||0),ob=Number(b.ordem||0);
+          if(oa!==ob)return oa-ob;
+          return String(a.id||'').localeCompare(String(b.id||''),'pt-BR',{numeric:true});
+        })
+      }));
+  }
+
+  function planningSubgroupTablesHtml(rows){
+    const groups=planningRowsBySubgroup(rows);
+    return '<div class="planning-subgroup-groups">'+groups.map(group=>{
+      const total=group.rows.reduce((sum,r)=>sum+Number(r.valorTotal||0),0);
+      return '<section class="planning-subgroup-group">'+
+        '<div class="planning-subgroup-head">'+
+          '<div><span>Grupo</span><h5>'+esc(group.subgrupo)+'</h5></div>'+
+          '<div><strong>'+fmtInt(group.rows.length)+' item'+(group.rows.length===1?'':'s')+'</strong><small>'+fmtMoney(total)+'</small></div>'+
+        '</div>'+
+        planningTableHtml(group.rows)+
+      '</section>';
+    }).join('')+'</div>';
+  }
+
+  function planningResourceSectionsHtml(actionKey,rows){
     const definitions=[
       {rank:1,label:'Recurso disponível',className:'available'},
       {rank:2,label:'Recurso contingenciado',className:'contingent'},
@@ -1991,15 +2057,24 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
       {rank:4,label:'Outras situações',className:'other'}
     ];
     return '<div class="planning-resource-sections">'+definitions.map(def=>{
-      const subset=planningSort(rows.filter(r=>planningStatusRank(r.situacaoOrc)===def.rank));
+      const subset=rows.filter(r=>planningStatusRank(r.situacaoOrc)===def.rank);
       if(!subset.length)return '';
       const total=subset.reduce((sum,r)=>sum+Number(r.valorTotal||0),0);
-      return '<section class="planning-resource-section '+def.className+'">'+
+      const resourceKey=actionKey+'::'+def.rank;
+      const collapsed=collapsedPlanningResources.has(resourceKey);
+      return '<section class="planning-resource-section '+def.className+(collapsed?' is-collapsed':'')+'" data-planning-resource="'+esc(resourceKey)+'">'+
         '<div class="planning-resource-section-head">'+
           '<div><span>Situação orçamentária</span><h4>'+esc(def.label)+'</h4></div>'+
-          '<div class="planning-resource-section-meta"><strong>'+fmtInt(subset.length)+' item'+(subset.length===1?'':'s')+'</strong><small>'+fmtMoney(total)+'</small></div>'+
+          '<div class="planning-resource-section-tools">'+
+            '<div class="planning-resource-section-meta"><strong>'+fmtInt(subset.length)+' item'+(subset.length===1?'':'s')+'</strong><small>'+fmtMoney(total)+'</small></div>'+
+            '<button type="button" class="planning-resource-toggle" data-toggle-planning-resource="'+esc(resourceKey)+'" aria-expanded="'+(collapsed?'false':'true')+'" title="'+(collapsed?'Mostrar '+def.label:'Recolher '+def.label)+'">'+
+              '<span aria-hidden="true">'+(collapsed?'＋':'−')+'</span><em>'+(collapsed?'Mostrar':'Recolher')+'</em>'+
+            '</button>'+
+          '</div>'+
         '</div>'+
-        planningTableHtml(subset)+
+        '<div class="planning-resource-section-body"'+(collapsed?' hidden':'')+'>'+
+          planningSubgroupTablesHtml(subset)+
+        '</div>'+
       '</section>';
     }).join('')+'</div>';
   }
@@ -2013,26 +2088,14 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     });
     return '<div class="planning-actions">'+[...groups.values()].map(group=>{
       const key=group.acao;
-      const subgroups=planningSubgroupOptions(group.rows);
-      let selectedSubgroup=planningSubgroupFilters.get(key)||'';
-      if(selectedSubgroup&&!subgroups.includes(selectedSubgroup)){
-        planningSubgroupFilters.delete(key);
-        selectedSubgroup='';
-      }
-      const visibleRows=selectedSubgroup
-        ? group.rows.filter(r=>cAny(r.subgrupo)===selectedSubgroup)
-        : group.rows;
-      const t=planningTotals(visibleRows);
-      const all=planningTotals(group.rows);
+      const t=planningTotals(group.rows);
       const collapsed=collapsedPlanningActions.has(key);
-      const countText=selectedSubgroup
-        ? fmtInt(t.count)+' de '+fmtInt(all.count)+' itens · subgrupo '+esc(selectedSubgroup)
-        : fmtInt(all.count)+' item'+(all.count===1?'':'s')+' planejado'+(all.count===1?'':'s');
+      const countText=fmtInt(t.count)+' item'+(t.count===1?'':'s')+' planejado'+(t.count===1?'':'s');
       return '<section class="planning-action'+(collapsed?' is-collapsed':'')+'" data-planning-action="'+esc(key)+'">'+
         '<div class="planning-action-head">'+
           '<div class="planning-action-title"><span>Ação</span><h3>'+esc(group.acao)+'</h3><small>'+countText+'</small></div>'+
           '<div class="planning-action-head-tools">'+
-            '<div class="planning-action-total"><span>'+(selectedSubgroup?'Total exibido':'Total da ação')+'</span><strong>'+fmtMoney(t.total)+'</strong></div>'+
+            '<div class="planning-action-total"><span>Total da ação</span><strong>'+fmtMoney(t.total)+'</strong></div>'+
             '<button type="button" class="planning-action-toggle" data-toggle-planning-action="'+esc(key)+'" aria-expanded="'+(collapsed?'false':'true')+'" title="'+(collapsed?'Mostrar itens desta ação':'Recolher itens desta ação')+'">'+
               '<span class="planning-action-toggle-icon" aria-hidden="true">'+(collapsed?'＋':'−')+'</span>'+
               '<span class="planning-action-toggle-label">'+(collapsed?'Mostrar':'Recolher')+'</span>'+
@@ -2040,13 +2103,12 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
           '</div>'+
         '</div>'+
         '<div class="planning-action-body"'+(collapsed?' hidden':'')+'>'+
-          planningSubgroupFilterHtml(key,group.rows)+
           '<div class="planning-action-resources">'+
             '<div class="planning-action-resource available"><span>Disponível</span><strong>'+fmtMoney(t.available)+'</strong></div>'+
             '<div class="planning-action-resource contingent"><span>Contingenciado</span><strong>'+fmtMoney(t.contingent)+'</strong></div>'+
             '<div class="planning-action-resource supplement"><span>Depende de suplementação</span><strong>'+fmtMoney(t.supplement)+'</strong></div>'+
           '</div>'+
-          planningResourceSectionsHtml(visibleRows)+
+          planningResourceSectionsHtml(key,group.rows)+
         '</div>'+
       '</section>';
     }).join('')+'</div>';
@@ -2055,7 +2117,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
   function planningDrilldownHtml(rows=planningCoreRows(),opts={}){
     const t=planningTotals(rows);
     const title=opts.title||'Planejamento PCA-E 2026';
-    const note=opts.note||'Planejamento organizado por Ação; dentro de cada ação, os itens seguem a prioridade definida nos documentos, da prioridade 1 para as seguintes.';
+    const note=opts.note||'Planejamento organizado por Ação e por situação orçamentária. Em cada situação, os itens são agrupados por Uniformes, Material Bélico, Equipamentos Policiais e demais grupos, preservando a sequência crescente de prioridades dos documentos.';
     if(!rows.length)return '<div class="empty">Nenhum item planejado para a seleção atual.</div>';
     return '<div class="planning-head">'+
       '<div><h2>'+esc(title)+'</h2><p>'+esc(note)+'</p></div>'+
@@ -2150,13 +2212,12 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
         renderFinancialMetricDrilldown();
       });
     });
-    p.querySelectorAll('[data-planning-subgroup-action]').forEach(select=>{
-      select.addEventListener('change',()=>{
-        const key=select.getAttribute('data-planning-subgroup-action')||'';
+    p.querySelectorAll('[data-toggle-planning-resource]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const key=btn.getAttribute('data-toggle-planning-resource')||'';
         if(!key)return;
-        const value=select.value||'';
-        if(value)planningSubgroupFilters.set(key,value);
-        else planningSubgroupFilters.delete(key);
+        if(collapsedPlanningResources.has(key))collapsedPlanningResources.delete(key);
+        else collapsedPlanningResources.add(key);
         renderFinancialMetricDrilldown();
       });
     });
