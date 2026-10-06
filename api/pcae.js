@@ -3,7 +3,7 @@ const SHEET_ID = '1n_bRcmzb9W45D3nzCXo9kYGliOuGSNyjVWxxXUBjhBs';
 const TABS = [
   { key: 'base', gid: '0', required: ['OBJETO', 'UGE', 'VALOR TOTAL EMPENHADO', 'VALOR TOTAL LIQUIDADO', 'QTDE ENTREGUE'] },
   { key: 'atas', gid: '1223289174', required: ['OBJETO', 'SITUAÇÃO', 'UGE', 'ESTÁGIO LICITATÓRIO'] },
-  { key: 'imoveis', gid: '1905202605', headerRow: 5, keyField: 'Nº PROCESSO', required: ['Nº PROCESSO', 'OPM', 'MUNICÍPIO', 'OBJETO RESUMIDO', 'STATUS DO SERVIÇO', 'RECURSO EMPENHADO', 'RECURSO LIQUIDADO'] },
+  { key: 'imoveis', gid: '1905202605', headerRow: 5, keyField: 'OPM', required: ['Nº PROCESSO', 'OPM', 'MUNICÍPIO', 'OBJETO RESUMIDO', 'STATUS DO SERVIÇO', 'RECURSO EMPENHADO', 'RECURSO LIQUIDADO'] },
 ];
 
 // A exportação CSV mantém valores mistos, datas e identificadores como aparecem na planilha.
