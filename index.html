@@ -255,6 +255,28 @@
 .planning-table-wrap{max-height:520px;overflow:auto;padding:0 10px 10px}.planning-table{min-width:1220px}.planning-table thead th{position:sticky;top:0;z-index:2;background:#edf3f8}.planning-table td{vertical-align:top}.planning-table td small{display:block;margin-top:3px;color:#73849a;font-size:.58rem;line-height:1.35}.planning-status{display:inline-block;border-radius:999px;padding:4px 7px;font-size:.55rem;font-weight:900;line-height:1.25}.planning-status.available{background:#d7efdf;color:#17663d}.planning-status.contingent{background:#fff0b8;color:#725100}.planning-status.supplement{background:#f7d1ce;color:#8b231b}.planning-priority{text-align:center}.planning-priority strong{display:block;font-size:.82rem}.planning-priority small{white-space:nowrap}.flow-fill.available{background:#23865f}.flow-fill.planned{background:#0b2a50}
 @media(max-width:900px){.planning-summary{grid-template-columns:1fr 1fr}.planning-head{flex-direction:column}.planning-table-wrap{max-height:440px}}
 
+/* Planejamento PCA-E 2026 — recolher/expandir por Ação */
+.planning-action-head-tools{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.planning-action-toggle{
+  display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:6px 9px;
+  border:1px solid #c7d4e0;border-radius:8px;background:#fff;color:#173b61;
+  font-size:.64rem;font-weight:850;cursor:pointer;white-space:nowrap;
+  transition:background .14s,border-color .14s,transform .14s
+}
+.planning-action-toggle:hover{background:#eef4fa;border-color:#8fa9c0;transform:translateY(-1px)}
+.planning-action-toggle:focus-visible{outline:3px solid rgba(31,111,189,.2);outline-offset:2px}
+.planning-action-toggle-icon{
+  width:18px;height:18px;display:grid;place-items:center;border-radius:5px;
+  background:#eaf2f9;color:#0b2a50;font-size:.85rem;line-height:1;font-weight:900
+}
+.planning-action.is-collapsed .planning-action-head{border-bottom:0}
+.planning-action-body[hidden]{display:none!important}
+@media(max-width:760px){
+  .planning-action-head-tools{width:100%;justify-content:space-between}
+  .planning-action-toggle-label{display:none}
+  .planning-action-toggle{padding:6px}
+}
+
 /* Planejamento PCA-E 2026 — situação orçamentária antes da prioridade */
 .planning-resource-sections{display:grid;gap:12px;margin-top:12px}
 .planning-resource-section{border:1px solid #d8e1eb;border-radius:12px;overflow:hidden;background:#fff}
@@ -1793,6 +1815,8 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
       return smartMatch({area,subgrupo:sub,acao,objeto:obj},key);
     });
   }
+  const collapsedPlanningActions=new Set();
+
   function planningCoreRows(){
     const f=selected();
     return planejamento.filter(r=>
@@ -1946,17 +1970,27 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     });
     return '<div class="planning-actions">'+[...groups.values()].map(group=>{
       const t=planningTotals(group.rows);
-      return '<section class="planning-action">'+
+      const key=group.acao;
+      const collapsed=collapsedPlanningActions.has(key);
+      return '<section class="planning-action'+(collapsed?' is-collapsed':'')+'" data-planning-action="'+esc(key)+'">'+
         '<div class="planning-action-head">'+
           '<div class="planning-action-title"><span>Ação</span><h3>'+esc(group.acao)+'</h3><small>'+fmtInt(t.count)+' item'+(t.count===1?'':'s')+' planejado'+(t.count===1?'':'s')+'</small></div>'+
-          '<div class="planning-action-total"><span>Total da ação</span><strong>'+fmtMoney(t.total)+'</strong></div>'+
+          '<div class="planning-action-head-tools">'+
+            '<div class="planning-action-total"><span>Total da ação</span><strong>'+fmtMoney(t.total)+'</strong></div>'+
+            '<button type="button" class="planning-action-toggle" data-toggle-planning-action="'+esc(key)+'" aria-expanded="'+(collapsed?'false':'true')+'" title="'+(collapsed?'Mostrar itens desta ação':'Recolher itens desta ação')+'">'+
+              '<span class="planning-action-toggle-icon" aria-hidden="true">'+(collapsed?'＋':'−')+'</span>'+
+              '<span class="planning-action-toggle-label">'+(collapsed?'Mostrar':'Recolher')+'</span>'+
+            '</button>'+
+          '</div>'+
         '</div>'+
-        '<div class="planning-action-resources">'+
-          '<div class="planning-action-resource available"><span>Disponível</span><strong>'+fmtMoney(t.available)+'</strong></div>'+
-          '<div class="planning-action-resource contingent"><span>Contingenciado</span><strong>'+fmtMoney(t.contingent)+'</strong></div>'+
-          '<div class="planning-action-resource supplement"><span>Depende de suplementação</span><strong>'+fmtMoney(t.supplement)+'</strong></div>'+
+        '<div class="planning-action-body"'+(collapsed?' hidden':'')+'>'+
+          '<div class="planning-action-resources">'+
+            '<div class="planning-action-resource available"><span>Disponível</span><strong>'+fmtMoney(t.available)+'</strong></div>'+
+            '<div class="planning-action-resource contingent"><span>Contingenciado</span><strong>'+fmtMoney(t.contingent)+'</strong></div>'+
+            '<div class="planning-action-resource supplement"><span>Depende de suplementação</span><strong>'+fmtMoney(t.supplement)+'</strong></div>'+
+          '</div>'+
+          planningResourceSectionsHtml(group.rows)+
         '</div>'+
-        planningResourceSectionsHtml(group.rows)+
       '</section>';
     }).join('')+'</div>';
   }
@@ -2049,6 +2083,15 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
       financialMetricMode='';
       renderNewMetrics();
       renderFinancialMetricDrilldown();
+    });
+    p.querySelectorAll('[data-toggle-planning-action]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const key=btn.getAttribute('data-toggle-planning-action')||'';
+        if(!key)return;
+        if(collapsedPlanningActions.has(key))collapsedPlanningActions.delete(key);
+        else collapsedPlanningActions.add(key);
+        renderFinancialMetricDrilldown();
+      });
     });
     bindRows();
   }
