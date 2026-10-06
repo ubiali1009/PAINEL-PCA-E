@@ -295,6 +295,26 @@
  .planning-resource-section-head{align-items:flex-start}
  .planning-resource-section-meta{max-width:42%}
 }
+
+/* Planejamento PCA-E 2026 — recolhimento em todas as divisões e subdivisões */
+.planning-head-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.planning-resource-section-head-tools{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.planning-resource-toggle{
+  display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:5px 8px;
+  border:1px solid #c7d4e0;border-radius:8px;background:#fff;color:#173b61;
+  font-size:.62rem;font-weight:850;cursor:pointer;white-space:nowrap;
+  transition:background .14s,border-color .14s,transform .14s
+}
+.planning-resource-toggle:hover{background:#eef4fa;border-color:#8fa9c0;transform:translateY(-1px)}
+.planning-resource-toggle:focus-visible{outline:3px solid rgba(31,111,189,.2);outline-offset:2px}
+.planning-resource-section.is-collapsed .planning-resource-section-head{border-bottom:0}
+.planning-resource-section-body[hidden]{display:none!important}
+@media(max-width:760px){
+  .planning-head-actions{width:100%;justify-content:flex-start}
+  .planning-resource-section-head-tools{gap:6px}
+  .planning-resource-toggle{padding:5px}
+  .planning-resource-toggle .planning-action-toggle-label{display:none}
+}
 </style>
 
 <style id="pcae-modern-architecture">
@@ -1816,6 +1836,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     });
   }
   const collapsedPlanningActions=new Set();
+  const collapsedPlanningResources=new Set();
 
   function planningCoreRows(){
     const f=selected();
@@ -1940,7 +1961,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     '</tbody></table></div>';
   }
 
-  function planningResourceSectionsHtml(rows){
+  function planningResourceSectionsHtml(rows,parentKey=''){
     const definitions=[
       {rank:1,label:'Recurso disponível',className:'available'},
       {rank:2,label:'Recurso contingenciado',className:'contingent'},
@@ -1951,12 +1972,22 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
       const subset=planningSort(rows.filter(r=>planningStatusRank(r.situacaoOrc)===def.rank));
       if(!subset.length)return '';
       const total=subset.reduce((sum,r)=>sum+Number(r.valorTotal||0),0);
-      return '<section class="planning-resource-section '+def.className+'">'+
+      const resourceKey=(parentKey||'planejamento')+'::'+def.rank;
+      const collapsed=collapsedPlanningResources.has(resourceKey);
+      return '<section class="planning-resource-section '+def.className+(collapsed?' is-collapsed':'')+'" data-planning-resource="'+esc(resourceKey)+'">'+
         '<div class="planning-resource-section-head">'+
           '<div><span>Situação orçamentária</span><h4>'+esc(def.label)+'</h4></div>'+
-          '<div class="planning-resource-section-meta"><strong>'+fmtInt(subset.length)+' item'+(subset.length===1?'':'s')+'</strong><small>'+fmtMoney(total)+'</small></div>'+
+          '<div class="planning-resource-section-head-tools">'+
+            '<div class="planning-resource-section-meta"><strong>'+fmtInt(subset.length)+' item'+(subset.length===1?'':'s')+'</strong><small>'+fmtMoney(total)+'</small></div>'+
+            '<button type="button" class="planning-resource-toggle" data-toggle-planning-resource="'+esc(resourceKey)+'" aria-expanded="'+(collapsed?'false':'true')+'" title="'+(collapsed?'Mostrar esta situação':'Recolher esta situação')+'">'+
+              '<span class="planning-action-toggle-icon" aria-hidden="true">'+(collapsed?'＋':'−')+'</span>'+
+              '<span class="planning-action-toggle-label">'+(collapsed?'Mostrar':'Recolher')+'</span>'+
+            '</button>'+
+          '</div>'+
         '</div>'+
-        planningTableHtml(subset)+
+        '<div class="planning-resource-section-body"'+(collapsed?' hidden':'')+'>'+
+          planningTableHtml(subset)+
+        '</div>'+
       '</section>';
     }).join('')+'</div>';
   }
@@ -1989,7 +2020,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
             '<div class="planning-action-resource contingent"><span>Contingenciado</span><strong>'+fmtMoney(t.contingent)+'</strong></div>'+
             '<div class="planning-action-resource supplement"><span>Depende de suplementação</span><strong>'+fmtMoney(t.supplement)+'</strong></div>'+
           '</div>'+
-          planningResourceSectionsHtml(group.rows)+
+          planningResourceSectionsHtml(group.rows,key)+
         '</div>'+
       '</section>';
     }).join('')+'</div>';
@@ -2002,7 +2033,11 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     if(!rows.length)return '<div class="empty">Nenhum item planejado para a seleção atual.</div>';
     return '<div class="planning-head">'+
       '<div><h2>'+esc(title)+'</h2><p>'+esc(note)+'</p></div>'+
-      '<button type="button" class="smallbtn" data-close-metric>Fechar</button>'+
+      '<div class="planning-head-actions">'+
+        '<button type="button" class="smallbtn" data-collapse-planning-all>Recolher tudo</button>'+
+        '<button type="button" class="smallbtn" data-expand-planning-all>Expandir tudo</button>'+
+        '<button type="button" class="smallbtn" data-close-metric>Fechar</button>'+
+      '</div>'+
     '</div>'+
     '<div class="planning-summary">'+
       '<div class="planning-chip available"><span>Recurso disponível</span><strong>'+fmtMoney(t.available)+'</strong></div>'+
@@ -2092,6 +2127,31 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
         else collapsedPlanningActions.add(key);
         renderFinancialMetricDrilldown();
       });
+    });
+    p.querySelectorAll('[data-toggle-planning-resource]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const key=btn.getAttribute('data-toggle-planning-resource')||'';
+        if(!key)return;
+        if(collapsedPlanningResources.has(key))collapsedPlanningResources.delete(key);
+        else collapsedPlanningResources.add(key);
+        renderFinancialMetricDrilldown();
+      });
+    });
+    p.querySelector('[data-collapse-planning-all]')?.addEventListener('click',()=>{
+      const rows=financialMetricMode==='saldo'
+        ? planningCoreRows().filter(r=>norm(r.situacaoOrc)==='RECURSO DISPONIVEL')
+        : planningCoreRows();
+      const actionKeys=[...new Set(rows.map(r=>cAny(r.acao)||'Ação não informada'))];
+      actionKeys.forEach(actionKey=>{
+        collapsedPlanningActions.add(actionKey);
+        [1,2,3,4].forEach(rank=>collapsedPlanningResources.add(actionKey+'::'+rank));
+      });
+      renderFinancialMetricDrilldown();
+    });
+    p.querySelector('[data-expand-planning-all]')?.addEventListener('click',()=>{
+      collapsedPlanningActions.clear();
+      collapsedPlanningResources.clear();
+      renderFinancialMetricDrilldown();
     });
     bindRows();
   }
