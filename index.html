@@ -449,6 +449,33 @@ body{background:var(--pcae-canvas)!important;color:var(--pcae-text)!important}
   .flow-row{grid-template-columns:96px minmax(0,1fr) 82px}
   .cat-row{grid-template-columns:100px minmax(0,1fr) 38px}
 }
+
+/* Cards gerenciais interativos — 06OUT26 */
+.pcae-content .metric.metric-control{cursor:pointer!important;user-select:none;transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease,background .14s ease!important}
+.pcae-content .metric.metric-control:hover{transform:translateY(-2px);border-color:#8eabc4!important;box-shadow:0 7px 18px rgba(15,45,78,.10)!important}
+.pcae-content .metric.metric-control:focus-visible{outline:3px solid rgba(31,111,189,.22)!important;outline-offset:2px!important}
+.pcae-content .metric.metric-control.active-filter{border-color:#1f6fbd!important;border-left-color:#1f6fbd!important;background:#f2f7fc!important;box-shadow:inset 0 0 0 1px #1f6fbd,0 6px 16px rgba(31,111,189,.11)!important}
+.pcae-content .metric.metric-control.active-filter .label{color:#164f83!important}
+.pcae-content .metric .value{white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important;max-width:100%!important;font-variant-numeric:tabular-nums!important;letter-spacing:-.035em!important;font-size:clamp(.94rem,1.34vw,1.52rem)!important}
+.pcae-content .metric .value.metric-value-compact{font-size:clamp(.82rem,1.14vw,1.28rem)!important}
+.pcae-content .metric .value.metric-value-tiny{font-size:clamp(.72rem,.98vw,1.08rem)!important}
+.pcae-content .metric-drilldown[hidden]{display:none!important}
+.pcae-content .metric-drilldown:not([hidden]){display:block!important;margin:0 0 8px!important;border:1px solid var(--pcae-line)!important;border-radius:12px!important;background:#fff!important;box-shadow:0 2px 8px rgba(15,45,78,.045)!important;overflow:hidden!important}
+.pcae-content .metric-drilldown .planning-head{background:#f8fafc!important}
+.metric-head-actions{display:flex;align-items:center;gap:8px}
+.metric-finance-table{min-width:1180px!important}
+@media(max-width:1280px){
+ .pcae-content .metric .value{font-size:clamp(.82rem,1.22vw,1.32rem)!important}
+ .pcae-content .metric .value.metric-value-compact{font-size:clamp(.74rem,1.04vw,1.15rem)!important}
+ .pcae-content .metric .value.metric-value-tiny{font-size:clamp(.68rem,.92vw,.98rem)!important}
+}
+@media(max-width:900px){
+ .pcae-content .metrics{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ .pcae-content .metric .value{font-size:1.25rem!important}
+ .pcae-content .metric .value.metric-value-compact{font-size:1.08rem!important}
+ .pcae-content .metric .value.metric-value-tiny{font-size:.96rem!important}
+}
+@media(max-width:600px){.pcae-content .metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 </style>
 </head>
 <body>
@@ -1699,7 +1726,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
 })();
 </script>
 <script id="pcae-modern-architecture-script">/* PCAE MODERN ARCHITECTURE SCRIPT 05OUT26 */(function modernPatch(){
-  let attentionMode='licitation';
+  let attentionMode='licitation', financialMetricMode='';
 
   function moneyOrDash(v){ return Number(v||0)>0 ? fmtMoney(Number(v||0)) : '—'; }
   function pcaePct(v){ return Number(v||0).toFixed(1).replace('.',',')+'%'; }
@@ -1813,21 +1840,9 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     if(s==='RECURSO CONTINGENCIADO')return 'contingent';
     return 'supplement';
   }
-  function planningDrilldownHtml(){
-    const rows=planningCoreRows();
-    const t=planningTotals(rows);
+  function planningTableHtml(rows){
     if(!rows.length)return '<div class="empty">Nenhum item planejado para a seleção atual.</div>';
-    return '<div class="planning-head">'+
-      '<div><h2>Planejamento PCA-E 2026</h2><p>Itens dos cinco documentos de planejamento, preservados na ordem de prioridade de cada ação.</p></div>'+
-      '<button type="button" class="smallbtn" data-close-planning>Fechar</button>'+
-    '</div>'+
-    '<div class="planning-summary">'+
-      '<div class="planning-chip available"><span>Recurso disponível</span><strong>'+fmtMoney(t.available)+'</strong></div>'+
-      '<div class="planning-chip contingent"><span>Recurso contingenciado</span><strong>'+fmtMoney(t.contingent)+'</strong></div>'+
-      '<div class="planning-chip supplement"><span>Depende de suplementação</span><strong>'+fmtMoney(t.supplement)+'</strong></div>'+
-      '<div class="planning-chip total"><span>Total planejado</span><strong>'+fmtMoney(t.total)+'</strong><small>'+fmtInt(t.count)+' itens</small></div>'+
-    '</div>'+
-    '<div class="planning-table-wrap"><table class="data-table planning-table"><thead><tr>'+
+    return '<div class="planning-table-wrap"><table class="data-table planning-table"><thead><tr>'+
       '<th>Situação</th><th>Ação</th><th>Subgrupo</th><th>Prioridade</th><th>UGE</th><th>Área</th><th>Objeto</th><th>Qtd.</th><th>Valor</th>'+
     '</tr></thead><tbody>'+
     rows.map(r=>'<tr>'+
@@ -1843,14 +1858,112 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     '</tr>').join('')+
     '</tbody></table></div>';
   }
-  function showPlanningDrilldown(){
+
+  function planningDrilldownHtml(rows=planningCoreRows(),opts={}){
+    const t=planningTotals(rows);
+    const title=opts.title||'Planejamento PCA-E 2026';
+    const note=opts.note||'Itens dos cinco documentos de planejamento, preservados na ordem de prioridade de cada ação.';
+    if(!rows.length)return '<div class="empty">Nenhum item planejado para a seleção atual.</div>';
+    return '<div class="planning-head">'+
+      '<div><h2>'+esc(title)+'</h2><p>'+esc(note)+'</p></div>'+
+      '<button type="button" class="smallbtn" data-close-metric>Fechar</button>'+
+    '</div>'+
+    '<div class="planning-summary">'+
+      '<div class="planning-chip available"><span>Recurso disponível</span><strong>'+fmtMoney(t.available)+'</strong></div>'+
+      '<div class="planning-chip contingent"><span>Recurso contingenciado</span><strong>'+fmtMoney(t.contingent)+'</strong></div>'+
+      '<div class="planning-chip supplement"><span>Depende de suplementação</span><strong>'+fmtMoney(t.supplement)+'</strong></div>'+
+      '<div class="planning-chip total"><span>Total planejado</span><strong>'+fmtMoney(t.total)+'</strong><small>'+fmtInt(t.count)+' itens</small></div>'+
+    '</div>'+
+    planningTableHtml(rows);
+  }
+
+  function metricFinanceRows(mode){
+    const rows=filteredBase().filter(r=>!r._imovel);
+    if(mode==='empenhado')return rows.filter(r=>Number(r.valorEmpenhado||0)>0).sort((a,b)=>Number(b.valorEmpenhado||0)-Number(a.valorEmpenhado||0));
+    if(mode==='liquidado')return rows.filter(r=>Number(r.valorLiquidado||0)>0).sort((a,b)=>Number(b.valorLiquidado||0)-Number(a.valorLiquidado||0));
+    if(mode==='pago')return rows.filter(r=>r.valorPagoInformado&&Number(r.valorPago||0)>0).sort((a,b)=>Number(b.valorPago||0)-Number(a.valorPago||0));
+    if(mode==='execution')return rows.filter(r=>Number(r.valorEmpenhado||0)>0||Number(r.valorLiquidado||0)>0)
+      .sort((a,b)=>(Number(b.valorLiquidado||0)/(Number(b.valorEmpenhado||0)||1))-(Number(a.valorLiquidado||0)/(Number(a.valorEmpenhado||0)||1)));
+    return rows;
+  }
+
+  function financeMetricTableHtml(mode,rows){
+    if(!rows.length)return '<div class="empty">Nenhum registro encontrado para este indicador na seleção atual.</div>';
+    return '<div class="planning-table-wrap"><table class="data-table metric-finance-table"><thead><tr>'+
+      '<th>Objeto</th><th>UGE</th><th>Área</th><th>NE</th><th>Contrato</th><th>Empenhado</th><th>Liquidado</th><th>Pago</th><th>% execução</th>'+
+      '</tr></thead><tbody>'+
+      rows.map(r=>{
+        const e=Number(r.valorEmpenhado||0),l=Number(r.valorLiquidado||0),p=r.valorPagoInformado?Number(r.valorPago||0):0;
+        const ex=e>0?l/e*100:0;
+        return '<tr data-kind="'+r.kind+'" data-id="'+r.id+'">'+
+          '<td><strong>'+esc(r.objeto||'—')+'</strong></td>'+
+          '<td>'+esc(r.uge||'—')+'</td>'+
+          '<td>'+esc(r.area||'—')+'</td>'+
+          '<td>'+esc(r.empenho||'—')+'</td>'+
+          '<td>'+esc(r.contratoUGE||r.contratoSistema||'—')+'</td>'+
+          '<td class="money">'+(e>0?fmtMoney(e):'—')+'</td>'+
+          '<td class="money">'+(l>0?fmtMoney(l):'—')+'</td>'+
+          '<td class="money">'+(r.valorPagoInformado?fmtMoney(p):'Não informado')+'</td>'+
+          '<td><strong>'+pcaePct(ex)+'</strong></td>'+
+        '</tr>';
+      }).join('')+
+      '</tbody></table></div>';
+  }
+
+  function financeMetricDrilldownHtml(mode){
+    const labels={
+      empenhado:['Empenhado','Registros da Base com valor empenhado, do maior para o menor.'],
+      liquidado:['Liquidado','Registros da Base com valor liquidado, do maior para o menor.'],
+      pago:['Pago','Registros em que o valor pago está efetivamente informado.'],
+      execution:['% de execução','Registros com execução financeira, ordenados pela relação liquidado / empenhado.']
+    };
+    const rows=metricFinanceRows(mode),meta=labels[mode]||['Execução financeira','Registros financeiros da seleção atual.'];
+    return '<div class="planning-head">'+
+      '<div><h2>'+meta[0]+'</h2><p>'+meta[1]+'</p></div>'+
+      '<div class="metric-head-actions"><span class="metric-drilldown-count">'+fmtInt(rows.length)+' registro'+(rows.length===1?'':'s')+'</span><button type="button" class="smallbtn" data-close-metric>Fechar</button></div>'+
+    '</div>'+financeMetricTableHtml(mode,rows);
+  }
+
+  function renderFinancialMetricDrilldown(){
     const p=document.querySelector('#metricDrilldown');
     if(!p)return;
+    if(!financialMetricMode){p.hidden=true;p.innerHTML='';return;}
     p.hidden=false;
-    p.innerHTML=planningDrilldownHtml();
-    p.querySelector('[data-close-planning]')?.addEventListener('click',()=>{p.hidden=true;p.innerHTML='';});
-    p.scrollIntoView({behavior:'smooth',block:'nearest'});
+    if(financialMetricMode==='planned'){
+      p.innerHTML=planningDrilldownHtml();
+    }else if(financialMetricMode==='saldo'){
+      const rows=planningCoreRows().filter(r=>norm(r.situacaoOrc)==='RECURSO DISPONIVEL');
+      const plan=planningTotals(planningCoreRows());
+      const empenho=filteredBase().reduce((s,r)=>s+Number(r.valorEmpenhado||0),0);
+      const saldo=Math.max(0,plan.available-empenho);
+      p.innerHTML=planningDrilldownHtml(rows,{
+        title:'Saldo a empenhar — recurso disponível',
+        note:'Saldo global atual: '+fmtMoney(saldo)+'. A tabela mostra os itens planejados classificados como Recurso disponível; o saldo é calculado globalmente e não representa saldo individual por item.'
+      });
+    }else{
+      p.innerHTML=financeMetricDrilldownHtml(financialMetricMode);
+    }
+    p.querySelector('[data-close-metric]')?.addEventListener('click',()=>{
+      financialMetricMode='';
+      renderNewMetrics();
+      renderFinancialMetricDrilldown();
+    });
+    bindRows();
   }
+
+  function metricValueSize(value){
+    const n=String(value||'').length;
+    return n>=20?'metric-value-tiny':n>=16?'metric-value-compact':'';
+  }
+
+  function toggleFinancialMetric(mode){
+    financialMetricMode=financialMetricMode===mode?'':mode;
+    renderNewMetrics();
+    renderFinancialMetricDrilldown();
+    const p=document.querySelector('#metricDrilldown');
+    if(financialMetricMode&&p&&!p.hidden)p.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
   function renderNewMetrics(){
     const rows=filteredBase();
     const planRows=planningCoreRows();
@@ -1863,27 +1976,29 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     const saldo=available>0?Math.max(0,available-empenho):0;
     const execDen=available>0?available:(empenho||1);
     const cards=[
-      {label:'Planejado',symbol:'P',value:moneyOrDash(planned),note:planRows.length+' itens · clique para ver recursos e prioridades',cls:'primary planned-card',planned:true},
-      {label:'Empenhado',symbol:'E',value:moneyOrDash(empenho),note:available>0?pcaePct(pct(empenho,available))+' do recurso disponível':rows.length+' registros financeiros'},
-      {label:'Liquidado',symbol:'L',value:moneyOrDash(liq),note:available>0?pcaePct(pct(liq,available))+' do recurso disponível':pcaePct(pct(liq,empenho))+' do empenhado'},
-      {label:'Pago',symbol:'R$',value:moneyOrDash(pago),note:pago>0?(available>0?pcaePct(pct(pago,available))+' do recurso disponível':'valor pago informado'):'pagamento ainda não informado',cls:'success'},
-      {label:'Saldo a empenhar',symbol:'S',value:available>0?fmtMoney(saldo):'—',note:available>0?'recurso disponível menos empenhado':'depende do recurso disponível'},
-      {label:'% de execução',symbol:'%',value:pcaePct(pct(liq,execDen)),note:available>0?'liquidado / recurso disponível':'liquidado / empenhado',cls:'primary'}
+      {key:'planned',label:'Planejado',symbol:'P',value:moneyOrDash(planned),note:planRows.length+' itens · recursos e prioridades',cls:'primary'},
+      {key:'empenhado',label:'Empenhado',symbol:'E',value:moneyOrDash(empenho),note:available>0?pcaePct(pct(empenho,available))+' do recurso disponível':rows.length+' registros financeiros'},
+      {key:'liquidado',label:'Liquidado',symbol:'L',value:moneyOrDash(liq),note:available>0?pcaePct(pct(liq,available))+' do recurso disponível':pcaePct(pct(liq,empenho))+' do empenhado'},
+      {key:'pago',label:'Pago',symbol:'R$',value:moneyOrDash(pago),note:pago>0?(available>0?pcaePct(pct(pago,available))+' do recurso disponível':'valor pago informado'):'pagamento ainda não informado',cls:'success'},
+      {key:'saldo',label:'Saldo a empenhar',symbol:'S',value:available>0?fmtMoney(saldo):'—',note:available>0?'recurso disponível menos empenhado':'depende do recurso disponível'},
+      {key:'execution',label:'% de execução',symbol:'%',value:pcaePct(pct(liq,execDen)),note:available>0?'liquidado / recurso disponível':'liquidado / empenhado',cls:'primary'}
     ];
     const el=document.querySelector('#metrics');
-    el.innerHTML=cards.map(c=>
-      '<article class="metric '+(c.cls||'')+'" '+(c.planned?'data-planned-card role="button" tabindex="0" aria-label="Abrir planejamento PCA-E 2026"':'')+'>'+
-        '<div class="label"><span class="metric-symbol">'+c.symbol+'</span>'+c.label+'</div>'+
-        '<div class="value">'+c.value+'</div>'+
-        '<div class="note">'+c.note+'</div>'+
-      '</article>'
-    ).join('');
-    const plannedCard=el.querySelector('[data-planned-card]');
-    if(plannedCard){
-      plannedCard.addEventListener('click',showPlanningDrilldown);
-      plannedCard.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showPlanningDrilldown();}});
-    }
+    el.innerHTML=cards.map(card=>{
+      const active=financialMetricMode===card.key;
+      return '<article class="metric metric-control quick-filter '+(card.cls||'')+' '+(active?'active-filter':'')+'" data-financial-metric="'+card.key+'" role="button" tabindex="0" aria-pressed="'+(active?'true':'false')+'" aria-label="Filtrar por '+esc(card.label)+'">'+
+        '<div class="label"><span class="metric-symbol">'+card.symbol+'</span>'+card.label+'</div>'+
+        '<div class="value '+metricValueSize(card.value)+'" title="'+esc(card.value)+'">'+card.value+'</div>'+
+        '<div class="note">'+card.note+'</div>'+
+      '</article>';
+    }).join('');
+    el.querySelectorAll('[data-financial-metric]').forEach(card=>{
+      const activate=()=>toggleFinancialMetric(card.dataset.financialMetric);
+      card.addEventListener('click',activate);
+      card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate();}});
+    });
   }
+
   function criticalRows(){
     const a=atasCoreRows().filter(r=>{
       const d=daysUntil(r.proximaEtapa||r.validadeAta);
@@ -2122,10 +2237,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
   try{ if(typeof metricFilters!=='undefined'&&metricFilters.clear) metricFilters.clear(); }catch(e){}
   try{
     renderMetrics=renderNewMetrics;
-    renderMetricDrilldown=function(){
-      const p=document.querySelector('#metricDrilldown');
-      if(p){p.hidden=true;p.innerHTML='';}
-    };
+    renderMetricDrilldown=renderFinancialMetricDrilldown;
     renderOverview=renderNewOverview;
   }catch(e){console.error('Falha ao aplicar arquitetura PCA-E',e);}
 
