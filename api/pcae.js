@@ -3,6 +3,7 @@ const SHEET_ID = '1n_bRcmzb9W45D3nzCXo9kYGliOuGSNyjVWxxXUBjhBs';
 const TABS = [
   { key: 'base', gid: '0', required: ['OBJETO', 'UGE', 'VALOR TOTAL EMPENHADO', 'VALOR TOTAL LIQUIDADO', 'QTDE ENTREGUE'] },
   { key: 'atas', gid: '1223289174', required: ['OBJETO', 'SITUAÇÃO', 'UGE', 'ESTÁGIO LICITATÓRIO'] },
+  { key: 'imoveis', gid: '1905202605', headerRow: 5, keyField: 'Nº PROCESSO', required: ['Nº PROCESSO', 'OPM', 'MUNICÍPIO', 'OBJETO RESUMIDO', 'STATUS DO SERVIÇO', 'RECURSO EMPENHADO', 'RECURSO LIQUIDADO'] },
 ];
 
 // A exportação CSV mantém valores mistos, datas e identificadores como aparecem na planilha.
@@ -29,15 +30,16 @@ function parseCsv(text) {
   return rows;
 }
 
-function toObjects(csv, required) {
+function toObjects(csv, required, headerRow = 0, keyField = 'OBJETO') {
   const matrix = parseCsv(csv);
-  const headers = (matrix.shift() || []).map(h => h.trim());
+  const header = matrix.splice(0, headerRow + 1).pop() || [];
+  const headers = header.map(h => h.trim());
   if (required.some(h => !headers.includes(h))) throw new Error('Cabeçalhos da planilha não reconhecidos.');
   return matrix.filter(row => row.some(value => value.trim())).map(row => {
     const result = {};
     headers.forEach((header, index) => { if (header) result[header] = row[index] || ''; });
     return result;
-  }).filter(row => String(row.OBJETO || '').trim());
+  }).filter(row => String(row[keyField] || '').trim());
 }
 
 async function readTab(tab, signal) {
@@ -51,7 +53,7 @@ async function readTab(tab, signal) {
   if ((response.headers.get('content-type') || '').includes('text/html')) throw new Error('Planilha requer acesso.');
   const csv = await response.text();
   if (csv.length > 8000000 || /^\s*</.test(csv)) throw new Error('Resposta inválida.');
-  return toObjects(csv, tab.required);
+  return toObjects(csv, tab.required, tab.headerRow || 0, tab.keyField || 'OBJETO');
 }
 
 async function handler(req, res) {
@@ -65,10 +67,11 @@ async function handler(req, res) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 15000);
   try {
-    const [base, atas] = await Promise.all(TABS.map(tab => readTab(tab, controller.signal)));
+    const [base, atas, imoveis] = await Promise.all(TABS.map(tab => readTab(tab, controller.signal)));
     if (!base.length) throw new Error('Base sem registros.');
+    if (!imoveis.length) throw new Error('Acompanhamento Imóveis sem registros.');
     res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60');
-    return res.status(200).json({ base, atas, fetchedAt: new Date().toISOString() });
+    return res.status(200).json({ base, atas, imoveis, fetchedAt: new Date().toISOString() });
   } catch {
     controller.abort();
     res.setHeader('Cache-Control', 'no-store');
