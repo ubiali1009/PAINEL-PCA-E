@@ -295,6 +295,28 @@
  .planning-resource-section-head{align-items:flex-start}
  .planning-resource-section-meta{max-width:42%}
 }
+
+/* PCA-E 2026 — filtro de subgrupos por Ação */
+.planning-subgroup-filter{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+  margin:10px 0 2px;padding:9px 10px;border:1px solid #d7e1eb;border-radius:10px;
+  background:#f8fbfd
+}
+.planning-subgroup-filter label{display:grid;gap:4px;min-width:260px;max-width:520px;flex:1}
+.planning-subgroup-filter label>span{
+  font-size:.56rem;text-transform:uppercase;letter-spacing:.055em;color:#60758b;font-weight:900
+}
+.planning-subgroup-filter select{
+  width:100%;min-height:34px;padding:6px 30px 6px 9px;border:1px solid #bdccda;border-radius:8px;
+  background:#fff;color:#153451;font-size:.7rem;font-weight:750;cursor:pointer
+}
+.planning-subgroup-filter select:focus{outline:3px solid rgba(31,111,189,.14);border-color:#6f9bc3}
+.planning-subgroup-filter small{font-size:.58rem;color:#76879a;white-space:nowrap;padding-bottom:8px}
+@media(max-width:760px){
+  .planning-subgroup-filter{align-items:stretch;flex-direction:column;gap:5px}
+  .planning-subgroup-filter label{min-width:0;max-width:none;width:100%}
+  .planning-subgroup-filter small{padding-bottom:0}
+}
 </style>
 
 <style id="pcae-modern-architecture">
@@ -1816,6 +1838,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     });
   }
   const collapsedPlanningActions=new Set();
+  const planningSubgroupFilters=new Map();
 
   function planningCoreRows(){
     const f=selected();
@@ -1940,6 +1963,26 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
     '</tbody></table></div>';
   }
 
+  function planningSubgroupOptions(rows){
+    return [...new Set(rows.map(r=>cAny(r.subgrupo)).filter(Boolean))]
+      .sort((a,b)=>String(a).localeCompare(String(b),'pt-BR',{numeric:true,sensitivity:'base'}));
+  }
+
+  function planningSubgroupFilterHtml(actionKey,rows){
+    const options=planningSubgroupOptions(rows);
+    if(options.length<=1)return '';
+    const selected=planningSubgroupFilters.get(actionKey)||'';
+    return '<div class="planning-subgroup-filter">'+
+      '<label><span>Subgrupo</span>'+
+        '<select data-planning-subgroup-action="'+esc(actionKey)+'" aria-label="Filtrar subgrupo da ação '+esc(actionKey)+'">'+
+          '<option value="">Todos os subgrupos</option>'+
+          options.map(value=>'<option value="'+esc(value)+'"'+(selected===value?' selected':'')+'>'+esc(value)+'</option>').join('')+
+        '</select>'+
+      '</label>'+
+      '<small>Opções em ordem crescente</small>'+
+    '</div>';
+  }
+
   function planningResourceSectionsHtml(rows){
     const definitions=[
       {rank:1,label:'Recurso disponível',className:'available'},
@@ -1969,14 +2012,27 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
       groups.get(key).rows.push(r);
     });
     return '<div class="planning-actions">'+[...groups.values()].map(group=>{
-      const t=planningTotals(group.rows);
       const key=group.acao;
+      const subgroups=planningSubgroupOptions(group.rows);
+      let selectedSubgroup=planningSubgroupFilters.get(key)||'';
+      if(selectedSubgroup&&!subgroups.includes(selectedSubgroup)){
+        planningSubgroupFilters.delete(key);
+        selectedSubgroup='';
+      }
+      const visibleRows=selectedSubgroup
+        ? group.rows.filter(r=>cAny(r.subgrupo)===selectedSubgroup)
+        : group.rows;
+      const t=planningTotals(visibleRows);
+      const all=planningTotals(group.rows);
       const collapsed=collapsedPlanningActions.has(key);
+      const countText=selectedSubgroup
+        ? fmtInt(t.count)+' de '+fmtInt(all.count)+' itens · subgrupo '+esc(selectedSubgroup)
+        : fmtInt(all.count)+' item'+(all.count===1?'':'s')+' planejado'+(all.count===1?'':'s');
       return '<section class="planning-action'+(collapsed?' is-collapsed':'')+'" data-planning-action="'+esc(key)+'">'+
         '<div class="planning-action-head">'+
-          '<div class="planning-action-title"><span>Ação</span><h3>'+esc(group.acao)+'</h3><small>'+fmtInt(t.count)+' item'+(t.count===1?'':'s')+' planejado'+(t.count===1?'':'s')+'</small></div>'+
+          '<div class="planning-action-title"><span>Ação</span><h3>'+esc(group.acao)+'</h3><small>'+countText+'</small></div>'+
           '<div class="planning-action-head-tools">'+
-            '<div class="planning-action-total"><span>Total da ação</span><strong>'+fmtMoney(t.total)+'</strong></div>'+
+            '<div class="planning-action-total"><span>'+(selectedSubgroup?'Total exibido':'Total da ação')+'</span><strong>'+fmtMoney(t.total)+'</strong></div>'+
             '<button type="button" class="planning-action-toggle" data-toggle-planning-action="'+esc(key)+'" aria-expanded="'+(collapsed?'false':'true')+'" title="'+(collapsed?'Mostrar itens desta ação':'Recolher itens desta ação')+'">'+
               '<span class="planning-action-toggle-icon" aria-hidden="true">'+(collapsed?'＋':'−')+'</span>'+
               '<span class="planning-action-toggle-label">'+(collapsed?'Mostrar':'Recolher')+'</span>'+
@@ -1984,12 +2040,13 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
           '</div>'+
         '</div>'+
         '<div class="planning-action-body"'+(collapsed?' hidden':'')+'>'+
+          planningSubgroupFilterHtml(key,group.rows)+
           '<div class="planning-action-resources">'+
             '<div class="planning-action-resource available"><span>Disponível</span><strong>'+fmtMoney(t.available)+'</strong></div>'+
             '<div class="planning-action-resource contingent"><span>Contingenciado</span><strong>'+fmtMoney(t.contingent)+'</strong></div>'+
             '<div class="planning-action-resource supplement"><span>Depende de suplementação</span><strong>'+fmtMoney(t.supplement)+'</strong></div>'+
           '</div>'+
-          planningResourceSectionsHtml(group.rows)+
+          planningResourceSectionsHtml(visibleRows)+
         '</div>'+
       '</section>';
     }).join('')+'</div>';
@@ -2090,6 +2147,16 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
         if(!key)return;
         if(collapsedPlanningActions.has(key))collapsedPlanningActions.delete(key);
         else collapsedPlanningActions.add(key);
+        renderFinancialMetricDrilldown();
+      });
+    });
+    p.querySelectorAll('[data-planning-subgroup-action]').forEach(select=>{
+      select.addEventListener('change',()=>{
+        const key=select.getAttribute('data-planning-subgroup-action')||'';
+        if(!key)return;
+        const value=select.value||'';
+        if(value)planningSubgroupFilters.set(key,value);
+        else planningSubgroupFilters.delete(key);
         renderFinancialMetricDrilldown();
       });
     });
