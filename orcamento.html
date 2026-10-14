@@ -64,7 +64,7 @@ body:has(#budget-embedded-flag) .cards{margin:12px 0}
 <script>
 (function(){
 'use strict';
-if(new URLSearchParams(location.search).get('embed')==='1'){const flag=document.createElement('span');flag.id='budget-embedded-flag';flag.hidden=true;document.body.appendChild(flag);}
+if(new URLSearchParams(location.search).get('embed')==='1'){const flag=document.createElement('span');flag.id='budget-embedded-flag';flag.hidden=true;document.body.appendChild(flag); if(window.parent!==window && 'ResizeObserver' in window){new ResizeObserver(()=>window.parent.postMessage({type:'pcae-budget-resize',height:Math.ceil(document.documentElement.scrollHeight)},location.origin)).observe(document.body);}}
 const $=x=>document.querySelector(x), $$=x=>Array.from(document.querySelectorAll(x));
 const formatMoney=n=>Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:2});
 const formatInt=n=>Number(n).toLocaleString('pt-BR',{maximumFractionDigits:0});
