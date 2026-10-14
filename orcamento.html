@@ -107,7 +107,7 @@ function scoped(){
  });
  return {plans,base};
 }
-function withNE(b){return /^\d{4}NE\d+/i.test(b.ne)&&b.empenhado>0}
+function withNE(b){return /^\d{4}NE\d+/i.test(b.ne)}
 function linkedRows(b){return b.filter(x=>x.category==='recorded')}
 function sum(rows,key){return rows.reduce((acc,r)=>acc+(Number(r[key])||0),0)}
 function statusTag(cat){const opts={recorded:['ID informado',''],review:['A conferir','pending'],unmatched:['Sem correspondência','out'],invalid:['ID inválido','bad']};const a=opts[cat]||opts.unmatched;return '<span class="pill '+a[1]+'">'+a[0]+'</span>'}
@@ -119,7 +119,7 @@ function buildMetrics(s){
  $('#metrics').innerHTML=[
   ['Planejamento estratégico 2026',formatMoney(money),formatInt(s.plans.length)+' demandas previstas',false],
   ['Empenhado na Base (com NE)',formatMoney(sum(financial,'empenhado')),formatInt(totalNE)+' identificadores UGE/NE · valor não conciliado',false],
-  ['Liquidado na Base (com NE)',formatMoney(sum(financial,'liquidado')),formatInt(financial.length)+' linhas com NE e empenho válido',false],
+  ['Liquidado na Base (com NE)',formatMoney(sum(financial,'liquidado')),formatInt(financial.length)+' linhas com número de NE',false],
   ['Pagamento efetivo','Não integrado','Não substituir pagamento por valor liquidado (SIGEO)',true]
  ].map(c=>'<article class="card'+(c[3]?' flag':'')+'"><div class="label">'+c[0]+'</div><div class="value">'+c[1]+'</div><div class="sub">'+c[2]+'</div></article>').join('');
  return {financial,linked,totalNE,money};
@@ -173,7 +173,7 @@ function renderPlan(s){
  const total=sum(fins,'empenhado'),liq=sum(fins,'liquidado');
  return {p,matches,fins,total,liq};
  }).sort((a,b)=>(b.total>0)-(a.total>0)||b.p.amount-a.p.amount);
- $('#body').innerHTML='<section class="panel"><div class="table-head"><div><h3>Demandas estratégicas e registros de execução</h3><p>'+formatInt(rows.length)+' demandas planejadas · NEs somadas somente quando o código ID_PCA está informado e a linha contém uma NE.</p></div><button class="button" id="exportPlan">Exportar CSV</button></div>'+
+ $('#body').innerHTML='<section class="panel"><div class="table-head"><div><h3>Demandas estratégicas e registros de execução</h3><p>'+formatInt(rows.length)+' demandas planejadas · NEs somadas somente quando o código ID_PCA está informado e a linha contém um número de NE.</p></div><button class="button" id="exportPlan">Exportar CSV</button></div>'+
  table(['Demanda / ID_PCA','Situação do planejamento','Valor referencial','Registros / NEs','Empenhado na Base','Liquidado na Base'],
  rows.map(x=>'<tr><td><strong>'+esc(x.p.obj)+'</strong><small>'+esc(x.p.id)+' · '+esc(x.p.uge)+' · Prioridade '+esc(x.p.priority)+'</small></td>'+
  '<td>'+esc(x.p.status)+'</td><td class="amount">'+formatMoney(x.p.amount)+'</td>'+
