@@ -4,7 +4,7 @@ const TABS = [
   { key: 'base', gid: '0', required: ['OBJETO', 'UGE', 'VALOR TOTAL EMPENHADO', 'VALOR TOTAL LIQUIDADO', 'QTDE ENTREGUE'] },
   { key: 'atas', gid: '1223289174', required: ['OBJETO', 'SITUAÇÃO', 'UGE', 'ESTÁGIO LICITATÓRIO'] },
   { key: 'imoveis', gid: '1905202605', headerRow: 5, keyField: 'OPM', required: ['Nº PROCESSO', 'OPM', 'MUNICÍPIO', 'OBJETO RESUMIDO', 'STATUS DO SERVIÇO', 'RECURSO EMPENHADO', 'RECURSO LIQUIDADO'] },
-  { key: 'planejamento', gid: '131289957', range: 'A1:U500', keyField: 'AÇÃO', required: ['ANO', 'AÇÃO', 'SITUAÇÃO ORÇAMENTÁRIA', 'PRIORIDADE', 'ORDEM NO BLOCO', 'UGE', 'ÁREA', 'OBJETO RESUMIDO', 'VALOR TOTAL/REFERENCIAL'] },
+  { key: 'planejamento', gid: '131289957', range: 'A1:U500', keyField: 'AÇÃO', required: ['ANO', 'AÇÃO', 'SITUAÇÃO ORÇAMENTÁRIA', 'PRIORIDADE', 'UGE', 'ÁREA', 'OBJETO', 'ID_PCA', 'VALOR TOTAL/REFERENCIAL'] },
 ];
 
 // A exportação CSV mantém valores mistos, datas e identificadores como aparecem na planilha.
