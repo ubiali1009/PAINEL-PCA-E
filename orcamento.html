@@ -25,6 +25,14 @@ main{max-width:1550px;padding:28px 25px 80px;margin:auto}.hero{display:flex;just
 footer{margin-top:32px;border-top:1px solid var(--border);padding-top:18px;color:var(--muted);font-size:11px;line-height:1.6}
 @media(max-width:1100px){.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.panels{grid-template-columns:1fr}.panel.full{grid-column:auto}.route{grid-template-columns:repeat(2,1fr)}.stage:nth-child(2):after{display:none}}
 @media(max-width:650px){main{padding:19px 12px 50px}.head{padding:12px;align-items:flex-start;gap:10px}.identity h1{font-size:16px}.identity small{font-size:10px}.monogram{width:36px;height:36px;font-size:11px}.head-actions{gap:4px}.head-actions .button{font-size:11px;padding:8px}.hero{flex-direction:column}.hero h2{font-size:20px}.filters{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr;gap:9px}.card{padding:13px;min-height:105px}.card .value{font-size:19px}.route{grid-template-columns:1fr 1fr}.stage{padding:11px}.stage span{font-size:17px}.mini{grid-template-columns:1fr}.statrow .name{width:94px}.statrow strong{min-width:110px}.panel{padding:13px}}
+
+/* Apresentação incorporada na estrutura anterior do Painel PCA-E */
+body:has(#budget-embedded-flag) header{display:none!important}
+body:has(#budget-embedded-flag) main{padding:7px 8px 25px!important;max-width:none!important}
+body:has(#budget-embedded-flag) .hero{margin-bottom:12px}
+body:has(#budget-embedded-flag) .hero h2{font-size:19px}
+body:has(#budget-embedded-flag) .hero .stamp{font-size:11px}
+body:has(#budget-embedded-flag) .cards{margin:12px 0}
 </style>
 </head>
 <body>
@@ -56,6 +64,7 @@ footer{margin-top:32px;border-top:1px solid var(--border);padding-top:18px;color
 <script>
 (function(){
 'use strict';
+if(new URLSearchParams(location.search).get('embed')==='1'){const flag=document.createElement('span');flag.id='budget-embedded-flag';flag.hidden=true;document.body.appendChild(flag);}
 const $=x=>document.querySelector(x), $$=x=>Array.from(document.querySelectorAll(x));
 const formatMoney=n=>Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:2});
 const formatInt=n=>Number(n).toLocaleString('pt-BR',{maximumFractionDigits:0});
