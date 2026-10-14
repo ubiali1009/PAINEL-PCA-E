@@ -2451,4 +2451,30 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
   const current=document.querySelector('.navtab.active');
   if(current) setSideActive(current.dataset.view);
 })();</script>
+
+<style id="pcae-orcamento-nav-css">
+.pcae-side-nav a.pcae-side-btn{text-decoration:none}
+.pcae-side-nav .pcae-budget-link{margin:4px 0;border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.06)}
+.pcae-side-nav .pcae-budget-link:hover{background:rgba(255,255,255,.16);color:white}
+.pmesp-actions a.pcae-budget-header{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#163d67;color:#fff;border-color:#163d67}
+</style>
+<script id="pcae-orcamento-nav">
+(function(){
+ const nav=document.querySelector('.pcae-side-nav');
+ if(nav&&!nav.querySelector('.pcae-budget-link')){
+  const link=document.createElement('a');
+  link.className='pcae-side-btn pcae-budget-link';
+  link.href='/orcamento.html';
+  link.innerHTML='<span class="pcae-side-icon" aria-hidden="true">▤</span><span>Orçamento PMESP</span>';
+  const finance=nav.querySelector('[data-pcae-view="finance"]');
+  nav.insertBefore(link,finance||null);
+ }
+ const actions=document.querySelector('.pmesp-actions');
+ if(actions&&!actions.querySelector('.pcae-budget-header')){
+  const link=document.createElement('a');link.href='/orcamento.html';
+  link.className='action header-button pcae-budget-header';link.textContent='Orçamento PMESP';
+  actions.insertBefore(link,actions.firstChild);
+ }
+})();
+</script>
 </body></html>
