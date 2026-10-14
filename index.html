@@ -609,7 +609,7 @@ body{background:var(--pcae-canvas)!important;color:var(--pcae-text)!important}
 <section class="metrics" id="metrics"></section>
 <section class="metric-drilldown" id="metricDrilldown" hidden aria-live="polite"></section>
 <nav class="navtabs" id="navTabs">
- <button class="navtab active" data-view="overview">Visão geral</button><button class="navtab" data-view="daily">Acompanhamento diário</button><button class="navtab" data-view="items">Itens PCA-E</button><button class="navtab" data-view="atas">Licitações e atas</button><button class="navtab" data-view="deliveries">Entregas</button><button class="navtab" data-view="finance">Execução financeira</button>
+ <button class="navtab active" data-view="overview">Visão geral</button><button class="navtab" data-view="daily">Acompanhamento diário</button><button class="navtab" data-view="items">Itens PCA-E</button><button class="navtab" data-view="atas">Licitações e atas</button><button class="navtab" data-view="deliveries">Entregas</button><button class="navtab" data-view="finance">Execução financeira</button><button class="navtab" data-view="budget">Planejamento × Execução</button>
 </nav>
 <div class="workspace">
 <main class="main">
@@ -619,6 +619,7 @@ body{background:var(--pcae-canvas)!important;color:var(--pcae-text)!important}
  <section id="view-atas" class="view"><div class="section-title"><h2>Licitações e atas</h2><p id="atasCount"></p></div><div id="atasTable"></div></section>
  <section id="view-deliveries" class="view"><div class="section-title"><h2>Entregas</h2><p>Contratos com previsão e situação de recebimento</p></div><div id="deliveriesTable"></div></section>
  <section id="view-finance" class="view"><div class="section-title"><h2>Execução financeira</h2><p>Empenho e liquidação por registro da base</p></div><div id="financeTable"></div></section>
+<section id="view-budget" class="view" aria-label="Planejamento e execução orçamentária"><iframe title="Planejamento e execução do PCA-E" loading="lazy" src="/orcamento.html?embed=1" style="width:100%;border:0;min-height:1100px;border-radius:12px;background:#f2f5f8" id="budgetIframe"></iframe></section>
 </main>
 </div></div>
 <div id="backdrop" class="drawer-backdrop"></div><aside id="drawer" class="drawer"><div class="drawer-head"><button id="drawerClose" class="close" aria-label="Fechar detalhes">×</button><h2 id="drawerTitle">Detalhes</h2><p id="drawerSubtitle"></p></div><div id="drawerBody" class="drawer-body"></div></aside>
@@ -1341,7 +1342,7 @@ function openDetail(kind,id){
 }
 function closeDrawer(){$('#drawer').classList.remove('open','item-mode');$('#backdrop').classList.remove('open')}
 function setActiveView(view){
- const valid=["overview","daily","items","atas","deliveries","finance"];
+ const valid=["overview","daily","items","atas","deliveries","finance","budget"];
  activeView=valid.includes(view)?view:"overview";
  $$('.navtab').forEach(x=>x.classList.toggle('active',x.dataset.view===activeView));
  $$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+activeView));
@@ -1888,6 +1889,7 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
         '<button class="pcae-side-btn" data-pcae-view="atas"><span class="pcae-side-icon">⌁</span><span>Licitações e ARPs</span></button>'+
         '<button class="pcae-side-btn" data-pcae-view="deliveries"><span class="pcae-side-icon">▣</span><span>Contratos e Entregas</span></button>'+
         '<button class="pcae-side-btn" data-pcae-view="finance"><span class="pcae-side-icon">▤</span><span>Execução Financeira</span></button>'+
+        '<button class="pcae-side-btn" data-pcae-view="budget"><span class="pcae-side-icon">◫</span><span>Planejamento × Execução</span></button>'+
         '<button class="pcae-side-btn" data-pcae-view="imoveis"><span class="pcae-side-icon">⌖</span><span>Imóveis</span></button>'+
       '</nav>'+
       '<div class="pcae-side-foot">Painel gerencial PCA-E<br>PMESP · acompanhamento integrado</div>';
@@ -2451,30 +2453,4 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
   const current=document.querySelector('.navtab.active');
   if(current) setSideActive(current.dataset.view);
 })();</script>
-
-<style id="pcae-orcamento-nav-css">
-.pcae-side-nav a.pcae-side-btn{text-decoration:none}
-.pcae-side-nav .pcae-budget-link{margin:4px 0;border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.06)}
-.pcae-side-nav .pcae-budget-link:hover{background:rgba(255,255,255,.16);color:white}
-.pmesp-actions a.pcae-budget-header{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#163d67;color:#fff;border-color:#163d67}
-</style>
-<script id="pcae-orcamento-nav">
-(function(){
- const nav=document.querySelector('.pcae-side-nav');
- if(nav&&!nav.querySelector('.pcae-budget-link')){
-  const link=document.createElement('a');
-  link.className='pcae-side-btn pcae-budget-link';
-  link.href='/orcamento.html';
-  link.innerHTML='<span class="pcae-side-icon" aria-hidden="true">▤</span><span>Orçamento PMESP</span>';
-  const finance=nav.querySelector('[data-pcae-view="finance"]');
-  nav.insertBefore(link,finance||null);
- }
- const actions=document.querySelector('.pmesp-actions');
- if(actions&&!actions.querySelector('.pcae-budget-header')){
-  const link=document.createElement('a');link.href='/orcamento.html';
-  link.className='action header-button pcae-budget-header';link.textContent='Orçamento PMESP';
-  actions.insertBefore(link,actions.firstChild);
- }
-})();
-</script>
 </body></html>
