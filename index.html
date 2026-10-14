@@ -2453,4 +2453,13 @@ window.addEventListener('offline', () => { $('#syncMessage').textContent = 'Sem 
   const current=document.querySelector('.navtab.active');
   if(current) setSideActive(current.dataset.view);
 })();</script>
+<script id="pcae-budget-frame-height">
+window.addEventListener('message',function(event){
+ if(event.origin!==location.origin||!event.data||event.data.type!=='pcae-budget-resize')return;
+ const frame=document.getElementById('budgetIframe');
+ if(!frame||event.source!==frame.contentWindow)return;
+ const h=Number(event.data.height);
+ if(Number.isFinite(h)&&h>=500&&h<100000)frame.style.height=(h+12)+'px';
+});
+</script>
 </body></html>
